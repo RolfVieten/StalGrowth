@@ -18,7 +18,10 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTableView>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -30,6 +33,9 @@ public:
     QAction *actionAbout;
     QAction *actionLoad_CSV;
     QWidget *centralWidget;
+    QVBoxLayout *verticalLayout;
+    QTableView *tableView;
+    QTextEdit *textEdit;
     QMenuBar *menuBar;
     QMenu *menuFIle;
     QMenu *menuHelp;
@@ -49,6 +55,27 @@ public:
         actionLoad_CSV->setObjectName(QStringLiteral("actionLoad_CSV"));
         centralWidget = new QWidget(StalBIAS);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        verticalLayout = new QVBoxLayout(centralWidget);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        tableView = new QTableView(centralWidget);
+        tableView->setObjectName(QStringLiteral("tableView"));
+
+        verticalLayout->addWidget(tableView);
+
+        textEdit = new QTextEdit(centralWidget);
+        textEdit->setObjectName(QStringLiteral("textEdit"));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(textEdit->sizePolicy().hasHeightForWidth());
+        textEdit->setSizePolicy(sizePolicy);
+        textEdit->setMinimumSize(QSize(0, 0));
+        textEdit->setMaximumSize(QSize(16777215, 70));
+
+        verticalLayout->addWidget(textEdit);
+
         StalBIAS->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(StalBIAS);
         menuBar->setObjectName(QStringLiteral("menuBar"));
