@@ -19,7 +19,7 @@
      <widget class="QTableView" name="tableView"/>
     </item>
     <item>
-     <widget class="QTextEdit" name="textEdit">
+     <widget class="QTextBrowser" name="textBrowser">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
         <horstretch>0</horstretch>

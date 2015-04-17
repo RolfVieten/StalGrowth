@@ -19,7 +19,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableView>
-#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -35,7 +35,7 @@ public:
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QTableView *tableView;
-    QTextEdit *textEdit;
+    QTextBrowser *textBrowser;
     QMenuBar *menuBar;
     QMenu *menuFIle;
     QMenu *menuHelp;
@@ -64,17 +64,17 @@ public:
 
         verticalLayout->addWidget(tableView);
 
-        textEdit = new QTextEdit(centralWidget);
-        textEdit->setObjectName(QStringLiteral("textEdit"));
+        textBrowser = new QTextBrowser(centralWidget);
+        textBrowser->setObjectName(QStringLiteral("textBrowser"));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(textEdit->sizePolicy().hasHeightForWidth());
-        textEdit->setSizePolicy(sizePolicy);
-        textEdit->setMinimumSize(QSize(0, 0));
-        textEdit->setMaximumSize(QSize(16777215, 70));
+        sizePolicy.setHeightForWidth(textBrowser->sizePolicy().hasHeightForWidth());
+        textBrowser->setSizePolicy(sizePolicy);
+        textBrowser->setMinimumSize(QSize(0, 0));
+        textBrowser->setMaximumSize(QSize(16777215, 70));
 
-        verticalLayout->addWidget(textEdit);
+        verticalLayout->addWidget(textBrowser);
 
         StalBIAS->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(StalBIAS);
