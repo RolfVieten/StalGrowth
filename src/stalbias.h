@@ -19,12 +19,17 @@ struct DataItem{
     QList<double>         DripInt;
     QList<double>         DripErr;
     QList<double>         FilmThick;
+    QList<double>         FilmErr;
     QList<double>         Temp;
     QList<double>         TempErr;
     QList<double>         pCO2;
     QList<double>         pCO2Err;
     QList<double>         cCa;
     QList<double>         cCaErr;
+};
+
+struct Results{
+
 };
 
 class StalBIAS : public QMainWindow
@@ -37,6 +42,8 @@ public:
 
 private slots:
     void on_actionLoad_CSV_triggered();
+
+    void on_actionChange_Data_triggered();
 
 private:
     Ui::StalBIAS *ui;

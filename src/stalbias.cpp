@@ -58,6 +58,7 @@ void StalBIAS::convert_to_customData(){
     QList<QStandardItem*> tempL;
     QStandardItem* temp;
     QDateTime tempdt;
+    double tmpdbv, tmpdbe;
 
 
     newmodel = new QStandardItemModel(0,2);
@@ -70,20 +71,90 @@ void StalBIAS::convert_to_customData(){
 
     for (int i=0; i < model->rowCount(); i++) {
         tempL.clear();
+
         for(int j=0; j < model->columnCount(); j++){
             temp = new QStandardItem;
             temp = model->takeItem(i,j);
             switch(j){
             case 0:
-                tempdt = QDateTime::fromString(temp->text(), "yyyy/MM/dd hh:mm:ss");
+                tempdt = QDateTime::fromString(temp->text(), "MM/dd/yyyy hh:mm:ss");
                 Data.DateTimes.append(tempdt);
+                tempL.append(new QStandardItem(tempdt.toString()));
                 break;
             case 1:
+                tmpdbv = temp->text().toDouble();
+                Data.DripInt.append(tmpdbv);
+                break;
+            case 2:
+                tmpdbe = temp->text().toDouble();
+                Data.DripErr.append(tmpdbe);
+                tempL.append(new QStandardItem(
+                                 QString::number(tmpdbv)
+                                 + " +/- "
+                                 +QString::number(tmpdbe)
+                                 ));
+                tmpdbe = tmpdbv = 0;
+                break;
+            case 3:
+                tmpdbv = temp->text().toDouble();
+                Data.FilmThick.append(tmpdbv);
+                break;
+            case 4:
+                tmpdbe = temp->text().toDouble();
+                Data.FilmErr.append(tmpdbe);
+                tempL.append(new QStandardItem(
+                                 QString::number(tmpdbv)
+                                 + " +/- "
+                                 +QString::number(tmpdbe)
+                                 ));
+                tmpdbe = tmpdbv = 0;
+                break;
+            case 5:
+                tmpdbv = temp->text().toDouble();
+                Data.Temp.append(tmpdbv);
+                break;
+            case 6:
+                tmpdbe = temp->text().toDouble();
+                Data.TempErr.append(tmpdbe);
+                tempL.append(new QStandardItem(
+                                 QString::number(tmpdbv)
+                                 + " +/- "
+                                 +QString::number(tmpdbe)
+                                 ));
+                tmpdbe = tmpdbv = 0;
+                break;
+            case 7:
+                tmpdbv = temp->text().toDouble();
+                Data.pCO2.append(tmpdbv);
+                break;
+            case 8:
+                tmpdbe = temp->text().toDouble();
+                Data.pCO2Err.append(tmpdbe);
+                tempL.append(new QStandardItem(
+                                 QString::number(tmpdbv)
+                                 + " +/- "
+                                 +QString::number(tmpdbe)
+                                 ));
+                tmpdbe = tmpdbv = 0;
+                break;
+            case 9:
+                tmpdbv = temp->text().toDouble();
+                Data.cCa.append(tmpdbv);
+                break;
+            case 10:
+                tmpdbe = temp->text().toDouble();
+                Data.cCaErr.append(tmpdbe);
+                tempL.append(new QStandardItem(
+                                 QString::number(tmpdbv)
+                                 + " +/- "
+                                 +QString::number(tmpdbe)
+                                 ));
+                tmpdbe = tmpdbv = 0;
                 break;
             }
             delete temp;
         }
-        tempL.append(new QStandardItem(tempdt.toString()));
+
         newmodel->appendRow(tempL);
     }
     ui->tableView->setModel(newmodel);
@@ -117,4 +188,9 @@ void StalBIAS::checkString(QString &temp, QChar character, bool First)
     } else {
         temp.append(character);
     }
+}
+
+void StalBIAS::on_actionChange_Data_triggered()
+{
+    convert_to_customData();
 }

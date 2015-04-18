@@ -56,6 +56,7 @@
      <string>FIle</string>
     </property>
     <addaction name="actionLoad_CSV"/>
+    <addaction name="actionChange_Data"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -89,6 +90,11 @@
   <action name="actionLoad_CSV">
    <property name="text">
     <string>Load CSV</string>
+   </property>
+  </action>
+  <action name="actionChange_Data">
+   <property name="text">
+    <string>Change Data</string>
    </property>
   </action>
  </widget>
