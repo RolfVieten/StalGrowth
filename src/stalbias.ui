@@ -56,7 +56,8 @@
      <string>FIle</string>
     </property>
     <addaction name="actionLoad_CSV"/>
-    <addaction name="actionChange_Data"/>
+    <addaction name="actionCalculate_Growth_Rate"/>
+    <addaction name="actionGraph_Viewer"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -92,9 +93,14 @@
     <string>Load CSV</string>
    </property>
   </action>
-  <action name="actionChange_Data">
+  <action name="actionCalculate_Growth_Rate">
    <property name="text">
-    <string>Change Data</string>
+    <string>Calculate Growth Rate</string>
+   </property>
+  </action>
+  <action name="actionGraph_Viewer">
+   <property name="text">
+    <string>Graph Viewer</string>
    </property>
   </action>
  </widget>

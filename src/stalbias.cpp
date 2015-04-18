@@ -49,6 +49,9 @@ void StalBIAS::on_actionLoad_CSV_triggered()
     }
     if(Debug)
         ui->textBrowser->append("Finished loading data");
+
+    convert_to_customData();
+
 }
 
 void StalBIAS::convert_to_customData(){
@@ -159,6 +162,9 @@ void StalBIAS::convert_to_customData(){
     }
     ui->tableView->setModel(newmodel);
     ui->tableView->resizeColumnsToContents();
+
+    if(Debug)
+        ui->textBrowser->append("Finished changing data");
 }
 
 void StalBIAS::checkString(QString &temp, QChar character, bool First)
@@ -190,7 +196,93 @@ void StalBIAS::checkString(QString &temp, QChar character, bool First)
     }
 }
 
-void StalBIAS::on_actionChange_Data_triggered()
+
+
+void StalBIAS::on_actionGraph_Viewer_triggered()
 {
-    convert_to_customData();
+    GV.show();
+}
+
+void StalBIAS::on_actionCalculate_Growth_Rate_triggered()
+{
+    Result = CalcRes(Data);
+
+    delete model;
+    model = new QStandardItemModel(0,2);
+    model->setHorizontalHeaderItem(0,new QStandardItem("Date Time"));
+    model->setHorizontalHeaderItem(1,new QStandardItem("Drip Rate"));
+    model->setHorizontalHeaderItem(2,new QStandardItem("Film Thickness"));
+    model->setHorizontalHeaderItem(3,new QStandardItem("Temperature"));
+    model->setHorizontalHeaderItem(4,new QStandardItem("pC02"));
+    model->setHorizontalHeaderItem(5,new QStandardItem("cCa"));
+    model->setHorizontalHeaderItem(6,new QStandardItem("Apparent cCa"));
+    model->setHorizontalHeaderItem(7,new QStandardItem("Growth Rate"));
+
+    for (int i=0 ;i < Data.lenght(); i++){
+        QList<QStandardItem*> temp;
+        temp = newmodel->takeRow(0);
+        temp.append(new QStandardItem(
+                        QString::number(Result.AppcCa.at(i))
+                        + " +/- "
+                        +QString::number(Result.AppcCaErr.at(i))
+                        ));
+        temp.append(new QStandardItem(
+                        QString::number(Result.GrowthRate.at(i))
+                        + " +/- "
+                        +QString::number(Result.GrowthErr.at(i))
+                        ));
+        model->appendRow(temp);
+    }
+
+    ui->tableView->setModel(model);
+    ui->tableView->resizeColumnsToContents();
+}
+
+Results StalBIAS::CalcRes(DataItem data){
+    if(Debug){
+        ui->textBrowser->append(
+                    QString::number(data.DateTimes.length())
+                    +" "+
+                    QString::number(data.DripInt.length())
+                    +" "+
+                    QString::number(data.DripErr.length())
+                    +" "+
+                    QString::number(data.FilmThick.length())
+                    +" "+
+                    QString::number(data.FilmErr.length())
+                    +" "+
+                    QString::number(data.Temp.length())
+                    +" "+
+                    QString::number(data.TempErr.length())
+                    +" "+
+                    QString::number(data.pCO2.length())
+                    +" "+
+                    QString::number(data.pCO2Err.length())
+                    +" "+
+                    QString::number(data.cCa.length())
+                    +" "+
+                    QString::number(data.cCaErr.length()));
+    }
+
+    Results temp;
+    if(data.is_valid()){
+        ui->textBrowser->append("WAS VALID");
+        for (int i = 0; i < data.lenght(); i++){
+            double appcCa, GrowthRate, alpha;
+            appcCa = 0.5*((5.872*pow(data.pCO2.at(i),0.2526))+(-0.0167*data.Temp.at(i)+1.5146))*0.0000001;
+            alpha = (-1*((0.52+0.04*data.Temp.at(i)+0.004*pow(data.Temp.at(i),2)*pow(10,-7))/data.FilmThick.at(i))*data.DripInt.at(i));
+            GrowthRate = 1174*(data.cCa.at(i)-appcCa)*(data.FilmThick.at(i)/data.DripInt.at(i))
+                    *(1-pow(enumber,alpha));
+            temp.AppcCa.append(appcCa);
+            temp.AppcCaErr.append(0);
+            temp.GrowthRate.append(GrowthRate);
+            temp.GrowthErr.append(0);
+        }
+    }
+    return temp;
+}
+
+void StalBIAS::on_actionDebug_Mode_triggered()
+{
+    Debug = !Debug;
 }

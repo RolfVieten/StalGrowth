@@ -32,7 +32,8 @@ public:
     QAction *actionDebug_Mode;
     QAction *actionAbout;
     QAction *actionLoad_CSV;
-    QAction *actionChange_Data;
+    QAction *actionCalculate_Growth_Rate;
+    QAction *actionGraph_Viewer;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QTableView *tableView;
@@ -54,8 +55,10 @@ public:
         actionAbout->setObjectName(QStringLiteral("actionAbout"));
         actionLoad_CSV = new QAction(StalBIAS);
         actionLoad_CSV->setObjectName(QStringLiteral("actionLoad_CSV"));
-        actionChange_Data = new QAction(StalBIAS);
-        actionChange_Data->setObjectName(QStringLiteral("actionChange_Data"));
+        actionCalculate_Growth_Rate = new QAction(StalBIAS);
+        actionCalculate_Growth_Rate->setObjectName(QStringLiteral("actionCalculate_Growth_Rate"));
+        actionGraph_Viewer = new QAction(StalBIAS);
+        actionGraph_Viewer->setObjectName(QStringLiteral("actionGraph_Viewer"));
         centralWidget = new QWidget(StalBIAS);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -98,7 +101,8 @@ public:
         menuBar->addAction(menuFIle->menuAction());
         menuBar->addAction(menuHelp->menuAction());
         menuFIle->addAction(actionLoad_CSV);
-        menuFIle->addAction(actionChange_Data);
+        menuFIle->addAction(actionCalculate_Growth_Rate);
+        menuFIle->addAction(actionGraph_Viewer);
         menuHelp->addAction(actionDebug_Mode);
         menuHelp->addAction(actionAbout);
 
@@ -113,7 +117,8 @@ public:
         actionDebug_Mode->setText(QApplication::translate("StalBIAS", "Debug Mode", 0));
         actionAbout->setText(QApplication::translate("StalBIAS", "About", 0));
         actionLoad_CSV->setText(QApplication::translate("StalBIAS", "Load CSV", 0));
-        actionChange_Data->setText(QApplication::translate("StalBIAS", "Change Data", 0));
+        actionCalculate_Growth_Rate->setText(QApplication::translate("StalBIAS", "Calculate Growth Rate", 0));
+        actionGraph_Viewer->setText(QApplication::translate("StalBIAS", "Graph Viewer", 0));
         menuFIle->setTitle(QApplication::translate("StalBIAS", "FIle", 0));
         menuHelp->setTitle(QApplication::translate("StalBIAS", "Help", 0));
     } // retranslateUi

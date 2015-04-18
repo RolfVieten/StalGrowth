@@ -8,29 +8,13 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QTextStream>
-#include <QDateTime>
+#include <cmath>
+#include "dataitem.h"
+#include "graphviewer.h"
 
 namespace Ui {
 class StalBIAS;
 }
-
-struct DataItem{
-    QList<QDateTime>      DateTimes;
-    QList<double>         DripInt;
-    QList<double>         DripErr;
-    QList<double>         FilmThick;
-    QList<double>         FilmErr;
-    QList<double>         Temp;
-    QList<double>         TempErr;
-    QList<double>         pCO2;
-    QList<double>         pCO2Err;
-    QList<double>         cCa;
-    QList<double>         cCaErr;
-};
-
-struct Results{
-
-};
 
 class StalBIAS : public QMainWindow
 {
@@ -43,7 +27,11 @@ public:
 private slots:
     void on_actionLoad_CSV_triggered();
 
-    void on_actionChange_Data_triggered();
+    void on_actionGraph_Viewer_triggered();
+
+    void on_actionCalculate_Growth_Rate_triggered();
+
+    void on_actionDebug_Mode_triggered();
 
 private:
     Ui::StalBIAS *ui;
@@ -51,9 +39,17 @@ private:
     QStandardItemModel *model;
     QStandardItemModel *newmodel;
     QList<QStandardItem*> standardItemList;
+    const double enumber=2.7182818284590452353602874713527;
 
     // This stores the model individually
     DataItem Data;
+    Results Result;
+
+    // Calculate Results
+    Results CalcRes(DataItem data);
+
+    // Grapth Viewer
+    GraphViewer GV;
 
     // Debug Bool
     bool Debug;

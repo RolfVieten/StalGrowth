@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui positioning
+QT       += core gui positioning printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,8 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        stalbias.cpp
+        stalbias.cpp \
+        qcustomplot.cpp \
+    graphviewer.cpp \
+    dataitem.cpp
 
-HEADERS  += stalbias.h
+HEADERS  += stalbias.h \
+            qcustomplot.h \
+    graphviewer.h \
+    dataitem.h
 
-FORMS    += stalbias.ui
+FORMS    += stalbias.ui \
+    graphviewer.ui
