@@ -66,11 +66,11 @@ void StalBIAS::convert_to_customData(){
 
     newmodel = new QStandardItemModel(0,2);
     newmodel->setHorizontalHeaderItem(0,new QStandardItem("Date Time"));
-    newmodel->setHorizontalHeaderItem(1,new QStandardItem("Drip Rate"));
-    newmodel->setHorizontalHeaderItem(2,new QStandardItem("Film Thickness"));
-    newmodel->setHorizontalHeaderItem(3,new QStandardItem("Temperature"));
-    newmodel->setHorizontalHeaderItem(4,new QStandardItem("pC02"));
-    newmodel->setHorizontalHeaderItem(5,new QStandardItem("cCa"));
+    newmodel->setHorizontalHeaderItem(1,new QStandardItem("Drip Interval (sec)"));
+    newmodel->setHorizontalHeaderItem(2,new QStandardItem("Film Thickness (m)"));
+    newmodel->setHorizontalHeaderItem(3,new QStandardItem("Temperature (C)"));
+    newmodel->setHorizontalHeaderItem(4,new QStandardItem("pCO2 (atm)"));
+    newmodel->setHorizontalHeaderItem(5,new QStandardItem("cCa (mol/m3)"));
 
     for (int i=0; i < model->rowCount(); i++) {
         tempL.clear();
@@ -200,6 +200,7 @@ void StalBIAS::checkString(QString &temp, QChar character, bool First)
 
 void StalBIAS::on_actionGraph_Viewer_triggered()
 {
+    GV.setresult(Data,Result);
     GV.show();
 }
 
@@ -210,21 +211,21 @@ void StalBIAS::on_actionCalculate_Growth_Rate_triggered()
     delete model;
     model = new QStandardItemModel(0,2);
     model->setHorizontalHeaderItem(0,new QStandardItem("Date Time"));
-    model->setHorizontalHeaderItem(1,new QStandardItem("Drip Rate"));
-    model->setHorizontalHeaderItem(2,new QStandardItem("Film Thickness"));
-    model->setHorizontalHeaderItem(3,new QStandardItem("Temperature"));
-    model->setHorizontalHeaderItem(4,new QStandardItem("pC02"));
-    model->setHorizontalHeaderItem(5,new QStandardItem("cCa"));
-    model->setHorizontalHeaderItem(6,new QStandardItem("Apparent cCa"));
-    model->setHorizontalHeaderItem(7,new QStandardItem("Growth Rate"));
+    model->setHorizontalHeaderItem(1,new QStandardItem("Drip Interval (sec)"));
+    model->setHorizontalHeaderItem(2,new QStandardItem("Film Thickness (m)"));
+    model->setHorizontalHeaderItem(3,new QStandardItem("Temperature (C)"));
+    model->setHorizontalHeaderItem(4,new QStandardItem("pCO2 (atm)"));
+    model->setHorizontalHeaderItem(5,new QStandardItem("cCa (mol/m3)"));
+    model->setHorizontalHeaderItem(6,new QStandardItem("Apparent cCa (mol/m3)"));
+    model->setHorizontalHeaderItem(7,new QStandardItem("Growth Rate (m/yr)"));
 
     for (int i=0 ;i < Data.lenght(); i++){
         QList<QStandardItem*> temp;
         temp = newmodel->takeRow(0);
         temp.append(new QStandardItem(
-                        QString::number(Result.AppcCa.at(i))
+                        QString::number(Result.AppcCa.at(i),'g',4)
                         + " +/- "
-                        +QString::number(Result.AppcCaErr.at(i))
+                        +QString::number(Result.AppcCaErr.at(i),'g',2)
                         ));
         temp.append(new QStandardItem(
                         QString::number(Result.GrowthRate.at(i))
@@ -268,13 +269,22 @@ Results StalBIAS::CalcRes(DataItem data){
     if(data.is_valid()){
         ui->textBrowser->append("WAS VALID");
         for (int i = 0; i < data.lenght(); i++){
-            double appcCa, GrowthRate, alpha;
-            appcCa = 0.5*((5.872*pow(data.pCO2.at(i),0.2526))+(-0.0167*data.Temp.at(i)+1.5146))*0.0000001;
-            alpha = (-1*((0.52+0.04*data.Temp.at(i)+0.004*pow(data.Temp.at(i),2)*pow(10,-7))/data.FilmThick.at(i))*data.DripInt.at(i));
-            GrowthRate = 1174*(data.cCa.at(i)-appcCa)*(data.FilmThick.at(i)/data.DripInt.at(i))
-                    *(1-pow(enumber,alpha));
+            double appcCa, GrowthRate, exponent, alpha;
+            double appcCaErr;
+
+            // Main Calculations
+            appcCa = ((5.872*pow(data.pCO2.at(i),0.2526))
+                      +((-0.0167*data.Temp.at(i))+1.5146))
+                    *0.5;
+            alpha = (0.52 + (0.04*data.Temp.at(i)) + (0.004*pow(data.Temp.at(i),2.0))) * pow(10.0,-7.0);
+            exponent = (-1.0 * (alpha/data.FilmThick.at(i)) * data.DripInt.at(i));
+            GrowthRate = 1174*(data.cCa.at(i) - appcCa) * (data.FilmThick.at(i)/data.DripInt.at(i))
+                    *(1.0 - exp(exponent));
+            // Error Calculations.
+            appcCaErr = ((0.2526*(data.pCO2Err.at(i)/data.pCO2.at(i))+(data.TempErr.at(i)/data.Temp.at(i))))*appcCa;
+
             temp.AppcCa.append(appcCa);
-            temp.AppcCaErr.append(0);
+            temp.AppcCaErr.append(appcCaErr);
             temp.GrowthRate.append(GrowthRate);
             temp.GrowthErr.append(0);
         }

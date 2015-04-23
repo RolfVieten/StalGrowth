@@ -119,7 +119,7 @@ public:
         actionLoad_CSV->setText(QApplication::translate("StalBIAS", "Load CSV", 0));
         actionCalculate_Growth_Rate->setText(QApplication::translate("StalBIAS", "Calculate Growth Rate", 0));
         actionGraph_Viewer->setText(QApplication::translate("StalBIAS", "Graph Viewer", 0));
-        menuFIle->setTitle(QApplication::translate("StalBIAS", "FIle", 0));
+        menuFIle->setTitle(QApplication::translate("StalBIAS", "File", 0));
         menuHelp->setTitle(QApplication::translate("StalBIAS", "Help", 0));
     } // retranslateUi
 

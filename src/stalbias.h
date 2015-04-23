@@ -39,7 +39,6 @@ private:
     QStandardItemModel *model;
     QStandardItemModel *newmodel;
     QList<QStandardItem*> standardItemList;
-    const double enumber=2.7182818284590452353602874713527;
 
     // This stores the model individually
     DataItem Data;

@@ -509,7 +509,6 @@ moc_stalbias.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtCore/qdatetime.h \
 		/usr/include/qt5/QtCore/QList \
 		../../src/graphviewer.h \
-		../../src/stalbias.h \
 		/usr/include/qt5/QtWidgets/QWidget \
 		../../src/stalbias.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../../src/stalbias.h -o moc_stalbias.cpp
@@ -984,11 +983,11 @@ moc_qcustomplot.cpp: /usr/include/qt5/QtCore/QObject \
 		../../src/qcustomplot.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../../src/qcustomplot.h -o moc_qcustomplot.cpp
 
-moc_graphviewer.cpp: ../../src/stalbias.h \
-		/usr/include/qt5/QtWidgets/QMainWindow \
-		/usr/include/qt5/QtWidgets/qmainwindow.h \
-		/usr/include/qt5/QtWidgets/qwidget.h \
-		/usr/include/qt5/QtGui/qwindowdefs.h \
+moc_graphviewer.cpp: ../../src/dataitem.h \
+		/usr/include/qt5/QtCore/QDateTime \
+		/usr/include/qt5/QtCore/qdatetime.h \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
 		/usr/include/qt5/QtCore/qglobal.h \
 		/usr/include/qt5/QtCore/qconfig.h \
 		/usr/include/qt5/QtCore/qfeatures.h \
@@ -1025,17 +1024,17 @@ moc_graphviewer.cpp: ../../src/stalbias.h \
 		/usr/include/qt5/QtCore/qtypeinfo.h \
 		/usr/include/qt5/QtCore/qtypetraits.h \
 		/usr/include/qt5/QtCore/qsysinfo.h \
-		/usr/include/qt5/QtCore/qobjectdefs.h \
-		/usr/include/qt5/QtCore/qnamespace.h \
-		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
-		/usr/include/qt5/QtGui/qwindowdefs_win.h \
-		/usr/include/qt5/QtCore/qobject.h \
-		/usr/include/qt5/QtCore/qstring.h \
-		/usr/include/qt5/QtCore/qchar.h \
 		/usr/include/qt5/QtCore/qbytearray.h \
 		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
 		/usr/include/qt5/QtCore/qarraydata.h \
 		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/qsharedpointer.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
 		/usr/include/qt5/QtCore/qlist.h \
 		/usr/include/qt5/QtCore/qalgorithms.h \
 		/usr/include/qt5/QtCore/qiterator.h \
@@ -1046,6 +1045,13 @@ moc_graphviewer.cpp: ../../src/stalbias.h \
 		/usr/include/qt5/QtCore/qcontainerfwd.h \
 		/usr/include/qt5/QtCore/qisenum.h \
 		/usr/include/qt5/QtCore/qobject_impl.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtWidgets/QWidget \
+		/usr/include/qt5/QtWidgets/qwidget.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
 		/usr/include/qt5/QtCore/qmargins.h \
 		/usr/include/qt5/QtCore/qrect.h \
 		/usr/include/qt5/QtCore/qsize.h \
@@ -1057,7 +1063,6 @@ moc_graphviewer.cpp: ../../src/stalbias.h \
 		/usr/include/qt5/QtCore/qstringlist.h \
 		/usr/include/qt5/QtCore/qdatastream.h \
 		/usr/include/qt5/QtCore/qiodevice.h \
-		/usr/include/qt5/QtCore/qpair.h \
 		/usr/include/qt5/QtCore/qregexp.h \
 		/usr/include/qt5/QtCore/qstringmatcher.h \
 		/usr/include/qt5/QtGui/qbrush.h \
@@ -1070,10 +1075,6 @@ moc_graphviewer.cpp: ../../src/stalbias.h \
 		/usr/include/qt5/QtGui/qpainterpath.h \
 		/usr/include/qt5/QtGui/qimage.h \
 		/usr/include/qt5/QtGui/qpixmap.h \
-		/usr/include/qt5/QtCore/qsharedpointer.h \
-		/usr/include/qt5/QtCore/qshareddata.h \
-		/usr/include/qt5/QtCore/qsharedpointer_impl.h \
-		/usr/include/qt5/QtCore/qhash.h \
 		/usr/include/qt5/QtGui/qfont.h \
 		/usr/include/qt5/QtGui/qfontmetrics.h \
 		/usr/include/qt5/QtGui/qfontinfo.h \
@@ -1094,26 +1095,6 @@ moc_graphviewer.cpp: ../../src/stalbias.h \
 		/usr/include/qt5/QtCore/qfiledevice.h \
 		/usr/include/qt5/QtGui/qvector2d.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
-		/usr/include/qt5/QtWidgets/qtabwidget.h \
-		/usr/include/qt5/QtGui/qicon.h \
-		/usr/include/qt5/QtGui/QStandardItemModel \
-		/usr/include/qt5/QtGui/qstandarditemmodel.h \
-		/usr/include/qt5/QtCore/qabstractitemmodel.h \
-		/usr/include/qt5/QtGui/QStandardItem \
-		/usr/include/qt5/QtCore/QDir \
-		/usr/include/qt5/QtCore/qdir.h \
-		/usr/include/qt5/QtCore/qfileinfo.h \
-		/usr/include/qt5/QtCore/QFile \
-		/usr/include/qt5/QtWidgets/QFileDialog \
-		/usr/include/qt5/QtWidgets/qfiledialog.h \
-		/usr/include/qt5/QtWidgets/qdialog.h \
-		/usr/include/qt5/QtCore/QTextStream \
-		../../src/dataitem.h \
-		/usr/include/qt5/QtCore/QDateTime \
-		/usr/include/qt5/QtCore/qdatetime.h \
-		/usr/include/qt5/QtCore/QList \
-		../../src/graphviewer.h \
-		/usr/include/qt5/QtWidgets/QWidget \
 		../../src/graphviewer.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../../src/graphviewer.h -o moc_graphviewer.cpp
 
@@ -1934,11 +1915,11 @@ qcustomplot.o: ../../src/qcustomplot.cpp ../../src/qcustomplot.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qcustomplot.o ../../src/qcustomplot.cpp
 
 graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
-		../../src/stalbias.h \
-		/usr/include/qt5/QtWidgets/QMainWindow \
-		/usr/include/qt5/QtWidgets/qmainwindow.h \
-		/usr/include/qt5/QtWidgets/qwidget.h \
-		/usr/include/qt5/QtGui/qwindowdefs.h \
+		../../src/dataitem.h \
+		/usr/include/qt5/QtCore/QDateTime \
+		/usr/include/qt5/QtCore/qdatetime.h \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
 		/usr/include/qt5/QtCore/qglobal.h \
 		/usr/include/qt5/QtCore/qconfig.h \
 		/usr/include/qt5/QtCore/qfeatures.h \
@@ -1975,17 +1956,17 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtCore/qtypeinfo.h \
 		/usr/include/qt5/QtCore/qtypetraits.h \
 		/usr/include/qt5/QtCore/qsysinfo.h \
-		/usr/include/qt5/QtCore/qobjectdefs.h \
-		/usr/include/qt5/QtCore/qnamespace.h \
-		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
-		/usr/include/qt5/QtGui/qwindowdefs_win.h \
-		/usr/include/qt5/QtCore/qobject.h \
-		/usr/include/qt5/QtCore/qstring.h \
-		/usr/include/qt5/QtCore/qchar.h \
 		/usr/include/qt5/QtCore/qbytearray.h \
 		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
 		/usr/include/qt5/QtCore/qarraydata.h \
 		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/qsharedpointer.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
 		/usr/include/qt5/QtCore/qlist.h \
 		/usr/include/qt5/QtCore/qalgorithms.h \
 		/usr/include/qt5/QtCore/qiterator.h \
@@ -1996,6 +1977,13 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtCore/qcontainerfwd.h \
 		/usr/include/qt5/QtCore/qisenum.h \
 		/usr/include/qt5/QtCore/qobject_impl.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtWidgets/QWidget \
+		/usr/include/qt5/QtWidgets/qwidget.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
 		/usr/include/qt5/QtCore/qmargins.h \
 		/usr/include/qt5/QtCore/qrect.h \
 		/usr/include/qt5/QtCore/qsize.h \
@@ -2007,7 +1995,6 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtCore/qstringlist.h \
 		/usr/include/qt5/QtCore/qdatastream.h \
 		/usr/include/qt5/QtCore/qiodevice.h \
-		/usr/include/qt5/QtCore/qpair.h \
 		/usr/include/qt5/QtCore/qregexp.h \
 		/usr/include/qt5/QtCore/qstringmatcher.h \
 		/usr/include/qt5/QtGui/qbrush.h \
@@ -2020,10 +2007,6 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtGui/qpainterpath.h \
 		/usr/include/qt5/QtGui/qimage.h \
 		/usr/include/qt5/QtGui/qpixmap.h \
-		/usr/include/qt5/QtCore/qsharedpointer.h \
-		/usr/include/qt5/QtCore/qshareddata.h \
-		/usr/include/qt5/QtCore/qsharedpointer_impl.h \
-		/usr/include/qt5/QtCore/qhash.h \
 		/usr/include/qt5/QtGui/qfont.h \
 		/usr/include/qt5/QtGui/qfontmetrics.h \
 		/usr/include/qt5/QtGui/qfontinfo.h \
@@ -2044,29 +2027,11 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtCore/qfiledevice.h \
 		/usr/include/qt5/QtGui/qvector2d.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
-		/usr/include/qt5/QtWidgets/qtabwidget.h \
-		/usr/include/qt5/QtGui/qicon.h \
-		/usr/include/qt5/QtGui/QStandardItemModel \
-		/usr/include/qt5/QtGui/qstandarditemmodel.h \
-		/usr/include/qt5/QtCore/qabstractitemmodel.h \
-		/usr/include/qt5/QtGui/QStandardItem \
-		/usr/include/qt5/QtCore/QDir \
-		/usr/include/qt5/QtCore/qdir.h \
-		/usr/include/qt5/QtCore/qfileinfo.h \
-		/usr/include/qt5/QtCore/QFile \
-		/usr/include/qt5/QtWidgets/QFileDialog \
-		/usr/include/qt5/QtWidgets/qfiledialog.h \
-		/usr/include/qt5/QtWidgets/qdialog.h \
-		/usr/include/qt5/QtCore/QTextStream \
-		../../src/dataitem.h \
-		/usr/include/qt5/QtCore/QDateTime \
-		/usr/include/qt5/QtCore/qdatetime.h \
-		/usr/include/qt5/QtCore/QList \
-		/usr/include/qt5/QtWidgets/QWidget \
 		ui_graphviewer.h \
 		/usr/include/qt5/QtCore/QVariant \
 		/usr/include/qt5/QtWidgets/QAction \
 		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
 		/usr/include/qt5/QtWidgets/qactiongroup.h \
 		/usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/qapplication.h \
@@ -2082,6 +2047,7 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtWidgets/qabstractitemview.h \
 		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
 		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
 		/usr/include/qt5/QtCore/qitemselectionmodel.h \
 		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
 		/usr/include/qt5/QtWidgets/qstyleoption.h \
@@ -2092,6 +2058,7 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtWidgets/qabstractslider.h \
 		/usr/include/qt5/QtWidgets/qstyle.h \
 		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
 		/usr/include/qt5/QtWidgets/qrubberband.h \
 		/usr/include/qt5/QtWidgets/QVBoxLayout \
 		/usr/include/qt5/QtWidgets/qboxlayout.h \
@@ -2145,6 +2112,8 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtCore/qendian.h \
 		/usr/include/qt5/QtCore/qlibraryinfo.h \
 		/usr/include/qt5/QtCore/qbuffer.h \
+		/usr/include/qt5/QtCore/qdir.h \
+		/usr/include/qt5/QtCore/qfileinfo.h \
 		/usr/include/qt5/QtCore/qdiriterator.h \
 		/usr/include/qt5/QtCore/qfileselector.h \
 		/usr/include/qt5/QtCore/QStringList \
@@ -2242,6 +2211,7 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtGui/qpicture.h \
 		/usr/include/qt5/QtGui/qpictureformatplugin.h \
 		/usr/include/qt5/QtGui/qpixmapcache.h \
+		/usr/include/qt5/QtGui/qstandarditemmodel.h \
 		/usr/include/qt5/QtGui/qclipboard.h \
 		/usr/include/qt5/QtGui/qdrag.h \
 		/usr/include/qt5/QtGui/qgenericplugin.h \
@@ -2305,7 +2275,9 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtWidgets/QtWidgetsDepends \
 		/usr/include/qt5/QtWidgets/qaccessiblewidget.h \
 		/usr/include/qt5/QtWidgets/qcolordialog.h \
+		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtWidgets/qerrormessage.h \
+		/usr/include/qt5/QtWidgets/qfiledialog.h \
 		/usr/include/qt5/QtWidgets/qfilesystemmodel.h \
 		/usr/include/qt5/QtWidgets/qfontdialog.h \
 		/usr/include/qt5/QtWidgets/qinputdialog.h \
@@ -2389,6 +2361,7 @@ graphviewer.o: ../../src/graphviewer.cpp ../../src/graphviewer.h \
 		/usr/include/qt5/QtWidgets/qkeysequenceedit.h \
 		/usr/include/qt5/QtWidgets/qlabel.h \
 		/usr/include/qt5/QtWidgets/qlcdnumber.h \
+		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		/usr/include/qt5/QtWidgets/qmdiarea.h \
 		/usr/include/qt5/QtWidgets/qmdisubwindow.h \
 		/usr/include/qt5/QtWidgets/qmenu.h \
