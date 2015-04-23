@@ -3,6 +3,10 @@
 <!-- Written by QtCreator 3.0.1, 2015-04-23T14:17:14. -->
 <qtcreator>
  <data>
+  <variable>EnvironmentId</variable>
+  <value type="QByteArray">{d46739a5-27ff-4559-af8e-34db2a6ded94}</value>
+ </data>
+ <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
   <value type="int">0</value>
  </data>
@@ -29,9 +33,12 @@
    <value type="bool" key="EditorConfiguration.ConstrainTooltips">false</value>
    <value type="int" key="EditorConfiguration.IndentSize">4</value>
    <value type="bool" key="EditorConfiguration.KeyboardTooltips">false</value>
+   <value type="int" key="EditorConfiguration.MarginColumn">80</value>
+   <value type="bool" key="EditorConfiguration.MouseHiding">true</value>
    <value type="bool" key="EditorConfiguration.MouseNavigation">true</value>
    <value type="int" key="EditorConfiguration.PaddingMode">1</value>
    <value type="bool" key="EditorConfiguration.ScrollWheelZooming">true</value>
+   <value type="bool" key="EditorConfiguration.ShowMargin">false</value>
    <value type="int" key="EditorConfiguration.SmartBackspaceBehavior">0</value>
    <value type="bool" key="EditorConfiguration.SpacesForTabs">true</value>
    <value type="int" key="EditorConfiguration.TabKeyBehavior">0</value>
