@@ -42,7 +42,7 @@ void GraphViewer::setGraph(){
 
     // Output
     QCPAxisRect *wideAxisRect1 = new QCPAxisRect(ui->Graph);
-    wideAxisRect1->addAxis(QCPAxis::atLeft)->setTickLabelColor(Qt::red); // add an extra axis on the left and color its numbers
+    wideAxisRect1->addAxis(QCPAxis::atLeft); // add an extra axis on the left and color its numbers
     wideAxisRect1->axis(QCPAxis::atLeft,0)->setLabel("Growth Rate (cm/yr)");
     wideAxisRect1->axis(QCPAxis::atLeft,1)->setLabel("Ca (Red Apparent; Green Real)(mol/m3)");
     wideAxisRect1->axis(QCPAxis::atBottom)->setTickLabelType(QCPAxis::ltDateTime);
@@ -56,6 +56,7 @@ void GraphViewer::setGraph(){
     // Add to the Plot
     ui->Graph->plotLayout()->addElement(0,0,wideAxisRect);
     ui->Graph->plotLayout()->addElement(1,0,wideAxisRect1);
+    QCPRange tmprange, tmprange1;
 
     // Main Graph1
     //Temp
@@ -64,10 +65,13 @@ void GraphViewer::setGraph(){
     mainGraph1->setLineStyle(QCPGraph::lsLine);
     //mainGraph1->setData(Time.toVector(), Data.Temp.toVector());
     mainGraph1->setDataValueError(Time.toVector(),Data.Temp.toVector(),Data.TempErr.toVector(),Data.TempErr.toVector());
-    mainGraph1->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross, 4));
+    mainGraph1->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
     mainGraph1->setErrorType(QCPGraph::etValue);
     mainGraph1->setErrorPen(QPen(Qt::black));
     mainGraph1->rescaleAxes();
+    tmprange = wideAxisRect->axis(QCPAxis::atLeft,0)->range();
+    wideAxisRect->axis(QCPAxis::atLeft,0)->setRangeLower(tmprange.lower-0.4);
+    wideAxisRect->axis(QCPAxis::atLeft,0)->setRangeUpper(tmprange.upper+0.4);
 
     // pCO2
     QCPGraph *mainGraph2 = ui->Graph->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft, 1));
@@ -75,7 +79,7 @@ void GraphViewer::setGraph(){
     mainGraph2->setLineStyle(QCPGraph::lsLine);
     //mainGraph2->setData(Time.toVector(),Data.pCO2.toVector());
     mainGraph2->setDataValueError(Time.toVector(),Data.pCO2.toVector(),Data.pCO2Err.toVector(),Data.pCO2Err.toVector());
-    mainGraph2->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross, 4));
+    mainGraph2->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
     mainGraph2->setErrorType(QCPGraph::etValue);
     mainGraph2->setErrorPen(QPen(Qt::red));
     mainGraph2->rescaleAxes();
@@ -86,7 +90,7 @@ void GraphViewer::setGraph(){
     mainGraph3->setLineStyle(QCPGraph::lsLine);
     //mainGraph3->setData(Time.toVector(),Data.cCa.toVector());
     mainGraph3->setDataValueError(Time.toVector(),Data.cCa.toVector(),Data.cCaErr.toVector(),Data.cCaErr.toVector());
-    mainGraph3->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross, 4));
+    mainGraph3->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
     mainGraph3->setErrorType(QCPGraph::etValue);
     mainGraph3->setErrorPen(QPen(Qt::green));
     mainGraph3->rescaleAxes();
@@ -102,13 +106,33 @@ void GraphViewer::setGraph(){
     QCPGraph *mainGraph22 = ui->Graph->addGraph(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft, 1));
     mainGraph22->setPen(QPen(Qt::red));
     mainGraph22->setLineStyle(QCPGraph::lsLine);
-    mainGraph22->setData(Time.toVector(),Result.AppcCa.toVector());
+    //mainGraph22->setData(Time.toVector(),Result.AppcCa.toVector());
+    mainGraph22->setDataValueError(Time.toVector(),Result.AppcCa.toVector(),Result.AppcCaErr.toVector(),Result.AppcCaErr.toVector());
+    mainGraph22->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
+    mainGraph22->setErrorType(QCPGraph::etValue);
+    mainGraph22->setErrorPen(QPen(Qt::red));
+    mainGraph22->rescaleAxes();
+    tmprange = wideAxisRect1->axis(QCPAxis::atLeft, 1)->range();
+
     // cCa
     QCPGraph *mainGraph32 = ui->Graph->addGraph(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft, 1));
     mainGraph32->setPen(QPen(Qt::green));
     mainGraph32->setLineStyle(QCPGraph::lsLine);
-    mainGraph32->setData(Time.toVector(),Data.cCa.toVector());
-
+    //mainGraph32->setData(Time.toVector(),Data.cCa.toVector());
+    mainGraph32->setDataValueError(Time.toVector(),Data.cCa.toVector(),Data.cCaErr.toVector(),Data.cCaErr.toVector());
+    mainGraph32->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
+    mainGraph32->setErrorType(QCPGraph::etValue);
+    mainGraph32->setErrorPen(QPen(Qt::green));
+    mainGraph32->rescaleAxes();;
+    tmprange1 = wideAxisRect1->axis(QCPAxis::atLeft, 1)->range();
+    if(tmprange.upper >= tmprange1.upper)
+        wideAxisRect1->axis(QCPAxis::atLeft, 1)->setRangeUpper(tmprange.upper+0.1);
+    else
+        wideAxisRect1->axis(QCPAxis::atLeft, 1)->setRangeUpper(tmprange1.upper+0.1);
+    if(tmprange.lower <= tmprange1.lower)
+        wideAxisRect1->axis(QCPAxis::atLeft, 1)->setRangeLower(tmprange.lower-0.1);
+    else
+        wideAxisRect1->axis(QCPAxis::atLeft, 1)->setRangeLower(tmprange1.lower-0.1);
 
     ui->Graph->replot();
 }
