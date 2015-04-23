@@ -53,7 +53,7 @@
    </property>
    <widget class="QMenu" name="menuFIle">
     <property name="title">
-     <string>FIle</string>
+     <string>File</string>
     </property>
     <addaction name="actionLoad_CSV"/>
     <addaction name="actionCalculate_Growth_Rate"/>
