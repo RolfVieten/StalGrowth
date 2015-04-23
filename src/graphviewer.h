@@ -25,6 +25,7 @@ private:
     DataItem Data;
     Results Result;
     QList<double> Time;
+    QList<double> Growthincm;
 };
 
 #endif // GRAPHVIEWER_H
