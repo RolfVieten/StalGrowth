@@ -14,10 +14,17 @@ class GraphViewer : public QWidget
 public:
     explicit GraphViewer(QWidget *parent = 0);
     ~GraphViewer();
-    void graphresult(DataItem Data,Results Result);
+    void setresult(DataItem data,Results result);
+    void setGraph();
+
+private slots:
+    void on_pushButton_clicked();
 
 private:
     Ui::GraphViewer *ui;
+    DataItem Data;
+    Results Result;
+    QList<double> Time;
 };
 
 #endif // GRAPHVIEWER_H
