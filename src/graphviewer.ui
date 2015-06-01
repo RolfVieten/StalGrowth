@@ -40,9 +40,16 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="ssmk">
+       <property name="text">
+        <string>Add Seasons</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="yrmk">
        <property name="text">
-        <string>Add Yr Mark</string>
+        <string>Add year marks</string>
        </property>
       </widget>
      </item>

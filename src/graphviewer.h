@@ -23,6 +23,8 @@ private slots:
 
     void on_yrmk_clicked();
 
+    void on_ssmk_clicked();
+
 private:
     Ui::GraphViewer *ui;
     DataItem Data;
@@ -30,6 +32,7 @@ private:
     QList<double> Time;
     QList<double> Growthincm;
     QList<QCPItemLine*> yrs;
+    QList<QCPItemRect*> rct;
     QCPAxisRect *wideAxisRect1; // OutputAxisRectangle
 };
 

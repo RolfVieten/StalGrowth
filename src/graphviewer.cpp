@@ -179,3 +179,9 @@ void GraphViewer::on_yrmk_clicked() {
 
     ui->Graph->replot();
 }
+
+
+void GraphViewer::on_ssmk_clicked(){
+
+
+}
