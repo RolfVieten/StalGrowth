@@ -41,7 +41,7 @@ void GraphViewer::setGraph(){
     wideAxisRect->axis(QCPAxis::atBottom)->setLabel("Date");
 
     // Output
-    QCPAxisRect *wideAxisRect1 = new QCPAxisRect(ui->Graph);
+    wideAxisRect1 = new QCPAxisRect(ui->Graph);
     wideAxisRect1->addAxis(QCPAxis::atLeft); // add an extra axis on the left and color its numbers
     wideAxisRect1->axis(QCPAxis::atLeft,0)->setLabel("Growth Rate (cm/yr)");
     wideAxisRect1->axis(QCPAxis::atLeft,1)->setLabel("Ca (Red Apparent; Green Real)(mol/m3)");
@@ -140,4 +140,42 @@ void GraphViewer::setGraph(){
 void GraphViewer::on_pushButton_clicked()
 {
     setGraph();
+}
+
+// Function creates yearly marks
+void GraphViewer::on_yrmk_clicked() {
+    yrs.clear(); // Make sure the array is clean (I'm sure there is a memory leak)
+
+    // Get the range
+    QCPRange xrange;
+    xrange = wideAxisRect1->axis(QCPAxis::atBottom)->range();
+    QDateTime low, high, temp;
+    low.setTime_t(xrange.lower);
+    high.setTime_t(xrange.upper);
+
+    // Start the loop
+    QCPItemLine *newline;
+    int j = 0;
+    for(int i = low.date().year(); i < high.date().year() + 2; i++){
+        temp.setDate(QDate(i,1,1));
+
+        // Check if within range
+        if (temp > low && temp < high){
+
+            newline = new QCPItemLine(ui->Graph);
+            yrs.append(newline);
+            yrs.at(j)->setClipToAxisRect(false);
+            yrs.at(j)->setClipAxisRect(wideAxisRect1);
+            yrs.at(j)->start->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+            yrs.at(j)->end->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+            yrs.at(j)->start->setCoords(temp.toTime_t(),QCPRange::minRange);
+            yrs.at(j)->end->setCoords(temp.toTime_t(),QCPRange::maxRange);
+            yrs.at(j)->setPen(QPen(QColor(Qt::blue)));
+            ui->Graph->addItem(yrs.at(j));
+            j++;
+
+        }
+    }
+
+    ui->Graph->replot();
 }
