@@ -7,6 +7,7 @@ GraphViewer::GraphViewer(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->Graph->clearGraphs();
+    ui->Graph->addLayer("boxes",ui->Graph->layer("grid"),QCustomPlot::limBelow);
 }
 
 GraphViewer::~GraphViewer()
@@ -42,6 +43,7 @@ void GraphViewer::setGraph(){
 
     // Output
     wideAxisRect1 = new QCPAxisRect(ui->Graph);
+    wideAxisRect1->setupFullAxesBox(true);
     wideAxisRect1->addAxis(QCPAxis::atLeft); // add an extra axis on the left and color its numbers
     wideAxisRect1->axis(QCPAxis::atLeft,0)->setLabel("Growth Rate (cm/yr)");
     wideAxisRect1->axis(QCPAxis::atLeft,1)->setLabel("Ca (Red Apparent; Green Real)(mol/m3)");
@@ -171,7 +173,7 @@ void GraphViewer::on_yrmk_clicked() {
             yrs.at(j)->start->setCoords(temp.toTime_t(),QCPRange::minRange);
             yrs.at(j)->end->setCoords(temp.toTime_t(),QCPRange::maxRange);
             yrs.at(j)->setPen(QPen(QColor(Qt::blue)));
-            ui->Graph->addItem(yrs.at(j));
+            ui->Graph->addItem(newline);
             j++;
 
         }
@@ -180,8 +182,66 @@ void GraphViewer::on_yrmk_clicked() {
     ui->Graph->replot();
 }
 
-
+// Create summer boxes
 void GraphViewer::on_ssmk_clicked(){
+    rct.clear();
 
+    // Get the range
+    QCPRange xrange;
+    xrange = wideAxisRect1->axis(QCPAxis::atBottom)->range();
+    QDateTime low, high, summereqn, wintereqn;
+    low.setTime_t(xrange.lower);
+    high.setTime_t(xrange.upper);
 
+    // Start the loop
+    QCPItemRect *newrect;
+    int j = 0;
+    for(int i = low.date().year(); i < high.date().year() + 2; i++){
+        summereqn.setDate(QDate(i,3,20));
+        wintereqn.setDate(QDate(i,9,22));
+
+        // Check if within range
+        if (summereqn < low){
+            newrect = new QCPItemRect(ui->Graph);
+            rct.append(newrect);
+            rct.at(j)->setClipToAxisRect(false);
+            rct.at(j)->setBrush(QBrush(QColor(Qt::yellow)));
+            rct.at(j)->setClipAxisRect(wideAxisRect1);
+            rct.at(j)->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+            rct.at(j)->topLeft->setCoords(low.toTime_t(),100);
+            if (wintereqn > high){
+                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                rct.at(j)->bottomRight->setCoords(high.toTime_t(),-100);
+                rct.at(j)->setLayer("boxes");
+                j++;
+            } else {
+                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                rct.at(j)->bottomRight->setCoords(wintereqn.toTime_t(),-100);
+                rct.at(j)->setLayer("boxes");
+                j++;
+            }
+        } else if (summereqn < high){
+            newrect = new QCPItemRect(ui->Graph);
+            rct.append(newrect);
+            rct.at(j)->setClipToAxisRect(false);
+            rct.at(j)->setClipAxisRect(wideAxisRect1);
+            rct.at(j)->setBrush(QBrush(QColor(Qt::yellow)));
+            rct.at(j)->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+            rct.at(j)->topLeft->setCoords(summereqn.toTime_t(),100);
+            if (wintereqn > high){
+                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                rct.at(j)->bottomRight->setCoords(high.toTime_t(),-100);
+                rct.at(j)->setLayer("boxes");
+                j++;
+            } else {
+                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                rct.at(j)->bottomRight->setCoords(wintereqn.toTime_t(),-100);
+                rct.at(j)->setLayer("boxes");
+                j++;
+            }
+        }
+
+    }
+
+    ui->Graph->replot();
 }
