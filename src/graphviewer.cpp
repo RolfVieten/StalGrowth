@@ -102,7 +102,11 @@ void GraphViewer::setGraph(){
     QCPGraph *mainGraph12 = ui->Graph->addGraph(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft));
     mainGraph12->setPen(QPen(Qt::black));
     mainGraph12->setLineStyle(QCPGraph::lsLine);
-    mainGraph12->setData(Time.toVector(), Growthincm.toVector());
+    //mainGraph12->setData(Time.toVector(), Growthincm.toVector());
+    mainGraph12->setDataValueError(Time.toVector(),Result.GrowthRate.toVector(),Result.GrowthErr.toVector(),Result.GrowthErr.toVector());
+    mainGraph12->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+    mainGraph12->setErrorType(QCPGraph::etValue);
+    mainGraph12->setErrorPen(QPen(Qt::black));
     mainGraph12->rescaleAxes();
     // pCO2
     QCPGraph *mainGraph22 = ui->Graph->addGraph(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft, 1));
@@ -240,7 +244,6 @@ void GraphViewer::on_ssmk_clicked(){
                 j++;
             }
         }
-
     }
 
     ui->Graph->replot();

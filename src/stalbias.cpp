@@ -270,23 +270,41 @@ Results StalBIAS::CalcRes(DataItem data){
         ui->textBrowser->append("WAS VALID");
         for (int i = 0; i < data.lenght(); i++){
             double appcCa, GrowthRate, exponent, alpha;
-            double appcCaErr;
+            double appcCaErr, Emin, Emax, erralpha;
+            double exponentMax, exponentMin,GroErr;
 
             // Main Calculations
             appcCa = ((5.872*pow(data.pCO2.at(i),0.2526))
                       +((-0.0167*data.Temp.at(i))+1.5146))
                     *0.5;
-            alpha = (0.52 + (0.04*data.Temp.at(i)) + (0.004*pow(data.Temp.at(i),2.0))) * pow(10.0,-7.0);
+
+            alpha = (0.52 + (0.04*data.Temp.at(i)) + (0.004*pow(data.Temp.at(i),2.0))) * pow(10.0,-7.0);           
             exponent = (-1.0 * (alpha/data.FilmThick.at(i)) * data.DripInt.at(i));
             GrowthRate = 1174*(data.cCa.at(i) - appcCa) * (data.FilmThick.at(i)/data.DripInt.at(i))
                     *(1.0 - exp(exponent));
+
             // Error Calculations.
             appcCaErr = ((0.2526*(data.pCO2Err.at(i)/data.pCO2.at(i))+(data.TempErr.at(i)/data.Temp.at(i))))*appcCa;
+            erralpha = ((data.TempErr.at(i)/data.Temp.at(i))*3.0)*alpha;
+            exponentMin = (-1.0 * ((alpha-erralpha)/(data.FilmThick.at(i)-data.FilmErr.at(i))) *
+                          (data.DripInt.at(i)+data.DripErr.at(i)));
+            exponentMax = (-1.0 * ((alpha+erralpha)/(data.FilmThick.at(i)+data.FilmErr.at(i))) *
+                          (data.DripInt.at(i)-data.DripErr.at(i)));
+
+            Emin=1174*((data.cCa.at(i) - data.cCaErr.at(i))-(appcCa+appcCaErr)) *
+                    ((data.FilmThick.at(i)-data.FilmErr.at(i))/(data.DripInt.at(i)+data.DripErr.at(i))) *
+                    (1.0 - exp(exponentMin));
+
+            Emax=1174*((data.cCa.at(i) + data.cCaErr.at(i))-(appcCa-appcCaErr)) *
+                    ((data.FilmThick.at(i)+data.FilmErr.at(i))/(data.DripInt.at(i)-data.DripErr.at(i))) *
+                    (1.0 - exp(exponentMax));
+            GroErr = Emax - ((Emax+Emin)/2);
+
 
             temp.AppcCa.append(appcCa);
             temp.AppcCaErr.append(appcCaErr);
             temp.GrowthRate.append(GrowthRate);
-            temp.GrowthErr.append(0);
+            temp.GrowthErr.append(GroErr);
         }
     }
     return temp;
