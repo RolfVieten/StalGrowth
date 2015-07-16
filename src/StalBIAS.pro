@@ -16,12 +16,15 @@ SOURCES += main.cpp\
         stalbias.cpp \
         qcustomplot.cpp \
     graphviewer.cpp \
-    dataitem.cpp
+    dataitem.cpp \
+    customseason.cpp
 
 HEADERS  += stalbias.h \
             qcustomplot.h \
     graphviewer.h \
-    dataitem.h
+    dataitem.h \
+    customseason.h
 
 FORMS    += stalbias.ui \
-    graphviewer.ui
+    graphviewer.ui \
+    customseason.ui

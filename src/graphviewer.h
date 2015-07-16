@@ -3,6 +3,7 @@
 #include "dataitem.h"
 #include <QWidget>
 #include "qcustomplot.h"
+#include "customseason.h"
 
 namespace Ui {
 class GraphViewer;
@@ -25,8 +26,15 @@ private slots:
 
     void on_ssmk_clicked();
 
+    void onMouseMoveGraph(QMouseEvent* evt);
+
+    void on_cseason_clicked();
+
+    void oncsaccept();
+
 private:
     Ui::GraphViewer *ui;
+    CustomSeason *cs;
     DataItem Data;
     Results Result;
     QList<double> Time;
@@ -34,6 +42,8 @@ private:
     QList<QCPItemLine*> yrs;
     QList<QCPItemRect*> rct;
     QCPAxisRect *wideAxisRect1; // OutputAxisRectangle
+    QCPItemTracer *tracer;
+
 };
 
 #endif // GRAPHVIEWER_H

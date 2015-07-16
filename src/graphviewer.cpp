@@ -7,7 +7,9 @@ GraphViewer::GraphViewer(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->Graph->clearGraphs();
+    this->setWindowTitle("Results Graph");
     ui->Graph->addLayer("boxes",ui->Graph->layer("grid"),QCustomPlot::limBelow);
+    cs = new CustomSeason;
 }
 
 GraphViewer::~GraphViewer()
@@ -145,7 +147,22 @@ void GraphViewer::setGraph(){
 
 void GraphViewer::on_pushButton_clicked()
 {
+    // Create Graph
     setGraph();
+
+    // Create a tracer
+    tracer = new QCPItemTracer(ui->Graph);
+    ui->Graph->addItem(tracer);
+    tracer->setClipAxisRect(wideAxisRect1);
+    tracer->setGraph(wideAxisRect1->graphs().at(0));
+    tracer->setInterpolating(true);
+    tracer->setStyle(QCPItemTracer::tsCircle);
+    tracer->setPen(QPen(Qt::black));
+    tracer->setBrush(Qt::black);
+    tracer->setSize(7);
+
+    // Connect Graph to mouse
+    connect(ui->Graph,SIGNAL(mouseMove(QMouseEvent*)),this,SLOT(onMouseMoveGraph(QMouseEvent*)));
 }
 
 // Function creates yearly marks
@@ -203,6 +220,98 @@ void GraphViewer::on_ssmk_clicked(){
     for(int i = low.date().year(); i < high.date().year() + 2; i++){
         summereqn.setDate(QDate(i,3,20));
         wintereqn.setDate(QDate(i,9,22));
+
+        // Check if within range
+        if (summereqn < low){
+            newrect = new QCPItemRect(ui->Graph);
+            rct.append(newrect);
+            rct.at(j)->setClipToAxisRect(false);
+            rct.at(j)->setBrush(QBrush(QColor(Qt::yellow)));
+            rct.at(j)->setClipAxisRect(wideAxisRect1);
+            rct.at(j)->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+            rct.at(j)->topLeft->setCoords(low.toTime_t(),100);
+            if (wintereqn > high){
+                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                rct.at(j)->bottomRight->setCoords(high.toTime_t(),-100);
+                rct.at(j)->setLayer("boxes");
+                j++;
+            } else {
+                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                rct.at(j)->bottomRight->setCoords(wintereqn.toTime_t(),-100);
+                rct.at(j)->setLayer("boxes");
+                j++;
+            }
+        } else if (summereqn < high){
+            newrect = new QCPItemRect(ui->Graph);
+            rct.append(newrect);
+            rct.at(j)->setClipToAxisRect(false);
+            rct.at(j)->setClipAxisRect(wideAxisRect1);
+            rct.at(j)->setBrush(QBrush(QColor(Qt::yellow)));
+            rct.at(j)->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+            rct.at(j)->topLeft->setCoords(summereqn.toTime_t(),100);
+            if (wintereqn > high){
+                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                rct.at(j)->bottomRight->setCoords(high.toTime_t(),-100);
+                rct.at(j)->setLayer("boxes");
+                j++;
+            } else {
+                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                rct.at(j)->bottomRight->setCoords(wintereqn.toTime_t(),-100);
+                rct.at(j)->setLayer("boxes");
+                j++;
+            }
+        }
+    }
+
+    ui->Graph->replot();
+}
+
+void GraphViewer::onMouseMoveGraph(QMouseEvent* evt) {
+    double yg, yv;
+    int xg;
+
+
+    xg =wideAxisRect1->axis(QCPAxis::atBottom)->pixelToCoord(evt->pos().x());
+    //yg =wideAxisRect1->axis(QCPAxis::atLeft)->pixelToCoord(evt->pos().y());
+
+    tracer->setGraphKey(xg);
+    ui->Graph->replot();
+    yv = tracer->position->value();
+
+    QDateTime temp;
+    temp = QDateTime::fromTime_t(xg);
+    ui->growthl->setText(QString::number(yv));
+    ui->datel->setText(temp.toString("dd/MMM/yyyy"));
+}
+
+void GraphViewer::on_cseason_clicked()
+{
+    QDate start, end;
+    cs->show();
+    connect(cs,SIGNAL(accepted()),this,SLOT(oncsaccept()));
+}
+
+void GraphViewer::oncsaccept(){
+    QDate start = cs->start;
+    QDate end = cs->end;
+    rct.clear();
+
+    ui->datel->setText(start.toString("MMM/dd"));
+    ui->growthl->setText(end.toString("MMM/dd"));
+
+    // Get the range
+    QCPRange xrange;
+    xrange = wideAxisRect1->axis(QCPAxis::atBottom)->range();
+    QDateTime low, high, summereqn, wintereqn;
+    low.setTime_t(xrange.lower);
+    high.setTime_t(xrange.upper);
+
+    // Start the loop
+    QCPItemRect *newrect;
+    int j = 0;
+    for(int i = low.date().year(); i < high.date().year() + 2; i++){
+        summereqn.setDate(QDate(i,start.month(),start.day()));
+        wintereqn.setDate(QDate(i,end.month(),end.day()));
 
         // Check if within range
         if (summereqn < low){
