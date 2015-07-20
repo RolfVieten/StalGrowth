@@ -3,6 +3,7 @@
 
 #include <QDateTime>
 #include <QList>
+#include <cmath>
 
 struct Results{
     QList<double>         GrowthRate;
@@ -28,6 +29,20 @@ public:
     QList<double>         cCaErr;
     bool is_valid();
     int lenght();
+};
+
+class Avg{
+public:
+    Avg();
+    double mean;
+    double variance;
+    double sd;
+    bool growth;
+    QDateTime date;
+    double dated;
+    QList<double> data;
+    void calc();
+    void setdate(time_t start, time_t end);
 };
 
 #endif // DATAITEM_H

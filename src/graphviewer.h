@@ -37,11 +37,13 @@ private:
     CustomSeason *cs;
     DataItem Data;
     Results Result;
+    QList<Avg> LAvg;
     QList<double> Time;
     QList<double> Growthincm;
     QList<QCPItemLine*> yrs;
     QList<QCPItemRect*> rct;
     QCPAxisRect *wideAxisRect1; // OutputAxisRectangle
+    QCPGraph *mainGraph42; // Average square plot
     QCPItemTracer *tracer;
 
 };

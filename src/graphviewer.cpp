@@ -29,6 +29,7 @@ void GraphViewer::setresult(DataItem data, Results result){
     }
 }
 
+// Set up the Graph
 void GraphViewer::setGraph(){
     ui->Graph->plotLayout()->clear();
     // Input
@@ -100,7 +101,7 @@ void GraphViewer::setGraph(){
     mainGraph3->rescaleAxes();
 
     // Main Graph 2
-    //Temp
+    //Growth
     QCPGraph *mainGraph12 = ui->Graph->addGraph(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft));
     mainGraph12->setPen(QPen(Qt::black));
     mainGraph12->setLineStyle(QCPGraph::lsLine);
@@ -142,9 +143,13 @@ void GraphViewer::setGraph(){
     else
         wideAxisRect1->axis(QCPAxis::atLeft, 1)->setRangeLower(tmprange1.lower-0.1);
 
+    // Add Average Layer
+    mainGraph42 = ui->Graph->addGraph(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft));
+
     ui->Graph->replot();
 }
 
+// On Plot button Clicked
 void GraphViewer::on_pushButton_clicked()
 {
     // Create Graph
@@ -203,9 +208,13 @@ void GraphViewer::on_yrmk_clicked() {
     ui->Graph->replot();
 }
 
-// Create summer boxes
+// Create summer/winter boxes
 void GraphViewer::on_ssmk_clicked(){
+
+    // Clear old Variables
+    LAvg.clear();
     rct.clear();
+    mainGraph42->clearData();
 
     // Get the range
     QCPRange xrange;
@@ -263,11 +272,72 @@ void GraphViewer::on_ssmk_clicked(){
         }
     }
 
+    // Average start
+    QList<time_t> split;
+
+    // Determines averages
+    for(int i = low.date().year(); i < high.date().year() + 2; i++){
+        summereqn.setDate(QDate(i,3,20));
+        wintereqn.setDate(QDate(i,9,22));
+
+        if (summereqn < low){
+            split.append(low.toTime_t());
+            if (wintereqn > high){
+                split.append(high.toTime_t());
+            } else {
+                split.append(wintereqn.toTime_t());
+            }
+        } else if (summereqn < high){
+            split.append(summereqn.toTime_t());
+            if (wintereqn > high){
+                split.append(high.toTime_t());
+            } else {
+                split.append(wintereqn.toTime_t());
+            }
+        }
+    }
+
+    // Adds start/end points
+    if(split.last() != high.toTime_t()){
+        split.append(high.toTime_t());
+    }
+    if(split.first() != low.toTime_t()){
+        split.prepend(low.toTime_t());
+    }
+
+    // Determine Average
+    int k = 0;
+    for(int i = 0; i < (split.size()-1); i++){
+        Avg temp;
+        temp.setdate(split.at(k),split.at(k+1));
+        for(int l = 0; l < Result.GrowthRate.size(); l++){
+            if( Data.DateTimes.at(l).toTime_t() >= split.at(k) && Data.DateTimes.at(l).toTime_t() < split.at(k+1)){
+                temp.data.append(Result.GrowthRate.at(l));
+            }
+        }
+        temp.calc();
+        LAvg.append(temp);
+        k++;
+    }
+
+    // Add Average Points
+    mainGraph42->setLineStyle(QCPGraph::lsNone);
+    mainGraph42->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssSquare,QColor(Qt::black),QColor(Qt::black), 8));
+
+    for(int i = 0; i < LAvg.size(); i++){
+        mainGraph42->addData(LAvg.at(i).dated,LAvg.at(i).mean);
+    }
+    //mainGraph12->setErrorType(QCPGraph::etValue);
+    //mainGraph12->setErrorPen(QPen(Qt::black));
+
+    // END Average
+
     ui->Graph->replot();
 }
 
+// Tracer shows time and growth Rate
 void GraphViewer::onMouseMoveGraph(QMouseEvent* evt) {
-    double yg, yv;
+    double yv;
     int xg;
 
 
@@ -284,6 +354,7 @@ void GraphViewer::onMouseMoveGraph(QMouseEvent* evt) {
     ui->datel->setText(temp.toString("dd/MMM/yyyy"));
 }
 
+// What to do when we click Custom Season
 void GraphViewer::on_cseason_clicked()
 {
     QDate start, end;
@@ -291,11 +362,18 @@ void GraphViewer::on_cseason_clicked()
     connect(cs,SIGNAL(accepted()),this,SLOT(oncsaccept()));
 }
 
+// What to do when custom season prompt is accepted
 void GraphViewer::oncsaccept(){
+    // Set Start/End
     QDate start = cs->start;
     QDate end = cs->end;
+
+    // Clear old variables
+    LAvg.clear();
+    mainGraph42->clearData();
     rct.clear();
 
+    // Debug info, it's discreet
     ui->datel->setText(start.toString("MMM/dd"));
     ui->growthl->setText(end.toString("MMM/dd"));
 
@@ -354,6 +432,66 @@ void GraphViewer::oncsaccept(){
             }
         }
     }
+
+    // Average
+    QList<time_t> split; // Split Boxes
+
+    // Same code as above sets where to split the data
+    for(int i = low.date().year(); i < high.date().year() + 2; i++){
+        summereqn.setDate(QDate(i,start.month(),start.day()));
+        wintereqn.setDate(QDate(i,end.month(),end.day()));
+
+        if (summereqn < low){
+            split.append(low.toTime_t());
+            if (wintereqn > high){
+                split.append(high.toTime_t());
+            } else {
+                split.append(wintereqn.toTime_t());
+            }
+        } else if (summereqn < high){
+            split.append(summereqn.toTime_t());
+            if (wintereqn > high){
+                split.append(high.toTime_t());
+            } else {
+                split.append(wintereqn.toTime_t());
+            }
+        }
+    }
+
+    // Adds start and end variables
+    if(split.last() != high.toTime_t()){
+        split.append(high.toTime_t());
+    }
+    if(split.first() != low.toTime_t()){
+        split.prepend(low.toTime_t());
+    }
+
+    // Determines the Averages
+    int k = 0;
+    for(int i = 0; i < (split.size()-1); i++){
+        Avg temp;
+        temp.setdate(split.at(k),split.at(k+1));
+        for(int l = 0; l < Result.GrowthRate.size(); l++){
+            if( Data.DateTimes.at(l).toTime_t() >= split.at(k) && Data.DateTimes.at(l).toTime_t() < split.at(k+1)){
+                temp.data.append(Result.GrowthRate.at(l));
+            }
+        }
+        temp.calc();
+        LAvg.append(temp);
+        k++;
+    }
+
+    // Add Points
+    mainGraph42->setLineStyle(QCPGraph::lsNone);
+    mainGraph42->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssSquare,QColor(Qt::black),QColor(Qt::black), 8));
+
+    for(int i = 0; i < LAvg.size(); i++){
+        mainGraph42->addData(LAvg.at(i).dated,LAvg.at(i).mean);
+    }
+    //mainGraph12->setErrorType(QCPGraph::etValue);
+    //mainGraph12->setErrorPen(QPen(Qt::black));
+
+    // END Average
 
     ui->Graph->replot();
 }
