@@ -17,7 +17,7 @@ GraphViewer::~GraphViewer()
     delete ui;
 }
 
-void GraphViewer::setresult(DataItem data, Results result){
+void GraphViewer::setresult(const DataItem data, const Results result){
     Data = data;
     Result = result;
     for (int i = 0; i < Data.DateTimes.length();i++){
@@ -461,6 +461,7 @@ void GraphViewer::oncsaccept(){
     // Adds start and end variables
     if(split.last() != high.toTime_t()){
         split.append(high.toTime_t());
+
     }
     if(split.first() != low.toTime_t()){
         split.prepend(low.toTime_t());

@@ -9,6 +9,7 @@ StalBIAS::StalBIAS(QWidget *parent) :
     Debug = false;
     model = new QStandardItemModel(0,0);
     ui->mainToolBar->hide();
+    ui->textBrowser->hide();
 }
 
 StalBIAS::~StalBIAS()
@@ -313,4 +314,23 @@ Results StalBIAS::CalcRes(DataItem data){
 void StalBIAS::on_actionDebug_Mode_triggered()
 {
     Debug = !Debug;
+    if(Debug){
+        ui->textBrowser->hide();
+    } else {
+        ui->textBrowser->show();
+    }
+}
+
+void StalBIAS::on_CalcGrap_clicked()
+{
+    on_actionCalculate_Growth_Rate_triggered();
+    on_actionGraph_Viewer_triggered();
+    GV.on_pushButton_clicked();
+}
+
+void StalBIAS::on_statistic_clicked()
+{
+    PS.setresult(Data,Result);
+    PS.show();
+    PS.setGraph();
 }

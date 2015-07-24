@@ -17,14 +17,19 @@ SOURCES += main.cpp\
         qcustomplot.cpp \
     graphviewer.cpp \
     dataitem.cpp \
-    customseason.cpp
+    customseason.cpp \
+    plotselect.cpp \
+    matlib.cpp
 
 HEADERS  += stalbias.h \
             qcustomplot.h \
     graphviewer.h \
     dataitem.h \
-    customseason.h
+    customseason.h \
+    plotselect.h \
+    matlib.h
 
 FORMS    += stalbias.ui \
     graphviewer.ui \
-    customseason.ui
+    customseason.ui \
+    plotselect.ui

@@ -16,11 +16,13 @@ class GraphViewer : public QWidget
 public:
     explicit GraphViewer(QWidget *parent = 0);
     ~GraphViewer();
-    void setresult(DataItem data,Results result);
+    void setresult(const DataItem data, const Results result);
     void setGraph();
 
-private slots:
+public slots:
     void on_pushButton_clicked();
+
+private slots:
 
     void on_yrmk_clicked();
 

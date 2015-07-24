@@ -13,10 +13,13 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QTextBrowser>
@@ -37,6 +40,10 @@ public:
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QTableView *tableView;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *CalcGrap;
+    QPushButton *statistic;
     QTextBrowser *textBrowser;
     QMenuBar *menuBar;
     QMenu *menuFIle;
@@ -69,6 +76,26 @@ public:
         tableView->setObjectName(QStringLiteral("tableView"));
 
         verticalLayout->addWidget(tableView);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        CalcGrap = new QPushButton(centralWidget);
+        CalcGrap->setObjectName(QStringLiteral("CalcGrap"));
+
+        horizontalLayout->addWidget(CalcGrap);
+
+        statistic = new QPushButton(centralWidget);
+        statistic->setObjectName(QStringLiteral("statistic"));
+
+        horizontalLayout->addWidget(statistic);
+
+
+        verticalLayout->addLayout(horizontalLayout);
 
         textBrowser = new QTextBrowser(centralWidget);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
@@ -119,6 +146,8 @@ public:
         actionLoad_CSV->setText(QApplication::translate("StalBIAS", "Load CSV", 0));
         actionCalculate_Growth_Rate->setText(QApplication::translate("StalBIAS", "Calculate Growth Rate", 0));
         actionGraph_Viewer->setText(QApplication::translate("StalBIAS", "Graph Viewer", 0));
+        CalcGrap->setText(QApplication::translate("StalBIAS", "Calculate and Graph", 0));
+        statistic->setText(QApplication::translate("StalBIAS", "Statistics", 0));
         menuFIle->setTitle(QApplication::translate("StalBIAS", "File", 0));
         menuHelp->setTitle(QApplication::translate("StalBIAS", "Help", 0));
     } // retranslateUi
