@@ -44,6 +44,7 @@ void PlotSelect::setGraph(){
     ui->Graph->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     ui->Graph->xAxis->setDateTimeFormat("MMMM\nyyyy");
     ui->Graph->xAxis->setLabel("Date");
+    ui->Graph->yAxis->setLabel("Growth Rate (m/yr)");
 
     // add data
     graph->setDataValueError(Time.toVector(),Result.GrowthRate.toVector(),Result.GrowthErr.toVector(),Result.GrowthErr.toVector());
@@ -57,10 +58,11 @@ void PlotSelect::setGraph(){
     labels.append("FG");
     labels.append("SG");
     labels.append("Date");
-    labels.append("Growth(cm/yr)");
+    labels.append("Growth(m/yr)");
 
     ui->tableWidget->setHorizontalHeaderLabels(labels);
     ui->tableWidget->resizeColumnsToContents();
+    //ui->textBrowser->append(QString::number(ui->tableWidget->childrenRect().width()));
     FG.clear();
     SG.clear();
 
@@ -135,11 +137,11 @@ void PlotSelect::seasonality_test(){
 
     for(int i=0; i < Time.size(); i++){
         if(FG.at(i)->isChecked()){
-            sumFG =+ Result.GrowthRate.at(i);
+            sumFG += Result.GrowthRate.at(i);
             countFG++;
         }
         if(SG.at(i)->isChecked()){
-            sumSG =+ Result.GrowthRate.at(i);
+            sumSG += Result.GrowthRate.at(i);
             countSG++;
         }
     }
@@ -152,10 +154,10 @@ void PlotSelect::seasonality_test(){
 
     for(int i=0; i < Time.size(); i++){
         if(FG.at(i)->isChecked()){
-            sqFG =+ pow((Result.GrowthRate.at(i)-meanFG), 2);
+            sqFG += pow((Result.GrowthRate.at(i)-meanFG), 2);
         }
         if(SG.at(i)->isChecked()){
-            sqSG =+ pow((Result.GrowthRate.at(i)-meanSG), 2);
+            sqSG += pow((Result.GrowthRate.at(i)-meanSG), 2);
         }
     }
 
@@ -174,6 +176,7 @@ void PlotSelect::seasonality_test(){
     // p (probabitily)
 
     double p = Student_t_Density(t_stat, v);
+    //double z = Student_t_Distribution(0.95, v);
 
 
     ui->textBrowser->append("   __________________________________________________\n");
@@ -188,6 +191,7 @@ void PlotSelect::seasonality_test(){
     ui->textBrowser->append("   Degrees of freedom\t\t\t= "+QString::number(v));
     ui->textBrowser->append("   Pooled Standard Deviation\t\t= "+QString::number(sp));
     ui->textBrowser->append("   T Statistic\t\t\t\t= "+QString::number(t_stat)+"\n");
+    //ui->textBrowser->append("   Z (95%) Statistic\t\t\t\t= "+QString::number(z)+"\n");
     ui->textBrowser->append("   Probability that difference is due to chance\t= "+QString::number(p)+"\n");
 
 }
