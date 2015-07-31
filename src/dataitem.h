@@ -5,11 +5,15 @@
 #include <QList>
 #include <cmath>
 
-struct Results{
+class Results{
+public:
+    Results();
+    ~Results();
     QList<double>         GrowthRate;
     QList<double>         GrowthErr;
     QList<double>         AppcCa;
     QList<double>         AppcCaErr;
+    void clear();
 };
 
 class DataItem{
@@ -29,6 +33,7 @@ public:
     QList<double>         cCaErr;
     bool is_valid();
     int lenght();
+    void clear();
 };
 
 class Avg{

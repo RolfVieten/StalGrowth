@@ -3,7 +3,7 @@
 #include "dataitem.h"
 #include "qcustomplot.h"
 #include "customseason.h"
-#include "matlib.h"
+#include "alglib/statistics.h"
 #include <QStandardItemModel>
 #include <QMainWindow>
 #include <cmath>

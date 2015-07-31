@@ -52,7 +52,19 @@ SOURCES       = ../src/main.cpp \
 		../src/dataitem.cpp \
 		../src/customseason.cpp \
 		../src/plotselect.cpp \
-		../src/matlib.cpp moc_stalbias.cpp \
+		../src/alglib/statistics.cpp \
+		../src/alglib/specialfunctions.cpp \
+		../src/alglib/solvers.cpp \
+		../src/alglib/optimization.cpp \
+		../src/alglib/linalg.cpp \
+		../src/alglib/interpolation.cpp \
+		../src/alglib/integration.cpp \
+		../src/alglib/fasttransforms.cpp \
+		../src/alglib/diffequations.cpp \
+		../src/alglib/dataanalysis.cpp \
+		../src/alglib/ap.cpp \
+		../src/alglib/alglibmisc.cpp \
+		../src/alglib/alglibinternal.cpp moc_stalbias.cpp \
 		moc_qcustomplot.cpp \
 		moc_graphviewer.cpp \
 		moc_customseason.cpp \
@@ -64,7 +76,19 @@ OBJECTS       = main.o \
 		dataitem.o \
 		customseason.o \
 		plotselect.o \
-		matlib.o \
+		statistics.o \
+		specialfunctions.o \
+		solvers.o \
+		optimization.o \
+		linalg.o \
+		interpolation.o \
+		integration.o \
+		fasttransforms.o \
+		diffequations.o \
+		dataanalysis.o \
+		ap.o \
+		alglibmisc.o \
+		alglibinternal.o \
 		moc_stalbias.o \
 		moc_qcustomplot.o \
 		moc_graphviewer.o \
@@ -358,7 +382,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/StalBIAS1.0.0 || mkdir -p .tmp/StalBIAS1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/StalBIAS1.0.0/ && $(COPY_FILE) --parents ../src/stalbias.h ../src/qcustomplot.h ../src/graphviewer.h ../src/dataitem.h ../src/customseason.h ../src/plotselect.h ../src/matlib.h .tmp/StalBIAS1.0.0/ && $(COPY_FILE) --parents ../src/main.cpp ../src/stalbias.cpp ../src/qcustomplot.cpp ../src/graphviewer.cpp ../src/dataitem.cpp ../src/customseason.cpp ../src/plotselect.cpp ../src/matlib.cpp .tmp/StalBIAS1.0.0/ && $(COPY_FILE) --parents ../src/stalbias.ui ../src/graphviewer.ui ../src/customseason.ui ../src/plotselect.ui .tmp/StalBIAS1.0.0/ && (cd `dirname .tmp/StalBIAS1.0.0` && $(TAR) StalBIAS1.0.0.tar StalBIAS1.0.0 && $(COMPRESS) StalBIAS1.0.0.tar) && $(MOVE) `dirname .tmp/StalBIAS1.0.0`/StalBIAS1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/StalBIAS1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/StalBIAS1.0.0/ && $(COPY_FILE) --parents ../src/stalbias.h ../src/qcustomplot.h ../src/graphviewer.h ../src/dataitem.h ../src/customseason.h ../src/plotselect.h ../src/alglib/stdafx.h ../src/alglib/statistics.h ../src/alglib/specialfunctions.h ../src/alglib/solvers.h ../src/alglib/optimization.h ../src/alglib/linalg.h ../src/alglib/interpolation.h ../src/alglib/integration.h ../src/alglib/fasttransforms.h ../src/alglib/diffequations.h ../src/alglib/dataanalysis.h ../src/alglib/ap.h ../src/alglib/alglibmisc.h ../src/alglib/alglibinternal.h .tmp/StalBIAS1.0.0/ && $(COPY_FILE) --parents ../src/main.cpp ../src/stalbias.cpp ../src/qcustomplot.cpp ../src/graphviewer.cpp ../src/dataitem.cpp ../src/customseason.cpp ../src/plotselect.cpp ../src/alglib/statistics.cpp ../src/alglib/specialfunctions.cpp ../src/alglib/solvers.cpp ../src/alglib/optimization.cpp ../src/alglib/linalg.cpp ../src/alglib/interpolation.cpp ../src/alglib/integration.cpp ../src/alglib/fasttransforms.cpp ../src/alglib/diffequations.cpp ../src/alglib/dataanalysis.cpp ../src/alglib/ap.cpp ../src/alglib/alglibmisc.cpp ../src/alglib/alglibinternal.cpp .tmp/StalBIAS1.0.0/ && $(COPY_FILE) --parents ../src/stalbias.ui ../src/graphviewer.ui ../src/customseason.ui ../src/plotselect.ui .tmp/StalBIAS1.0.0/ && (cd `dirname .tmp/StalBIAS1.0.0` && $(TAR) StalBIAS1.0.0.tar StalBIAS1.0.0 && $(COMPRESS) StalBIAS1.0.0.tar) && $(MOVE) `dirname .tmp/StalBIAS1.0.0`/StalBIAS1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/StalBIAS1.0.0
 
 
 clean:compiler_clean 
@@ -865,7 +889,12 @@ moc_stalbias.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtCore/QDate \
 		../src/plotselect.h \
-		../src/matlib.h \
+		../src/alglib/statistics.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/linalg.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/specialfunctions.h \
 		../src/stalbias.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/stalbias.h -o moc_stalbias.cpp
 
@@ -2400,7 +2429,12 @@ moc_plotselect.cpp: ../src/dataitem.h \
 		../src/customseason.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtCore/QDate \
-		../src/matlib.h \
+		../src/alglib/statistics.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/linalg.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/specialfunctions.h \
 		/usr/include/qt5/QtGui/QStandardItemModel \
 		/usr/include/qt5/QtWidgets/QMainWindow \
 		../src/plotselect.h
@@ -3851,7 +3885,12 @@ main.o: ../src/main.cpp ../src/stalbias.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtCore/QDate \
 		../src/plotselect.h \
-		../src/matlib.h \
+		../src/alglib/statistics.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/linalg.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/specialfunctions.h \
 		/usr/include/qt5/QtWidgets/QApplication
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../src/main.cpp
 
@@ -4337,8 +4376,27 @@ stalbias.o: ../src/stalbias.cpp ../src/stalbias.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtCore/QDate \
 		../src/plotselect.h \
-		../src/matlib.h \
-		ui_stalbias.h
+		../src/alglib/statistics.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/linalg.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/specialfunctions.h \
+		ui_stalbias.h \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/QHBoxLayout \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/QMenu \
+		/usr/include/qt5/QtWidgets/QMenuBar \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/QSpacerItem \
+		/usr/include/qt5/QtWidgets/QStatusBar \
+		/usr/include/qt5/QtWidgets/QTableView \
+		/usr/include/qt5/QtWidgets/QTextBrowser \
+		/usr/include/qt5/QtWidgets/QToolBar \
+		/usr/include/qt5/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stalbias.o ../src/stalbias.cpp
 
 qcustomplot.o: ../src/qcustomplot.cpp ../src/qcustomplot.h \
@@ -5284,7 +5342,17 @@ graphviewer.o: ../src/graphviewer.cpp ../src/graphviewer.h \
 		../src/customseason.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtCore/QDate \
-		ui_graphviewer.h
+		ui_graphviewer.h \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/QFrame \
+		/usr/include/qt5/QtWidgets/QHBoxLayout \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/QLabel \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/QSpacerItem \
+		/usr/include/qt5/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o graphviewer.o ../src/graphviewer.cpp
 
 dataitem.o: ../src/dataitem.cpp ../src/dataitem.h \
@@ -5466,7 +5534,53 @@ customseason.o: ../src/customseason.cpp ../src/customseason.h \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
 		/usr/include/qt5/QtCore/QDate \
 		/usr/include/qt5/QtCore/qdatetime.h \
-		ui_customseason.h
+		ui_customseason.h \
+		/usr/include/qt5/QtCore/QVariant \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/qaction.h \
+		/usr/include/qt5/QtGui/qicon.h \
+		/usr/include/qt5/QtWidgets/qactiongroup.h \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/qapplication.h \
+		/usr/include/qt5/QtCore/qcoreapplication.h \
+		/usr/include/qt5/QtCore/qeventloop.h \
+		/usr/include/qt5/QtWidgets/qdesktopwidget.h \
+		/usr/include/qt5/QtGui/qguiapplication.h \
+		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/qbuttongroup.h \
+		/usr/include/qt5/QtWidgets/QDateEdit \
+		/usr/include/qt5/QtWidgets/qdatetimeedit.h \
+		/usr/include/qt5/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt5/QtGui/qvalidator.h \
+		/usr/include/qt5/QtCore/qregularexpression.h \
+		/usr/include/qt5/QtWidgets/QDialogButtonBox \
+		/usr/include/qt5/QtWidgets/qdialogbuttonbox.h \
+		/usr/include/qt5/QtWidgets/QFormLayout \
+		/usr/include/qt5/QtWidgets/qformlayout.h \
+		/usr/include/qt5/QtWidgets/QLayout \
+		/usr/include/qt5/QtWidgets/qlayout.h \
+		/usr/include/qt5/QtWidgets/qlayoutitem.h \
+		/usr/include/qt5/QtWidgets/qboxlayout.h \
+		/usr/include/qt5/QtWidgets/qgridlayout.h \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/qheaderview.h \
+		/usr/include/qt5/QtWidgets/qabstractitemview.h \
+		/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt5/QtWidgets/qframe.h \
+		/usr/include/qt5/QtCore/qabstractitemmodel.h \
+		/usr/include/qt5/QtCore/qitemselectionmodel.h \
+		/usr/include/qt5/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt5/QtWidgets/qstyleoption.h \
+		/usr/include/qt5/QtWidgets/qslider.h \
+		/usr/include/qt5/QtWidgets/qabstractslider.h \
+		/usr/include/qt5/QtWidgets/qstyle.h \
+		/usr/include/qt5/QtWidgets/qtabbar.h \
+		/usr/include/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/qt5/QtWidgets/qrubberband.h \
+		/usr/include/qt5/QtWidgets/QLabel \
+		/usr/include/qt5/QtWidgets/qlabel.h \
+		/usr/include/qt5/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o customseason.o ../src/customseason.cpp
 
 plotselect.o: ../src/plotselect.cpp ../src/plotselect.h \
@@ -5942,14 +6056,127 @@ plotselect.o: ../src/plotselect.cpp ../src/plotselect.h \
 		../src/customseason.h \
 		/usr/include/qt5/QtWidgets/QDialog \
 		/usr/include/qt5/QtCore/QDate \
-		../src/matlib.h \
+		../src/alglib/statistics.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/linalg.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/specialfunctions.h \
 		/usr/include/qt5/QtGui/QStandardItemModel \
 		/usr/include/qt5/QtWidgets/QMainWindow \
-		ui_plotselect.h
+		ui_plotselect.h \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/QHBoxLayout \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/QMenuBar \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/QSpacerItem \
+		/usr/include/qt5/QtWidgets/QStatusBar \
+		/usr/include/qt5/QtWidgets/QTableWidget \
+		/usr/include/qt5/QtWidgets/QTextBrowser \
+		/usr/include/qt5/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o plotselect.o ../src/plotselect.cpp
 
-matlib.o: ../src/matlib.cpp ../src/matlib.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o matlib.o ../src/matlib.cpp
+statistics.o: ../src/alglib/statistics.cpp ../src/alglib/stdafx.h \
+		../src/alglib/statistics.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/linalg.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/specialfunctions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o statistics.o ../src/alglib/statistics.cpp
+
+specialfunctions.o: ../src/alglib/specialfunctions.cpp ../src/alglib/stdafx.h \
+		../src/alglib/specialfunctions.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o specialfunctions.o ../src/alglib/specialfunctions.cpp
+
+solvers.o: ../src/alglib/solvers.cpp ../src/alglib/stdafx.h \
+		../src/alglib/solvers.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/linalg.h \
+		../src/alglib/alglibmisc.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o solvers.o ../src/alglib/solvers.cpp
+
+optimization.o: ../src/alglib/optimization.cpp ../src/alglib/stdafx.h \
+		../src/alglib/optimization.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/linalg.h \
+		../src/alglib/solvers.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o optimization.o ../src/alglib/optimization.cpp
+
+linalg.o: ../src/alglib/linalg.cpp ../src/alglib/stdafx.h \
+		../src/alglib/linalg.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/alglibmisc.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o linalg.o ../src/alglib/linalg.cpp
+
+interpolation.o: ../src/alglib/interpolation.cpp ../src/alglib/stdafx.h \
+		../src/alglib/interpolation.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/linalg.h \
+		../src/alglib/solvers.h \
+		../src/alglib/optimization.h \
+		../src/alglib/specialfunctions.h \
+		../src/alglib/integration.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o interpolation.o ../src/alglib/interpolation.cpp
+
+integration.o: ../src/alglib/integration.cpp ../src/alglib/stdafx.h \
+		../src/alglib/integration.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/linalg.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/specialfunctions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o integration.o ../src/alglib/integration.cpp
+
+fasttransforms.o: ../src/alglib/fasttransforms.cpp ../src/alglib/stdafx.h \
+		../src/alglib/fasttransforms.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fasttransforms.o ../src/alglib/fasttransforms.cpp
+
+diffequations.o: ../src/alglib/diffequations.cpp ../src/alglib/stdafx.h \
+		../src/alglib/diffequations.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o diffequations.o ../src/alglib/diffequations.cpp
+
+dataanalysis.o: ../src/alglib/dataanalysis.cpp ../src/alglib/stdafx.h \
+		../src/alglib/dataanalysis.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/linalg.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/statistics.h \
+		../src/alglib/specialfunctions.h \
+		../src/alglib/solvers.h \
+		../src/alglib/optimization.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dataanalysis.o ../src/alglib/dataanalysis.cpp
+
+ap.o: ../src/alglib/ap.cpp ../src/alglib/stdafx.h \
+		../src/alglib/ap.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ap.o ../src/alglib/ap.cpp
+
+alglibmisc.o: ../src/alglib/alglibmisc.cpp ../src/alglib/stdafx.h \
+		../src/alglib/alglibmisc.h \
+		../src/alglib/ap.h \
+		../src/alglib/alglibinternal.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o alglibmisc.o ../src/alglib/alglibmisc.cpp
+
+alglibinternal.o: ../src/alglib/alglibinternal.cpp ../src/alglib/stdafx.h \
+		../src/alglib/alglibinternal.h \
+		../src/alglib/ap.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o alglibinternal.o ../src/alglib/alglibinternal.cpp
 
 moc_stalbias.o: moc_stalbias.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_stalbias.o moc_stalbias.cpp

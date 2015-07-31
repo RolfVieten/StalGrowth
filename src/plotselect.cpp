@@ -174,9 +174,10 @@ void PlotSelect::seasonality_test(){
     double t_stat = (meanFG - meanSG) / (sp * sqrt(1.0 / countFG + 1.0 / countSG));
 
     // p (probabitily)
+    double p = alglib::studenttdistribution(v, t_stat);
 
-    double p = Student_t_Density(t_stat, v);
-    //double z = Student_t_Distribution(0.95, v);
+    double z95 = alglib::invstudenttdistribution(v, 0.95);
+    double z99 = alglib::invstudenttdistribution(v, 0.99);
 
 
     ui->textBrowser->append("   __________________________________________________\n");
@@ -190,9 +191,10 @@ void PlotSelect::seasonality_test(){
     ui->textBrowser->append("   Slow Growth Standard Deviation\t\t= "+QString::number(sqrt(varSG)));
     ui->textBrowser->append("   Degrees of freedom\t\t\t= "+QString::number(v));
     ui->textBrowser->append("   Pooled Standard Deviation\t\t= "+QString::number(sp));
-    ui->textBrowser->append("   T Statistic\t\t\t\t= "+QString::number(t_stat)+"\n");
-    //ui->textBrowser->append("   Z (95%) Statistic\t\t\t\t= "+QString::number(z)+"\n");
-    ui->textBrowser->append("   Probability that difference is due to chance\t= "+QString::number(p)+"\n");
+    ui->textBrowser->append("   T Statistic\t\t\t\t= "+QString::number(t_stat));
+    ui->textBrowser->append("   Z (95%,"+QString::number(v)+") Statistic\t\t\t= "+QString::number(z95));
+    ui->textBrowser->append("   Z (99%,"+QString::number(v)+") Statistic\t\t\t= "+QString::number(z99)+"\n");
+    ui->textBrowser->append("   Probability that difference is due to chance\t= "+QString::number(1-p)+"\n");
 
 }
 

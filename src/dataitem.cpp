@@ -1,9 +1,21 @@
 #include "dataitem.h"
 
+Results::Results(){
+}
+
+Results::~Results(){
+}
+
+void Results::clear(){
+    GrowthRate.clear();
+    GrowthErr.clear();
+    AppcCa.clear();
+    AppcCaErr.clear();
+}
+
 DataItem::DataItem()
 {
 }
-
 
 DataItem::~DataItem()
 {
@@ -25,6 +37,20 @@ int DataItem::lenght(){
         return DateTimes.length();
     else
         return 0;
+}
+
+void DataItem::clear(){
+    DateTimes.clear();
+    DripInt.clear();
+    DripErr.clear();
+    FilmThick.clear();
+    FilmErr.clear();
+    Temp.clear();
+    TempErr.clear();
+    pCO2.clear();
+    pCO2Err.clear();
+    cCa.clear();
+    cCaErr.clear();
 }
 
 Avg::Avg(){

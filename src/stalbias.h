@@ -53,12 +53,13 @@ private:
     Results CalcRes(DataItem data);
 
     // Grapth Viewer
-    GraphViewer GV;
-    PlotSelect PS;
+    GraphViewer *GV;
+    PlotSelect *PS;
 
 
     // Debug Bool
     bool Debug;
+    bool DProc;
 
     // Convertion Function
     void convert_to_customData();

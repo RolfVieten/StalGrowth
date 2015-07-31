@@ -19,7 +19,19 @@ SOURCES += main.cpp\
     dataitem.cpp \
     customseason.cpp \
     plotselect.cpp \
-    matlib.cpp
+    alglib/statistics.cpp \
+    alglib/specialfunctions.cpp \
+    alglib/solvers.cpp \
+    alglib/optimization.cpp \
+    alglib/linalg.cpp \
+    alglib/interpolation.cpp \
+    alglib/integration.cpp \
+    alglib/fasttransforms.cpp \
+    alglib/diffequations.cpp \
+    alglib/dataanalysis.cpp \
+    alglib/ap.cpp \
+    alglib/alglibmisc.cpp \
+    alglib/alglibinternal.cpp
 
 HEADERS  += stalbias.h \
             qcustomplot.h \
@@ -27,7 +39,20 @@ HEADERS  += stalbias.h \
     dataitem.h \
     customseason.h \
     plotselect.h \
-    matlib.h
+    alglib/stdafx.h \
+    alglib/statistics.h \
+    alglib/specialfunctions.h \
+    alglib/solvers.h \
+    alglib/optimization.h \
+    alglib/linalg.h \
+    alglib/interpolation.h \
+    alglib/integration.h \
+    alglib/fasttransforms.h \
+    alglib/diffequations.h \
+    alglib/dataanalysis.h \
+    alglib/ap.h \
+    alglib/alglibmisc.h \
+    alglib/alglibinternal.h
 
 FORMS    += stalbias.ui \
     graphviewer.ui \

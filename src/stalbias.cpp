@@ -8,8 +8,10 @@ StalBIAS::StalBIAS(QWidget *parent) :
     ui->setupUi(this);
     Debug = false;
     model = new QStandardItemModel(0,0);
+    newmodel = new QStandardItemModel(0,0);
     ui->mainToolBar->hide();
     ui->textBrowser->hide();
+    DProc = false;
 }
 
 StalBIAS::~StalBIAS()
@@ -20,6 +22,8 @@ StalBIAS::~StalBIAS()
 void StalBIAS::on_actionLoad_CSV_triggered()
 {
     model->clear();
+
+    DProc = false;
     ui->tableView->setModel(model);
     QString fileName = QFileDialog::getOpenFileName (this, "Open CSV file",
                                                      QDir::currentPath(), "CSV (*.csv)");
@@ -63,9 +67,8 @@ void StalBIAS::convert_to_customData(){
     QStandardItem* temp;
     QDateTime tempdt;
     double tmpdbv, tmpdbe;
+    Data.clear();
 
-
-    newmodel = new QStandardItemModel(0,2);
     newmodel->setHorizontalHeaderItem(0,new QStandardItem("Date Time"));
     newmodel->setHorizontalHeaderItem(1,new QStandardItem("Drip Interval (sec)"));
     newmodel->setHorizontalHeaderItem(2,new QStandardItem("Film Thickness (m)"));
@@ -197,20 +200,23 @@ void StalBIAS::checkString(QString &temp, QChar character, bool First)
     }
 }
 
-
-
 void StalBIAS::on_actionGraph_Viewer_triggered()
 {
-    GV.setresult(Data,Result);
-    GV.show();
+    if(DProc) {
+        GV = new GraphViewer;
+        GV->setAttribute(Qt::WA_DeleteOnClose);
+        GV->setresult(Data,Result);
+        GV->show();
+    }
 }
 
 void StalBIAS::on_actionCalculate_Growth_Rate_triggered()
 {
+    Result.clear();
     Result = CalcRes(Data);
+    DProc = true;
 
-    delete model;
-    model = new QStandardItemModel(0,2);
+    model->clear();
     model->setHorizontalHeaderItem(0,new QStandardItem("Date Time"));
     model->setHorizontalHeaderItem(1,new QStandardItem("Drip Interval (sec)"));
     model->setHorizontalHeaderItem(2,new QStandardItem("Film Thickness (m)"));
@@ -323,14 +329,21 @@ void StalBIAS::on_actionDebug_Mode_triggered()
 
 void StalBIAS::on_CalcGrap_clicked()
 {
-    on_actionCalculate_Growth_Rate_triggered();
+    if(!DProc){
+        on_actionCalculate_Growth_Rate_triggered();
+    }
     on_actionGraph_Viewer_triggered();
-    GV.on_pushButton_clicked();
+    GV->on_pushButton_clicked();
 }
 
 void StalBIAS::on_statistic_clicked()
 {
-    PS.setresult(Data,Result);
-    PS.show();
-    PS.setGraph();
+    if(!DProc){
+        on_actionCalculate_Growth_Rate_triggered();
+    }
+    PS = new PlotSelect;
+    PS->setAttribute(Qt::WA_DeleteOnClose);
+    PS->setresult(Data,Result);
+    PS->show();
+    PS->setGraph();
 }
