@@ -105,7 +105,7 @@
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Plot</string>
+        <string>Clear/Plot</string>
        </property>
       </widget>
      </item>

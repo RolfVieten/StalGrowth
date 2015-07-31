@@ -31,6 +31,7 @@ void GraphViewer::setresult(const DataItem data, const Results result){
 
 // Set up the Graph
 void GraphViewer::setGraph(){
+    ui->Graph->clearGraphs();
     ui->Graph->plotLayout()->clear();
     // Input
     QCPAxisRect *wideAxisRect = new QCPAxisRect(ui->Graph);
