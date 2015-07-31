@@ -3411,7 +3411,21 @@ stalbias.o: ../../src/stalbias.cpp ../../src/stalbias.h \
 		/usr/include/qt5/QtCore/QDate \
 		../../src/plotselect.h \
 		../../src/matlib.h \
-		ui_stalbias.h
+		ui_stalbias.h \
+		/usr/include/qt5/QtWidgets/QAction \
+		/usr/include/qt5/QtWidgets/QApplication \
+		/usr/include/qt5/QtWidgets/QButtonGroup \
+		/usr/include/qt5/QtWidgets/QHBoxLayout \
+		/usr/include/qt5/QtWidgets/QHeaderView \
+		/usr/include/qt5/QtWidgets/QMenu \
+		/usr/include/qt5/QtWidgets/QMenuBar \
+		/usr/include/qt5/QtWidgets/QPushButton \
+		/usr/include/qt5/QtWidgets/QSpacerItem \
+		/usr/include/qt5/QtWidgets/QStatusBar \
+		/usr/include/qt5/QtWidgets/QTableView \
+		/usr/include/qt5/QtWidgets/QTextBrowser \
+		/usr/include/qt5/QtWidgets/QToolBar \
+		/usr/include/qt5/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stalbias.o ../../src/stalbias.cpp
 
 qcustomplot.o: ../../src/qcustomplot.cpp ../../src/qcustomplot.h \
