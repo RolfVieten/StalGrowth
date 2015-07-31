@@ -337,21 +337,23 @@ void GraphViewer::on_ssmk_clicked(){
 
 // Tracer shows time and growth Rate
 void GraphViewer::onMouseMoveGraph(QMouseEvent* evt) {
-    double yv;
-    int xg;
+    if(!wideAxisRect1->graphs().at(0)->data()->empty()){
+        double yv;
+        int xg;
 
 
-    xg =wideAxisRect1->axis(QCPAxis::atBottom)->pixelToCoord(evt->pos().x());
-    //yg =wideAxisRect1->axis(QCPAxis::atLeft)->pixelToCoord(evt->pos().y());
+        xg =wideAxisRect1->axis(QCPAxis::atBottom)->pixelToCoord(evt->pos().x());
+        //yg =wideAxisRect1->axis(QCPAxis::atLeft)->pixelToCoord(evt->pos().y());
 
-    tracer->setGraphKey(xg);
-    ui->Graph->replot();
-    yv = tracer->position->value();
+        tracer->setGraphKey(xg);
+        ui->Graph->replot();
+        yv = tracer->position->value();
 
-    QDateTime temp;
-    temp = QDateTime::fromTime_t(xg);
-    ui->growthl->setText(QString::number(yv));
-    ui->datel->setText(temp.toString("dd/MMM/yyyy"));
+        QDateTime temp;
+        temp = QDateTime::fromTime_t(xg);
+        ui->growthl->setText(QString::number(yv));
+        ui->datel->setText(temp.toString("dd/MMM/yyyy"));
+    }
 }
 
 // What to do when we click Custom Season
