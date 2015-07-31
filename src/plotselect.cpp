@@ -174,7 +174,7 @@ void PlotSelect::seasonality_test(){
     double t_stat = (meanFG - meanSG) / (sp * sqrt(1.0 / countFG + 1.0 / countSG));
 
     // p (probabitily)
-    double p = alglib::studenttdistribution(v, t_stat);
+    double p = alglib::studenttdistribution(v, -1*t_stat);
 
     double z95 = alglib::invstudenttdistribution(v, 0.95);
     double z99 = alglib::invstudenttdistribution(v, 0.99);
@@ -194,7 +194,7 @@ void PlotSelect::seasonality_test(){
     ui->textBrowser->append("   T Statistic\t\t\t\t= "+QString::number(t_stat));
     ui->textBrowser->append("   Z (95%,"+QString::number(v)+") Statistic\t\t\t= "+QString::number(z95));
     ui->textBrowser->append("   Z (99%,"+QString::number(v)+") Statistic\t\t\t= "+QString::number(z99)+"\n");
-    ui->textBrowser->append("   Probability that difference is due to chance\t= "+QString::number(1-p)+"\n");
+    ui->textBrowser->append("   Probability means are the same (p-value)\t= "+QString::number(p)+"\n");
 
 }
 
