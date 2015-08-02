@@ -42,8 +42,9 @@ private:
     QList<Avg> LAvg;
     QList<double> Time;
     QList<double> Growthincm;
-    QList<QCPItemLine*> yrs;
     QList<QCPItemRect*> rct;
+    QList<QCPItemRect*> rct1;
+    QCPAxisRect *wideAxisRect;  // InputAxisRectangle
     QCPAxisRect *wideAxisRect1; // OutputAxisRectangle
     QCPGraph *mainGraph42; // Average square plot
     QCPItemTracer *tracer;
