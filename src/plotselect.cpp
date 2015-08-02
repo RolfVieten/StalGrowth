@@ -422,6 +422,7 @@ void PlotSelect::season_accepted(){
     sa->show();
 
     // END Average
+    on_pushButton_clicked();
 
     ui->Graph->replot();
 }
