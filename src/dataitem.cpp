@@ -72,8 +72,8 @@ void Avg::calc(){
 }
 
 void Avg::setdate(time_t start, time_t end){
-    time_t tdate;
-    tdate = (start + end) / 2;
+    time_t tdate = 0;
+    tdate = (start + end)/2;
     date.fromTime_t(tdate);
     dated = tdate;
 }
