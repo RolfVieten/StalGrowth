@@ -49,6 +49,13 @@
          </spacer>
         </item>
         <item>
+         <widget class="QPushButton" name="customSeason">
+          <property name="text">
+           <string>Custom Season</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="pushButton">
           <property name="text">
            <string>Student's T-Test</string>

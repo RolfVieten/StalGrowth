@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     alglib/dataanalysis.cpp \
     alglib/ap.cpp \
     alglib/alglibmisc.cpp \
-    alglib/alglibinternal.cpp
+    alglib/alglibinternal.cpp \
+    showavg.cpp
 
 HEADERS  += stalbias.h \
             qcustomplot.h \
@@ -52,9 +53,11 @@ HEADERS  += stalbias.h \
     alglib/dataanalysis.h \
     alglib/ap.h \
     alglib/alglibmisc.h \
-    alglib/alglibinternal.h
+    alglib/alglibinternal.h \
+    showavg.h
 
 FORMS    += stalbias.ui \
     graphviewer.ui \
     customseason.ui \
-    plotselect.ui
+    plotselect.ui \
+    showavg.ui

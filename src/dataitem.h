@@ -42,12 +42,18 @@ public:
     double mean;
     double variance;
     double sd;
-    bool growth;
+    bool slow;
     QDateTime date;
     double dated;
     QList<double> data;
     void calc();
     void setdate(time_t start, time_t end);
+};
+
+struct TBox{
+    QDateTime Begin;
+    QDateTime End;
+    bool Slow;
 };
 
 #endif // DATAITEM_H

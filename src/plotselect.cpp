@@ -7,6 +7,7 @@ PlotSelect::PlotSelect(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Statistics & Biasing");
+    cs = new CustomSeason(this);
 }
 
 PlotSelect::~PlotSelect()
@@ -210,4 +211,9 @@ void mycheck::togcustom(bool checked){
 void PlotSelect::on_pushButton_clicked()
 {
     seasonality_test();
+}
+
+void PlotSelect::on_customSeason_clicked()
+{
+
 }

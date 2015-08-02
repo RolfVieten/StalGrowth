@@ -33,6 +33,7 @@ public:
     QDateEdit *start;
     QLabel *Endl;
     QDateEdit *end;
+    QLabel *label;
     QDialogButtonBox *buttonBox;
 
     void setupUi(QDialog *CustomSeason)
@@ -77,6 +78,18 @@ public:
 
         verticalLayout->addLayout(formLayout);
 
+        label = new QLabel(CustomSeason);
+        label->setObjectName(QStringLiteral("label"));
+        QFont font1;
+        font1.setPointSize(14);
+        font1.setBold(true);
+        font1.setUnderline(true);
+        font1.setWeight(75);
+        label->setFont(font1);
+        label->setAlignment(Qt::AlignCenter);
+
+        verticalLayout->addWidget(label);
+
         buttonBox = new QDialogButtonBox(CustomSeason);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
@@ -95,9 +108,10 @@ public:
     void retranslateUi(QDialog *CustomSeason)
     {
         CustomSeason->setWindowTitle(QApplication::translate("CustomSeason", "Dialog", 0));
-        title->setText(QApplication::translate("CustomSeason", "Growth Season Setup", 0));
+        title->setText(QApplication::translate("CustomSeason", "Slow Growth Season Setup", 0));
         startl->setText(QApplication::translate("CustomSeason", "Start season", 0));
         Endl->setText(QApplication::translate("CustomSeason", "End season", 0));
+        label->setText(QApplication::translate("CustomSeason", "<html><head/><body><p><span style=\" color:#ff0000;\">Start season date must be before end season date</span></p></body></html>", 0));
     } // retranslateUi
 
 };

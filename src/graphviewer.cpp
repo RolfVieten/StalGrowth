@@ -10,6 +10,7 @@ GraphViewer::GraphViewer(QWidget *parent) :
     this->setWindowTitle("Results Graph");
     ui->Graph->addLayer("boxes",ui->Graph->layer("grid"),QCustomPlot::limBelow);
     cs = new CustomSeason(this);
+    tconnect = false;
 }
 
 GraphViewer::~GraphViewer()
@@ -31,6 +32,11 @@ void GraphViewer::setresult(const DataItem data, const Results result){
 
 // Set up the Graph
 void GraphViewer::setGraph(){
+    if(tconnect){
+        disconnect(ui->Graph,SIGNAL(mouseMove(QMouseEvent*)),this,SLOT(onMouseMoveGraph(QMouseEvent*)));
+        delete tracer;
+        tconnect = false;
+    }
     ui->Graph->clearGraphs();
     ui->Graph->plotLayout()->clear();
 
@@ -156,8 +162,12 @@ void GraphViewer::setGraph(){
     tracer->setBrush(Qt::black);
     tracer->setSize(7);
 
+
     // Connect Graph to mouse
-    connect(ui->Graph,SIGNAL(mouseMove(QMouseEvent*)),this,SLOT(onMouseMoveGraph(QMouseEvent*)));
+    if(!tconnect) {
+        connect(ui->Graph,SIGNAL(mouseMove(QMouseEvent*)),this,SLOT(onMouseMoveGraph(QMouseEvent*)));
+        tconnect = true;
+    }
 
     ui->Graph->replot();
 }
@@ -175,7 +185,7 @@ void GraphViewer::on_yrmk_clicked() {
     // Get the range
     QCPRange xrange;
     xrange = wideAxisRect1->axis(QCPAxis::atBottom)->range();
-    QDateTime low, high, temp;
+    QDateTime low, high, temp, tempf;
     low.setTime_t(xrange.lower);
     high.setTime_t(xrange.upper);
 
@@ -226,101 +236,179 @@ void GraphViewer::on_ssmk_clicked(){
     // Get the range
     QCPRange xrange;
     xrange = wideAxisRect1->axis(QCPAxis::atBottom)->range();
-    QDateTime low, high, summereqn, wintereqn;
+    QDateTime low, high, summereqn, wintereqn, secf;
     low.setTime_t(xrange.lower);
     high.setTime_t(xrange.upper);
 
-    // Check Range
-
     // Start the loop
-    QCPItemRect *newrect;
-    int j = 0;
+    QCPItemRect *newrect, *newrect1;
     for(int i = low.date().year(); i < high.date().year() + 2; i++){
         summereqn.setDate(QDate(i,3,20));
         wintereqn.setDate(QDate(i,9,22));
 
-        // Check if within range
-        if (summereqn < low){
-            newrect = new QCPItemRect(ui->Graph);
-            rct.append(newrect);
-            rct.at(j)->setClipToAxisRect(false);
-            rct.at(j)->setBrush(QBrush(QColor(Qt::yellow)));
-            rct.at(j)->setClipAxisRect(wideAxisRect1);
-            rct.at(j)->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-            rct.at(j)->topLeft->setCoords(low.toTime_t(),100);
-            if (wintereqn > high){
-                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-                rct.at(j)->bottomRight->setCoords(high.toTime_t(),-100);
-                rct.at(j)->setLayer("boxes");
-                j++;
+        // Start Rectangle
+        newrect = new QCPItemRect(ui->Graph);
+        newrect1= new QCPItemRect(ui->Graph);
+
+        if(summereqn<= low){
+
+            newrect->setClipAxisRect(wideAxisRect);
+            newrect->setClipToAxisRect(true);
+            newrect->setBrush(QBrush(QColor(Qt::yellow)));
+            newrect->topLeft->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+            newrect->topLeft->setCoords(low.toTime_t(),100);
+
+            newrect1->setClipAxisRect(wideAxisRect1);
+            newrect1->setClipToAxisRect(true);
+            newrect1->setBrush(QBrush(QColor(Qt::yellow)));
+            newrect1->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+            newrect1->topLeft->setCoords(low.toTime_t(),100);
+
+            // End Rectangle
+            if (wintereqn <= high) {
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(wintereqn.toTime_t(),-100);
+                newrect->setLayer("boxes");
+
+                newrect1->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                newrect1->bottomRight->setCoords(wintereqn.toTime_t(),-100);
+                newrect1->setLayer("boxes");
+
             } else {
-                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-                rct.at(j)->bottomRight->setCoords(wintereqn.toTime_t(),-100);
-                rct.at(j)->setLayer("boxes");
-                j++;
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(high.toTime_t(),-100);
+                newrect->setLayer("boxes");
+
+                newrect1->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                newrect1->bottomRight->setCoords(high.toTime_t(),-100);
+                newrect1->setLayer("boxes");
+
             }
-        } else if (summereqn < high){
-            newrect = new QCPItemRect(ui->Graph);
-            rct.append(newrect);
-            rct.at(j)->setClipToAxisRect(false);
-            rct.at(j)->setClipAxisRect(wideAxisRect1);
-            rct.at(j)->setBrush(QBrush(QColor(Qt::yellow)));
-            rct.at(j)->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-            rct.at(j)->topLeft->setCoords(summereqn.toTime_t(),100);
-            if (wintereqn > high){
-                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-                rct.at(j)->bottomRight->setCoords(high.toTime_t(),-100);
-                rct.at(j)->setLayer("boxes");
-                j++;
+
+        } else {
+
+            newrect->setClipAxisRect(wideAxisRect);
+            newrect->setClipToAxisRect(true);
+            newrect->setBrush(QBrush(QColor(Qt::yellow)));
+            newrect->topLeft->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+            newrect->topLeft->setCoords(summereqn.toTime_t(),100);
+
+            newrect1->setClipAxisRect(wideAxisRect1);
+            newrect1->setClipToAxisRect(true);
+            newrect1->setBrush(QBrush(QColor(Qt::yellow)));
+            newrect1->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+            newrect1->topLeft->setCoords(summereqn.toTime_t(),100);
+
+            // End Rectangle
+            if (wintereqn <= high) {
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(wintereqn.toTime_t(),-100);
+                newrect->setLayer("boxes");
+
+                newrect1->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                newrect1->bottomRight->setCoords(wintereqn.toTime_t(),-100);
+                newrect1->setLayer("boxes");
+
             } else {
-                rct.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-                rct.at(j)->bottomRight->setCoords(wintereqn.toTime_t(),-100);
-                rct.at(j)->setLayer("boxes");
-                j++;
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(high.toTime_t(),-100);
+                newrect->setLayer("boxes");
+
+                newrect1->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                newrect1->bottomRight->setCoords(high.toTime_t(),-100);
+                newrect1->setLayer("boxes");
+
             }
         }
+
     }
 
     // Average start
-    QList<time_t> split;
+    QList<TBox> split;
+    bool first = true;
 
     // Determines averages
     for(int i = low.date().year(); i < high.date().year() + 2; i++){
         summereqn.setDate(QDate(i,3,20));
         wintereqn.setDate(QDate(i,9,22));
+        secf.setDate(QDate(i+1,3,20));
 
-        if (summereqn < low){
-            split.append(low.toTime_t());
-            if (wintereqn > high){
-                split.append(high.toTime_t());
-            } else {
-                split.append(wintereqn.toTime_t());
+        if(summereqn <= low){
+            TBox temp;
+            temp.Slow = true;
+            temp.Begin = low;
+            first = false;
+
+            if (wintereqn <= high){
+                temp.End = wintereqn;
+                split.append(temp);
             }
-        } else if (summereqn < high){
-            split.append(summereqn.toTime_t());
-            if (wintereqn > high){
-                split.append(high.toTime_t());
-            } else {
-                split.append(wintereqn.toTime_t());
+            else{
+                temp.End = high;
+                split.append(temp);
+            }
+
+        } else {
+            TBox temp;
+            if (first) {
+                TBox tempf;
+                tempf.Begin = low;
+                tempf.End = summereqn;
+                tempf.Slow = false;
+                split.append(tempf);
+                first = false;
+            }
+
+            temp.Slow = true;
+            temp.Begin = summereqn;
+
+            if (wintereqn <= high) {
+                temp.End = wintereqn;
+                split.append(temp);
+            }
+            else {
+                temp.End = high;
+                split.append(temp);
             }
         }
-    }
 
-    // Adds start/end points
-    if(split.last() != high.toTime_t()){
-        split.append(high.toTime_t());
-    }
-    if(split.first() != low.toTime_t()){
-        split.prepend(low.toTime_t());
+        if(wintereqn <= low){
+            TBox temp;
+            temp.Slow = false;
+            temp.Begin = low;
+
+            if (secf <= high) {
+                temp.End = secf;
+                split.append(temp);
+            }
+            else {
+                temp.End = high;
+                split.append(temp);
+            }
+
+        } else {
+            TBox temp;
+            temp.Slow = false;
+            temp.Begin = wintereqn;
+
+            if (secf <= high) {
+                temp.End = secf;
+                split.append(temp);
+            }
+            else {
+                temp.End = high;
+                split.append(temp);
+            }
+        }
     }
 
     // Determine Average
     int k = 0;
     for(int i = 0; i < (split.size()-1); i++){
         Avg temp;
-        temp.setdate(split.at(k),split.at(k+1));
+        temp.setdate(split.at(i).Begin.toTime_t(),split.at(i).End.toTime_t());
         for(int l = 0; l < Result.GrowthRate.size(); l++){
-            if( Data.DateTimes.at(l).toTime_t() >= split.at(k) && Data.DateTimes.at(l).toTime_t() < split.at(k+1)){
+            if( Data.DateTimes.at(l) >= split.at(i).Begin && Data.DateTimes.at(l) < split.at(i).End){
                 temp.data.append(Result.GrowthRate.at(l));
             }
         }
@@ -336,8 +424,12 @@ void GraphViewer::on_ssmk_clicked(){
     for(int i = 0; i < LAvg.size(); i++){
         mainGraph42->addData(LAvg.at(i).dated,LAvg.at(i).mean);
     }
-    //mainGraph12->setErrorType(QCPGraph::etValue);
-    //mainGraph12->setErrorPen(QPen(Qt::black));
+
+    // Show Averages
+    sa = new ShowAvg;
+    sa->setAttribute(Qt::WA_DeleteOnClose);
+    sa->setAvg(LAvg);
+    sa->show();
 
     // END Average
 
@@ -354,8 +446,6 @@ void GraphViewer::oncsaccept(){
     // Clear old variables
     LAvg.clear();
     mainGraph42->clearData();
-    rct.clear();
-    rct1.clear();
 
     // Debug info, it's discreet
     ui->datel->setText(end.toString("MMM/dd"));
@@ -364,13 +454,12 @@ void GraphViewer::oncsaccept(){
     // Get the range
     QCPRange xrange;
     xrange = wideAxisRect1->axis(QCPAxis::atBottom)->range();
-    QDateTime low, high, startd, endd;
+    QDateTime low, high, startd, endd, endf;
     low.setTime_t(xrange.lower);
     high.setTime_t(xrange.upper);
 
     // Start the loop
     QCPItemRect *newrect, *newrect1;
-    int j = 0;
     for(int i = low.date().year(); i < high.date().year() + 2; i++){
         // Set Date
         startd.setDate(QDate(i,start.month(),start.day()));
@@ -381,131 +470,171 @@ void GraphViewer::oncsaccept(){
         newrect1= new QCPItemRect(ui->Graph);
 
         if(startd <= low){
-            rct.append(newrect);
-            rct.at(j)->setClipAxisRect(wideAxisRect);
-            rct.at(j)->setClipToAxisRect(true);
-            rct.at(j)->setBrush(QBrush(QColor(Qt::yellow)));
-            rct.at(j)->topLeft->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
-            rct.at(j)->topLeft->setCoords(low.toTime_t(),100);
 
-            rct1.append(newrect1);
-            rct1.at(j)->setClipAxisRect(wideAxisRect1);
-            rct1.at(j)->setClipToAxisRect(true);
-            rct1.at(j)->setBrush(QBrush(QColor(Qt::yellow)));
-            rct1.at(j)->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-            rct1.at(j)->topLeft->setCoords(low.toTime_t(),100);
+            newrect->setClipAxisRect(wideAxisRect);
+            newrect->setClipToAxisRect(true);
+            newrect->setBrush(QBrush(QColor(Qt::yellow)));
+            newrect->topLeft->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+            newrect->topLeft->setCoords(low.toTime_t(),100);
+
+            newrect1->setClipAxisRect(wideAxisRect1);
+            newrect1->setClipToAxisRect(true);
+            newrect1->setBrush(QBrush(QColor(Qt::yellow)));
+            newrect1->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+            newrect1->topLeft->setCoords(low.toTime_t(),100);
 
             // End Rectangle
             if (endd <= high) {
-                rct.at(j)->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
-                rct.at(j)->bottomRight->setCoords(endd.toTime_t(),-100);
-                rct.at(j)->setLayer("boxes");
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(endd.toTime_t(),-100);
+                newrect->setLayer("boxes");
 
-                rct1.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-                rct1.at(j)->bottomRight->setCoords(endd.toTime_t(),-100);
-                rct1.at(j)->setLayer("boxes");
+                newrect1->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                newrect1->bottomRight->setCoords(endd.toTime_t(),-100);
+                newrect1->setLayer("boxes");
 
-                j++;
             } else {
-                rct.at(j)->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
-                rct.at(j)->bottomRight->setCoords(high.toTime_t(),-100);
-                rct.at(j)->setLayer("boxes");
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(high.toTime_t(),-100);
+                newrect->setLayer("boxes");
 
-                rct1.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-                rct1.at(j)->bottomRight->setCoords(high.toTime_t(),-100);
-                rct1.at(j)->setLayer("boxes");
+                newrect1->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                newrect1->bottomRight->setCoords(high.toTime_t(),-100);
+                newrect1->setLayer("boxes");
 
-                j++;
             }
         } else {
-            rct.append(newrect);
-            rct.at(j)->setClipAxisRect(wideAxisRect);
-            rct.at(j)->setClipToAxisRect(true);
-            rct.at(j)->setBrush(QBrush(QColor(Qt::yellow)));
-            rct.at(j)->topLeft->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
-            rct.at(j)->topLeft->setCoords(startd.toTime_t(),100);
 
-            rct1.append(newrect1);
-            rct1.at(j)->setClipAxisRect(wideAxisRect1);
-            rct1.at(j)->setClipToAxisRect(true);
-            rct1.at(j)->setBrush(QBrush(QColor(Qt::yellow)));
-            rct1.at(j)->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-            rct1.at(j)->topLeft->setCoords(startd.toTime_t(),100);
+            newrect->setClipAxisRect(wideAxisRect);
+            newrect->setClipToAxisRect(true);
+            newrect->setBrush(QBrush(QColor(Qt::yellow)));
+            newrect->topLeft->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+            newrect->topLeft->setCoords(startd.toTime_t(),100);
+
+            newrect1->setClipAxisRect(wideAxisRect1);
+            newrect1->setClipToAxisRect(true);
+            newrect1->setBrush(QBrush(QColor(Qt::yellow)));
+            newrect1->topLeft->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+            newrect1->topLeft->setCoords(startd.toTime_t(),100);
 
             // End Rectangle
             if (endd <= high) {
-                rct.at(j)->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
-                rct.at(j)->bottomRight->setCoords(endd.toTime_t(),-100);
-                rct.at(j)->setLayer("boxes");
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(endd.toTime_t(),-100);
+                newrect->setLayer("boxes");
 
-                rct1.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-                rct1.at(j)->bottomRight->setCoords(endd.toTime_t(),-100);
-                rct1.at(j)->setLayer("boxes");
+                newrect1->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                newrect1->bottomRight->setCoords(endd.toTime_t(),-100);
+                newrect1->setLayer("boxes");
 
-                j++;
             } else {
-                rct.at(j)->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
-                rct.at(j)->bottomRight->setCoords(high.toTime_t(),-100);
-                rct.at(j)->setLayer("boxes");
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(high.toTime_t(),-100);
+                newrect->setLayer("boxes");
 
-                rct1.at(j)->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
-                rct1.at(j)->bottomRight->setCoords(high.toTime_t(),-100);
-                rct1.at(j)->setLayer("boxes");
+                newrect1->bottomRight->setAxes(wideAxisRect1->axis(QCPAxis::atBottom),wideAxisRect1->axis(QCPAxis::atLeft));
+                newrect1->bottomRight->setCoords(high.toTime_t(),-100);
+                newrect1->setLayer("boxes");
 
-                j++;
             }
         }
 
     }
 
-
     // Average
-    QList<time_t> split; // Split Boxes
+    QList<TBox> split; // Split Boxes
+    bool first = true;
 
     // Same code as above sets where to split the data
     for(int i = low.date().year(); i < high.date().year() + 2; i++){
+        // Set Date
         startd.setDate(QDate(i,start.month(),start.day()));
         endd.setDate(QDate(i,end.month(),end.day()));
+        endf.setDate(QDate(i+1,start.month(),start.day()));
 
-        if (startd < low){
-            split.append(low.toTime_t());
-            if (endd > high){
-                split.append(high.toTime_t());
-            } else {
-                split.append(endd.toTime_t());
+        if(startd <= low){
+            TBox temp;
+            temp.Slow = true;
+            temp.Begin = low;
+            first = false;
+
+            if (endd <= high){
+                temp.End = endd;
+                split.append(temp);
             }
-        } else if (startd < high){
-            split.append(startd.toTime_t());
-            if (endd > high){
-                split.append(high.toTime_t());
-            } else {
-                split.append(endd.toTime_t());
+            else{
+                temp.End = high;
+                split.append(temp);
+            }
+
+        } else {
+            TBox temp;
+            if (first) {
+                TBox tempf;
+                tempf.Begin = low;
+                tempf.End = startd;
+                tempf.Slow = false;
+                split.append(tempf);
+                first = false;
+            }
+
+            temp.Slow = true;
+            temp.Begin = startd;
+
+            if (endd <= high) {
+                temp.End = endd;
+                split.append(temp);
+            }
+            else {
+                temp.End = high;
+                split.append(temp);
             }
         }
-    }
 
-    // Adds start and end variables
-    if(split.last() != high.toTime_t()){
-        split.append(high.toTime_t());
+        if(endd <= low){
+            TBox temp;
+            temp.Slow = false;
+            temp.Begin = low;
 
-    }
-    if(split.first() != low.toTime_t()){
-        split.prepend(low.toTime_t());
+            if (endf <= high) {
+                temp.End = endf;
+                split.append(temp);
+            }
+            else {
+                temp.End = high;
+                split.append(temp);
+            }
+
+        } else {
+            TBox temp;
+            temp.Slow = false;
+            temp.Begin = endd;
+
+            if (endf <= high) {
+                temp.End = endf;
+                split.append(temp);
+            }
+            else {
+                temp.End = high;
+                split.append(temp);
+            }
+        }
+
     }
 
     // Determines the Averages
-    int k = 0;
-    for(int i = 0; i < (split.size()-1); i++){
+    for(int i = 0; i < split.size(); i++){
         Avg temp;
-        temp.setdate(split.at(k),split.at(k+1));
+
+        temp.setdate(split.at(i).Begin.toTime_t(),split.at(i).End.toTime_t());
+        temp.slow = split.at(i).Slow;
         for(int l = 0; l < Result.GrowthRate.size(); l++){
-            if( Data.DateTimes.at(l).toTime_t() >= split.at(k) && Data.DateTimes.at(l).toTime_t() < split.at(k+1)){
+            if( Data.DateTimes.at(l) >= split.at(i).Begin && Data.DateTimes.at(l) < split.at(i).End){
                 temp.data.append(Result.GrowthRate.at(l));
             }
         }
         temp.calc();
         LAvg.append(temp);
-        k++;
     }
 
     // Add Points
@@ -515,15 +644,20 @@ void GraphViewer::oncsaccept(){
     for(int i = 0; i < LAvg.size(); i++){
         mainGraph42->addData(LAvg.at(i).dated,LAvg.at(i).mean);
     }
-    //mainGraph12->setErrorType(QCPGraph::etValue);
-    //mainGraph12->setErrorPen(QPen(Qt::black));
+
+    // Show Averages
+    sa = new ShowAvg(this);
+    sa->setAvg(LAvg);
+    sa->setAttribute(Qt::WA_DeleteOnClose);
+    sa->show();
 
     // END Average
 
     ui->Graph->replot();
 }
 
-// Tracer shows time and growth Rate
+
+// Tracer shows time and growth Rate, Mouse Tracking Function
 void GraphViewer::onMouseMoveGraph(QMouseEvent* evt) {
     if(!wideAxisRect1->graphs().at(0)->data()->empty()){
         double yv;
@@ -545,8 +679,9 @@ void GraphViewer::onMouseMoveGraph(QMouseEvent* evt) {
 }
 
 // What to do when we click Custom Season
-void GraphViewer::on_cseason_clicked()
-{
+
+// Custom Season click
+void GraphViewer::on_cseason_clicked(){
     cs->show();
     connect(cs,SIGNAL(accepted()),this,SLOT(oncsaccept()));
 }

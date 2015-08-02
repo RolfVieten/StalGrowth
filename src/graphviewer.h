@@ -3,6 +3,7 @@
 #include "dataitem.h"
 #include <QWidget>
 #include "qcustomplot.h"
+#include "showavg.h"
 #include "customseason.h"
 
 namespace Ui {
@@ -37,6 +38,7 @@ private slots:
 private:
     Ui::GraphViewer *ui;
     CustomSeason *cs;
+    ShowAvg *sa;
     DataItem Data;
     Results Result;
     QList<Avg> LAvg;
@@ -48,6 +50,7 @@ private:
     QCPAxisRect *wideAxisRect1; // OutputAxisRectangle
     QCPGraph *mainGraph42; // Average square plot
     QCPItemTracer *tracer;
+    bool tconnect;
 
 };
 

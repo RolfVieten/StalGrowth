@@ -28,6 +28,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_customSeason_clicked();
+
 private:
     Ui::PlotSelect *ui;
     DataItem Data;
@@ -36,6 +38,7 @@ private:
     QList<double> Time;
     QList<QCheckBox*> SG;
     QList<QCheckBox*> FG;
+    CustomSeason *cs;
     QCPGraph *graph;
     QCPGraph *SGoverlay;
     QCPGraph *FGoverlay;

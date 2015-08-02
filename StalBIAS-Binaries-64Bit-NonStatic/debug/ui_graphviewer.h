@@ -139,7 +139,7 @@ public:
         cseason->setText(QApplication::translate("GraphViewer", "Custom Season", 0));
         ssmk->setText(QApplication::translate("GraphViewer", "Add Seasons", 0));
         yrmk->setText(QApplication::translate("GraphViewer", "Add year marks", 0));
-        pushButton->setText(QApplication::translate("GraphViewer", "Plot", 0));
+        pushButton->setText(QApplication::translate("GraphViewer", "Clear/Plot", 0));
     } // retranslateUi
 
 };

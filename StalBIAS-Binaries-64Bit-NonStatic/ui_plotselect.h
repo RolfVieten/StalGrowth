@@ -37,6 +37,7 @@ public:
     QCustomPlot *Graph;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
+    QPushButton *customSeason;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
     QTextBrowser *textBrowser;
@@ -72,6 +73,11 @@ public:
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer);
+
+        customSeason = new QPushButton(centralwidget);
+        customSeason->setObjectName(QStringLiteral("customSeason"));
+
+        horizontalLayout_2->addWidget(customSeason);
 
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -130,6 +136,7 @@ public:
     void retranslateUi(QMainWindow *PlotSelect)
     {
         PlotSelect->setWindowTitle(QApplication::translate("PlotSelect", "MainWindow", 0));
+        customSeason->setText(QApplication::translate("PlotSelect", "Custom Season", 0));
         pushButton->setText(QApplication::translate("PlotSelect", "Student's T-Test", 0));
         pushButton_2->setText(QApplication::translate("PlotSelect", "Seasonal Bias", 0));
     } // retranslateUi
