@@ -6,8 +6,8 @@ CustomSeason::CustomSeason(QWidget *parent) :
     ui(new Ui::CustomSeason)
 {
     ui->setupUi(this);
-    ui->start->setDisplayFormat("MMM dd");
-    ui->end->setDisplayFormat("MMM dd");
+    ui->start->setDisplayFormat("dd/MMM");
+    ui->end->setDisplayFormat("dd/MMM");
     ui->label->hide();
 }
 
