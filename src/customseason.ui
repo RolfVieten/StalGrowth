@@ -26,7 +26,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Growth Season Setup</string>
+        <string>Slow Growth Season Setup</string>
        </property>
       </widget>
      </item>
@@ -53,6 +53,24 @@
     </layout>
    </item>
    <item>
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+       <underline>true</underline>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Start season date must be before end season date&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -73,8 +91,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>227</x>
-     <y>278</y>
+     <x>236</x>
+     <y>209</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -89,8 +107,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>295</x>
-     <y>284</y>
+     <x>304</x>
+     <y>209</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

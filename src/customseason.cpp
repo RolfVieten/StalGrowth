@@ -6,6 +6,9 @@ CustomSeason::CustomSeason(QWidget *parent) :
     ui(new Ui::CustomSeason)
 {
     ui->setupUi(this);
+    ui->start->setDisplayFormat("MMM dd");
+    ui->end->setDisplayFormat("MMM dd");
+    ui->label->hide();
 }
 
 CustomSeason::~CustomSeason()
@@ -19,10 +22,20 @@ void CustomSeason::on_buttonBox_accepted()
 
 void CustomSeason::on_start_userDateChanged(const QDate &date)
 {
-    end = date;
+    start = date;
+    if (start >= end){
+        ui->label->show();
+    } else {
+        ui->label->hide();
+    }
 }
 
 void CustomSeason::on_end_userDateChanged(const QDate &date)
 {
-    start = date;
+    end = date;
+    if (start >= end){
+        ui->label->show();
+    } else {
+        ui->label->hide();
+    }
 }
