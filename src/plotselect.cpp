@@ -8,6 +8,7 @@ PlotSelect::PlotSelect(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("Statistics & Biasing");
     cs = new CustomSeason(this);
+    ui->Graph->addLayer("boxes",ui->Graph->layer("grid"),QCustomPlot::limBelow);
 }
 
 PlotSelect::~PlotSelect()
@@ -31,6 +32,7 @@ void PlotSelect::setGraph(){
     graph = ui->Graph->addGraph();
     FGoverlay = ui->Graph->addGraph();
     SGoverlay = ui->Graph->addGraph();
+    mainGraph42 = ui->Graph->addGraph();
     graph->setLineStyle(QCPGraph::lsLine);
     graph->setPen(QPen(QColor(Qt::black)));
     graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
@@ -40,10 +42,14 @@ void PlotSelect::setGraph(){
     SGoverlay->setLineStyle(QCPGraph::lsNone);
     SGoverlay->setPen(QPen(QColor(Qt::red)));
     SGoverlay->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssStar, 8));
+    mainGraph42->setLineStyle(QCPGraph::lsLine);
+    mainGraph42->setPen(QPen(QColor(Qt::black)));
+    mainGraph42->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssSquare, 6));
 
     // configure bottom axis to show date and time instead of number:
     ui->Graph->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     ui->Graph->xAxis->setDateTimeFormat("MMMM\nyyyy");
+    mainX = ui->Graph->xAxis;
     ui->Graph->xAxis->setLabel("Date");
     ui->Graph->yAxis->setLabel("Growth Rate (m/yr)");
 
@@ -130,7 +136,6 @@ void PlotSelect::sgclicked(bool clicked, int row){
     }
 }
 
-
 void PlotSelect::seasonality_test(){
     double sumFG = 0 , sumSG = 0;
     double meanFG = 0, meanSG = 0 ;
@@ -213,7 +218,210 @@ void PlotSelect::on_pushButton_clicked()
     seasonality_test();
 }
 
-void PlotSelect::on_customSeason_clicked()
-{
+void PlotSelect::on_customSeason_clicked() {
+    cs = new CustomSeason;
+    cs->setAttribute(Qt::WA_DeleteOnClose);
+    cs->show();
+    connect(cs,SIGNAL(accepted()),this,SLOT(season_accepted()));
+}
 
+void PlotSelect::season_accepted(){
+
+    // Set Start/End
+    QDate start = cs->start;
+    QDate end = cs->end;
+
+    // Set AxisRect
+    QCPAxisRect *wideAxisRect;
+    wideAxisRect = ui->Graph->axisRect();
+
+    // Clear old variables
+    LAvg.clear();
+    mainGraph42->clearData();
+
+    // Get the range
+    QCPRange xrange;
+    xrange = mainX->range();
+
+    QDateTime low, high, startd, endd, endf;
+    low.setTime_t(xrange.lower);
+    high.setTime_t(xrange.upper);
+
+    // Debug info
+    ui->textBrowser->append(start.toString("MMM/dd"));
+    ui->textBrowser->append(end.toString("MMM/dd"));
+    ui->textBrowser->append(low.toString("MMM/dd"));
+    ui->textBrowser->append(high.toString("MMM/dd"));
+
+    // Start the loop
+    QCPItemRect *newrect;
+    for(int i = low.date().year(); i < high.date().year() + 2; i++){
+        // Set Date
+        startd.setDate(QDate(i,start.month(),start.day()));
+        endd.setDate(QDate(i,end.month(),end.day()));
+
+        // Start Rectangle
+        newrect = new QCPItemRect(ui->Graph);
+
+        if(startd <= low){
+
+            newrect->setClipAxisRect(wideAxisRect);
+            newrect->setClipToAxisRect(true);
+            newrect->setBrush(QBrush(QColor(Qt::yellow)));
+            newrect->topLeft->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+            newrect->topLeft->setCoords(low.toTime_t(),100);
+
+
+            // End Rectangle
+            if (endd <= high) {
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(endd.toTime_t(),-100);
+                newrect->setLayer("boxes");
+            } else {
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(high.toTime_t(),-100);
+                newrect->setLayer("boxes");
+            }
+        } else {
+
+            newrect->setClipAxisRect(wideAxisRect);
+            newrect->setClipToAxisRect(true);
+            newrect->setBrush(QBrush(QColor(Qt::yellow)));
+            newrect->topLeft->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+            newrect->topLeft->setCoords(startd.toTime_t(),100);
+
+            // End Rectangle
+            if (endd <= high) {
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(endd.toTime_t(),-100);
+                newrect->setLayer("boxes");
+
+            } else {
+                newrect->bottomRight->setAxes(wideAxisRect->axis(QCPAxis::atBottom),wideAxisRect->axis(QCPAxis::atLeft));
+                newrect->bottomRight->setCoords(high.toTime_t(),-100);
+                newrect->setLayer("boxes");
+
+            }
+        }
+
+    }
+
+    // Average
+    QList<TBox> split; // Split Boxes
+    bool first = true;
+
+    // Same code as above sets where to split the data
+    for(int i = low.date().year(); i < high.date().year() + 2; i++){
+        // Set Date
+        startd.setDate(QDate(i,start.month(),start.day()));
+        endd.setDate(QDate(i,end.month(),end.day()));
+        endf.setDate(QDate(i+1,start.month(),start.day()));
+
+        if(startd <= low){
+            TBox temp;
+            temp.Slow = true;
+            temp.Begin = low;
+            first = false;
+
+            if (endd <= high){
+                temp.End = endd;
+                split.append(temp);
+            }
+            else{
+                temp.End = high;
+                split.append(temp);
+            }
+
+        } else {
+            TBox temp;
+            if (first) {
+                TBox tempf;
+                tempf.Begin = low;
+                tempf.End = startd;
+                tempf.Slow = false;
+                split.append(tempf);
+                first = false;
+            }
+
+            temp.Slow = true;
+            temp.Begin = startd;
+
+            if (endd <= high) {
+                temp.End = endd;
+                split.append(temp);
+            }
+            else {
+                temp.End = high;
+                split.append(temp);
+            }
+        }
+
+        if(endd <= low){
+            TBox temp;
+            temp.Slow = false;
+            temp.Begin = low;
+
+            if (endf <= high) {
+                temp.End = endf;
+                split.append(temp);
+            }
+            else {
+                temp.End = high;
+                split.append(temp);
+            }
+
+        } else {
+            TBox temp;
+            temp.Slow = false;
+            temp.Begin = endd;
+
+            if (endf <= high) {
+                temp.End = endf;
+                split.append(temp);
+            }
+            else {
+                temp.End = high;
+                split.append(temp);
+            }
+        }
+
+    }
+
+    // Determines the Averages
+    for(int i = 0; i < split.size(); i++){
+        Avg temp;
+
+        temp.setdate(split.at(i).Begin.toTime_t(),split.at(i).End.toTime_t());
+        temp.slow = split.at(i).Slow;
+        for(int l = 0; l < Result.GrowthRate.size(); l++){
+            if( Data.DateTimes.at(l) >= split.at(i).Begin && Data.DateTimes.at(l) <= split.at(i).End){
+                temp.data.append(Result.GrowthRate.at(l));
+                if(split.at(i).Slow){
+                    SG.at(l)->click();
+                } else {
+                    FG.at(l)->click();
+                }
+            }
+        }
+        temp.calc();
+        LAvg.append(temp);
+    }
+
+    // Add Points
+    mainGraph42->setLineStyle(QCPGraph::lsNone);
+    mainGraph42->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssSquare,QColor(Qt::black),QColor(Qt::black), 8));
+
+    for(int i = 0; i < LAvg.size(); i++){
+        mainGraph42->addData(LAvg.at(i).dated,LAvg.at(i).mean);
+    }
+
+    // Show Averages
+    sa = new ShowAvg;
+    sa->setAvg(LAvg);
+    sa->setAttribute(Qt::WA_DeleteOnClose);
+    sa->show();
+
+    // END Average
+
+    ui->Graph->replot();
 }

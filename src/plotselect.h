@@ -3,6 +3,7 @@
 #include "dataitem.h"
 #include "qcustomplot.h"
 #include "customseason.h"
+#include "showavg.h"
 #include "alglib/statistics.h"
 #include <QStandardItemModel>
 #include <QMainWindow>
@@ -30,6 +31,8 @@ private slots:
 
     void on_customSeason_clicked();
 
+    void season_accepted();
+
 private:
     Ui::PlotSelect *ui;
     DataItem Data;
@@ -39,9 +42,13 @@ private:
     QList<QCheckBox*> SG;
     QList<QCheckBox*> FG;
     CustomSeason *cs;
+    QList<Avg> LAvg;
     QCPGraph *graph;
     QCPGraph *SGoverlay;
     QCPGraph *FGoverlay;
+    QCPGraph *mainGraph42; // Copied
+    QCPAxis *mainX;
+    ShowAvg *sa;
     void seasonality_test();
 };
 

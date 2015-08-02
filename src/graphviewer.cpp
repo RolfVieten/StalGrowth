@@ -327,7 +327,7 @@ void GraphViewer::on_ssmk_clicked(){
     QList<TBox> split;
     bool first = true;
 
-    // Determines averages
+    // Determines averages box
     for(int i = low.date().year(); i < high.date().year() + 2; i++){
         summereqn.setDate(QDate(i,3,20));
         wintereqn.setDate(QDate(i,9,22));
@@ -408,7 +408,7 @@ void GraphViewer::on_ssmk_clicked(){
         Avg temp;
         temp.setdate(split.at(i).Begin.toTime_t(),split.at(i).End.toTime_t());
         for(int l = 0; l < Result.GrowthRate.size(); l++){
-            if( Data.DateTimes.at(l) >= split.at(i).Begin && Data.DateTimes.at(l) < split.at(i).End){
+            if( Data.DateTimes.at(l) >= split.at(i).Begin && Data.DateTimes.at(l) <= split.at(i).End){
                 temp.data.append(Result.GrowthRate.at(l));
             }
         }
@@ -629,7 +629,7 @@ void GraphViewer::oncsaccept(){
         temp.setdate(split.at(i).Begin.toTime_t(),split.at(i).End.toTime_t());
         temp.slow = split.at(i).Slow;
         for(int l = 0; l < Result.GrowthRate.size(); l++){
-            if( Data.DateTimes.at(l) >= split.at(i).Begin && Data.DateTimes.at(l) < split.at(i).End){
+            if( Data.DateTimes.at(l) >= split.at(i).Begin && Data.DateTimes.at(l) <= split.at(i).End){
                 temp.data.append(Result.GrowthRate.at(l));
             }
         }
@@ -655,7 +655,6 @@ void GraphViewer::oncsaccept(){
 
     ui->Graph->replot();
 }
-
 
 // Tracer shows time and growth Rate, Mouse Tracking Function
 void GraphViewer::onMouseMoveGraph(QMouseEvent* evt) {
