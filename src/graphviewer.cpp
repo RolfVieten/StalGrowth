@@ -646,7 +646,7 @@ void GraphViewer::oncsaccept(){
     }
 
     // Show Averages
-    sa = new ShowAvg(this);
+    sa = new ShowAvg;
     sa->setAvg(LAvg);
     sa->setAttribute(Qt::WA_DeleteOnClose);
     sa->show();

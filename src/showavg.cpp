@@ -26,7 +26,7 @@ void ShowAvg::setAvg(QList<Avg> LAvg){
 
 
     for (int i = 0; i < LAvg.size(); i++){
-        if(LAvg.at(i).sd != 0){
+        if(LAvg.at(i).data.size() != 0){
             QList<QStandardItem*> temp;
             temp.append(new QStandardItem(QDateTime().fromTime_t(LAvg.at(i).dated).toString("yyyy/MM/dd")));
             if(LAvg.at(i).slow){
