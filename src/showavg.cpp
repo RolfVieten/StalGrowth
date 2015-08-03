@@ -20,8 +20,8 @@ ShowAvg::~ShowAvg()
 void ShowAvg::setAvg(QList<Avg> LAvg){
     model->setHorizontalHeaderItem(0,new QStandardItem("Date Time"));
     model->setHorizontalHeaderItem(1,new QStandardItem("Growth Season"));
-    model->setHorizontalHeaderItem(2,new QStandardItem("Average GrowthRate mm/yr"));
-    model->setHorizontalHeaderItem(3,new QStandardItem("Standard Deviation mm/yr"));
+    model->setHorizontalHeaderItem(2,new QStandardItem("Average GrowthRate m/yr"));
+    model->setHorizontalHeaderItem(3,new QStandardItem("Standard Deviation m/yr"));
     model->setHorizontalHeaderItem(4,new QStandardItem(" # Data"));
 
 
@@ -34,8 +34,8 @@ void ShowAvg::setAvg(QList<Avg> LAvg){
             } else {
                 temp.append(new QStandardItem("Fast Growth Season"));
             }
-            temp.append(new QStandardItem(QString::number(LAvg.at(i).mean*1000)));
-            temp.append(new QStandardItem(QString::number(LAvg.at(i).sd*1000)));
+            temp.append(new QStandardItem(QString::number(LAvg.at(i).mean)));
+            temp.append(new QStandardItem(QString::number(LAvg.at(i).sd)));
             temp.append(new QStandardItem(QString::number(LAvg.at(i).data.size())));
             model->appendRow(temp);
             temp.clear();
