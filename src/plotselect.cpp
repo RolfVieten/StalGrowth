@@ -248,10 +248,10 @@ void PlotSelect::season_accepted(){
     high.setTime_t(xrange.upper);
 
     // Debug info
-    ui->textBrowser->append(start.toString("MMM/dd"));
-    ui->textBrowser->append(end.toString("MMM/dd"));
-    ui->textBrowser->append(low.toString("MMM/dd"));
-    ui->textBrowser->append(high.toString("MMM/dd"));
+    //ui->textBrowser->append(start.toString("MMM/dd"));
+    //ui->textBrowser->append(end.toString("MMM/dd"));
+    //ui->textBrowser->append(low.toString("MMM/dd"));
+    //ui->textBrowser->append(high.toString("MMM/dd"));
 
     // Start the loop
     QCPItemRect *newrect;
