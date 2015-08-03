@@ -15,6 +15,13 @@ StalBIAS is a Open Source and Cross Platform program for determining stalagmite 
  - Identification of periods of no-growth or dissolution
  - Estimation of seasonal growth bias
 
+## How to use:
+
+ 1. Download using the download zip button on the right.
+ 2. Open the StalBIAS.exe in the Windows Binary Folder.
+ 3. Load your CSV via the load file button.
+ 4. If it loaded correctly (see Input File section for more information) Press the Statistics or Graph Button on the bottom.
+
 ## Equations:
 
 Empirical Growth Equation:
@@ -50,6 +57,7 @@ Sample Files are included in the src folder
  - Export as CSV
  - Export graphs as jpg, png, svg, tiff.
  - Add additional controls to customize seasons better.
+ - Support for daily observations.
  - Bug fixes.
 
 
