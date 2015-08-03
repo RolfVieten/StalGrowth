@@ -39,7 +39,7 @@ public:
     QSpacerItem *horizontalSpacer;
     QPushButton *customSeason;
     QPushButton *pushButton;
-    QPushButton *pushButton_2;
+    QPushButton *Sbias_button;
     QTextBrowser *textBrowser;
     QTableWidget *tableWidget;
     QMenuBar *menubar;
@@ -84,10 +84,10 @@ public:
 
         horizontalLayout_2->addWidget(pushButton);
 
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        Sbias_button = new QPushButton(centralwidget);
+        Sbias_button->setObjectName(QStringLiteral("Sbias_button"));
 
-        horizontalLayout_2->addWidget(pushButton_2);
+        horizontalLayout_2->addWidget(Sbias_button);
 
 
         verticalLayout_2->addLayout(horizontalLayout_2);
@@ -136,9 +136,9 @@ public:
     void retranslateUi(QMainWindow *PlotSelect)
     {
         PlotSelect->setWindowTitle(QApplication::translate("PlotSelect", "MainWindow", 0));
-        customSeason->setText(QApplication::translate("PlotSelect", "Custom Season", 0));
+        customSeason->setText(QApplication::translate("PlotSelect", "Auto Season", 0));
         pushButton->setText(QApplication::translate("PlotSelect", "Student's T-Test", 0));
-        pushButton_2->setText(QApplication::translate("PlotSelect", "Seasonal Bias", 0));
+        Sbias_button->setText(QApplication::translate("PlotSelect", "Seasonal Bias", 0));
     } // retranslateUi
 
 };

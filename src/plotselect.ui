@@ -51,7 +51,7 @@
         <item>
          <widget class="QPushButton" name="customSeason">
           <property name="text">
-           <string>Custom Season</string>
+           <string>Auto Season</string>
           </property>
          </widget>
         </item>
@@ -63,7 +63,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="Sbias_button">
           <property name="text">
            <string>Seasonal Bias</string>
           </property>

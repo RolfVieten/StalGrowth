@@ -33,16 +33,21 @@ private slots:
 
     void season_accepted();
 
+    void on_Sbias_button_clicked();
+
 private:
     Ui::PlotSelect *ui;
     DataItem Data;
     Results Result;
+    QDate start, end;
     QList<double> Growthincm;
     QList<double> Time;
     QList<QCheckBox*> SG;
     QList<QCheckBox*> FG;
     CustomSeason *cs;
+    bool csran;
     QList<Avg> LAvg;
+    double Favg, Savg;
     QCPGraph *graph;
     QCPGraph *SGoverlay;
     QCPGraph *FGoverlay;

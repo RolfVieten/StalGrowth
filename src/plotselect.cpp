@@ -9,6 +9,8 @@ PlotSelect::PlotSelect(QWidget *parent) :
     this->setWindowTitle("Statistics & Biasing");
     cs = new CustomSeason(this);
     ui->Graph->addLayer("boxes",ui->Graph->layer("grid"),QCustomPlot::limBelow);
+    Savg = Favg = 0;
+    csran = false;
 }
 
 PlotSelect::~PlotSelect()
@@ -202,6 +204,9 @@ void PlotSelect::seasonality_test(){
     ui->textBrowser->append("   Z (99%,"+QString::number(v)+") Statistic\t\t\t= "+QString::number(z99)+"\n");
     ui->textBrowser->append("   Probability means are the same (p-value)\t= "+QString::number(p)+"\n");
 
+    Favg = meanFG;
+    Savg = meanSG;
+
 }
 
 mycheck::mycheck(int rown, QWidget *parent) : QCheckBox(parent){
@@ -228,8 +233,9 @@ void PlotSelect::on_customSeason_clicked() {
 void PlotSelect::season_accepted(){
 
     // Set Start/End
-    QDate start = cs->start;
-    QDate end = cs->end;
+    start = cs->start;
+    end = cs->end;
+    csran = true;
 
     // Set AxisRect
     QCPAxisRect *wideAxisRect;
@@ -425,4 +431,75 @@ void PlotSelect::season_accepted(){
     on_pushButton_clicked();
 
     ui->Graph->replot();
+}
+
+void PlotSelect::on_Sbias_button_clicked() {
+
+    if (csran){
+        qint64 between = 0;
+        qint64 remaining = 0;
+
+        between = start.daysTo(end);
+        remaining = 365 - between;
+        double fastgt, slowgt, total;
+        fastgt = Favg*(1.0/365.0)*(double)remaining;
+        slowgt = Savg*(1.0/365.0)*(double)between;
+        total = fastgt + slowgt;
+        int percentF, percentS;
+        percentF = (fastgt/total)*100;
+        percentS = (slowgt/total)*100;
+
+        /* Debug info
+    ui->textBrowser->append(start.toString("MMM/dd"));
+    ui->textBrowser->append(end.toString("MMM/dd"));
+    ui->textBrowser->append(QString::number(Savg));
+    ui->textBrowser->append(QString::number(Favg));
+    ui->textBrowser->append(QString::number(between));
+    ui->textBrowser->append(QString::number(remaining));
+    */
+        if (slowgt >= 0)
+        {
+            ui->textBrowser->append("   __________________________________________________\n");
+            ui->textBrowser->append("   Bias for current T-test Selection                   ");
+            ui->textBrowser->append("   Seasons                                             ");
+            ui->textBrowser->append("   FG:  "+end.toString("MMM/dd")+"  -  "+start.toString("MMM/dd")+
+                                    "  "+QString::number(remaining)+" days");
+            ui->textBrowser->append("   SG:  "+start.toString("MMM/dd")+"  -  "+end.toString("MMM/dd")+
+                                    "  "+QString::number(between)+" days");
+            ui->textBrowser->append("   __________________________________________________\n");
+            ui->textBrowser->append("Growth in m over the Fast Growth Season\t= "+
+                                    QString::number(fastgt));
+            ui->textBrowser->append("Growth in m over the Slow Growth Season:\t= "+
+                                    QString::number(slowgt));
+            ui->textBrowser->append("Total growth over the year: \t\t= "+
+                                    QString::number(total));
+            ui->textBrowser->append("Percent Growth over Fast Growth Season\t= "+
+                                    QString::number(percentF)+"%");
+            ui->textBrowser->append("Percent Growth over Slow Growth Season\t= "+
+                                    QString::number(percentS)+"%");
+        } else {
+            ui->textBrowser->append("   __________________________________________________\n");
+            ui->textBrowser->append("   Bias for current T-test Selection                   ");
+            ui->textBrowser->append("   Seasons                                             ");
+            ui->textBrowser->append("   FG:  "+end.toString("MMM/dd")+"  -  "+start.toString("MMM/dd")+
+                                    "  "+QString::number(remaining)+" days");
+            ui->textBrowser->append("   SG:  "+start.toString("MMM/dd")+"  -  "+end.toString("MMM/dd")+
+                                    "  "+QString::number(between)+" days");
+            ui->textBrowser->append("   __________________________________________________\n");
+            ui->textBrowser->append("Growth in m over the Fast Growth Season\t= "+
+                                    QString::number(fastgt));
+            ui->textBrowser->append("Dissolved in m over the Slow Growth Season:\t= "+
+                                    QString::number(slowgt));
+            ui->textBrowser->append("Total growth over the year: \t\t= "+
+                                    QString::number(total));
+            ui->textBrowser->append("Percent Growth over Fast Growth Season\t= "+
+                                    QString::number(percentF+percentS)+"%");
+            ui->textBrowser->append("Percent Dissoved over Slow Growth Season\t= "+
+                                    QString::number(-1*percentS)+"%");
+        }
+    } else {
+
+        ui->textBrowser->append("Please run Auto Season first");
+    }
+
 }
