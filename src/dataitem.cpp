@@ -72,14 +72,17 @@ void Avg::calc(){
 }
 
 void Avg::setdate(QDateTime start, QDateTime end){
-    time_t mid, stime, etime;
+    qint64 temp, stime, etime;
+    time_t mid;
 
     mid = stime = etime = 0;
 
-    stime = start.toTime_t();
-    etime = end.toTime_t();
+    stime = (qint64)start.toTime_t();
+    etime = (qint64)end.toTime_t();
 
-    mid = (stime + etime) / 2;
+    // Only way I could get this to work on Windows, what a world...
+    temp = (stime + etime);
+    mid = (time_t)(temp / 2);
     date.fromTime_t(mid);
     dated = mid;
 }
