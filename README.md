@@ -5,15 +5,15 @@ StalBIAS is a Open Source and Cross Platform program for determining stalagmite 
 ## Features 
 
  - Import from CSV files
- - Processing of data which gives you growth rates and apparent calcium concentrations and their respective errors
+ - Calculation of seasonal growth averages
  - Auto sorting of the data into different seasons
-	 - Fast growth
-	 - Slow growth
-	 - Winter
-	 - Summer
- - Plotting of the data with interactive mouse controls
- - Student's T-testing for different season growth rates
- - Biasing calculations
+	 - Fast growth / Slow growth (user-specified season)
+	 - Winter / Summer ( Nominal Equinoxes)
+ - Graphic display of input parameters and results
+ - Interactive date and growth-rate reader
+ - Student's T-testing for significance of the season growth rates
+ - Identification of periods of no-growth or dissolution
+ - Estimation of seasonal growth bias
 
 ## Equations:
 
