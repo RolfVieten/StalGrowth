@@ -1,6 +1,6 @@
 # StalBIAS
 
-StalBIAS is a Open Source and Cross Platform program designed to calculate theoretical growth rates. It is based on physical parameters which influence carbonate precipitation rates (Cave air pCO2, Ca2+-ion-concentration, temperature, drip-rate and water-film thickness). This enables StalBIAS to untangle the complex interaction to identify and quantify seasonal growth rate changes. We use a open formula by  Baker et al., 1998 found in the paper ["Testing theoretically predicted stalagmite growth rate with Recent annually laminated samples: Implications for past stalagmite deposition"](http://www.sciencedirect.com/science/article/pii/S0016703797003438) to deduce the empirical growth of a stalagmite given certain conditions from cave monitoring observations.
+StalBIAS is a Open Source and Cross Platform program designed to calculate theoretical growth rates. It is based on physical parameters which influence carbonate precipitation rates (Cave air pCO2, Ca2+-ion-concentration, temperature, drip-rate and water-film thickness). This enables StalBIAS to untangle the complex interaction to identify and quantify seasonal growth rate changes. We use a formula(Baker et al., 2014; Dreybrodt, 2012, 1999; Kaufmann, 2003) found in the paper ["Testing theoretically predicted stalagmite growth rate with Recent annually laminated samples: Implications for past stalagmite deposition"](http://www.sciencedirect.com/science/article/pii/S0016703797003438) to deduce the empirical growth of a stalagmite given certain conditions from cave monitoring observations.
 
 ## Features 
 
@@ -43,6 +43,7 @@ Apparent Calcium Concentration
 Averaging, Variance, Standard Deviation use the standard formulas.
 
 ## Input File
+
  The input file of this program is a CSV file with a Header, in the following format:
 
     Timestamp,Drip Interval (s),Error (s),Film Thickness (m),Error (m),Temperature (degC),Error (degC),pCO2 (atm),Error (atm),cCa (mol/m3),Error (mol/m3)
