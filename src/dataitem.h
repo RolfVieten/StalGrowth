@@ -47,7 +47,7 @@ public:
     double dated;
     QList<double> data;
     void calc();
-    void setdate(time_t start, time_t end);
+    void setdate(QDateTime start, QDateTime end);
 };
 
 struct TBox{

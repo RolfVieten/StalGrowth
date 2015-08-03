@@ -71,9 +71,15 @@ void Avg::calc(){
     sd = pow(variance,2);
 }
 
-void Avg::setdate(time_t start, time_t end){
-    time_t tdate;
-    tdate = (start + end) / 2;
-    date.fromTime_t(tdate);
-    dated = tdate;
+void Avg::setdate(QDateTime start, QDateTime end){
+    time_t mid, stime, etime;
+
+    mid = stime = etime = 0;
+
+    stime = start.toTime_t();
+    etime = end.toTime_t();
+
+    mid = (stime + etime) / 2;
+    date.fromTime_t(mid);
+    dated = mid;
 }

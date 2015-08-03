@@ -406,7 +406,7 @@ void GraphViewer::on_ssmk_clicked(){
     int k = 0;
     for(int i = 0; i < (split.size()-1); i++){
         Avg temp;
-        temp.setdate(split.at(i).Begin.toTime_t(),split.at(i).End.toTime_t());
+        temp.setdate(split.at(i).Begin,split.at(i).End);
         for(int l = 0; l < Result.GrowthRate.size(); l++){
             if( Data.DateTimes.at(l) >= split.at(i).Begin && Data.DateTimes.at(l) <= split.at(i).End){
                 temp.data.append(Result.GrowthRate.at(l));
@@ -626,7 +626,7 @@ void GraphViewer::oncsaccept(){
     for(int i = 0; i < split.size(); i++){
         Avg temp;
 
-        temp.setdate(split.at(i).Begin.toTime_t(),split.at(i).End.toTime_t());
+        temp.setdate(split.at(i).Begin,split.at(i).End);
         temp.slow = split.at(i).Slow;
         for(int l = 0; l < Result.GrowthRate.size(); l++){
             if( Data.DateTimes.at(l) >= split.at(i).Begin && Data.DateTimes.at(l) <= split.at(i).End){
