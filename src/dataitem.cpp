@@ -58,11 +58,11 @@ Avg::Avg(){
 }
 
 void Avg::calc(){
-    double sum, xvar;
+    double sum = 0, xvar = 0;
     for(int i = 0; i < data.size(); i++){
         sum += data.at(i);
     }
-    mean = sum/data.size();
+    mean = sum/(double) data.size();
 
     for(int i = 0; i < data.size(); i++){
         xvar += pow((data.at(i)- mean), 2);
