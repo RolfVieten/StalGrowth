@@ -1,6 +1,6 @@
 # StalBIAS
 
-StalBIAS is a QT Cross Platform program for determining stalagmite growth. We use a open formula by  Baker et al., 1998 found in the paper ["Testing theoretically predicted stalagmite growth rate with Recent annually laminated samples: Implications for past stalagmite deposition"](http://www.sciencedirect.com/science/article/pii/S0016703797003438) to deduce the empirical growth of a stalagmite given certain conditions.
+StalBIAS is a Open Source and Cross Platform program for determining stalagmite growth. We use a open formula by  Baker et al., 1998 found in the paper ["Testing theoretically predicted stalagmite growth rate with Recent annually laminated samples: Implications for past stalagmite deposition"](http://www.sciencedirect.com/science/article/pii/S0016703797003438) to deduce the empirical growth of a stalagmite given certain conditions.
 
 ## Features 
 
@@ -58,9 +58,8 @@ If anyone is interested in this proyect or would like to help, contact us!
 
 ####Credits:
 
-
-The AlgLib Commutiny @ http://www.alglib.net/
-The QT Community @ http://qt-project.org/
+ - The AlgLib Commutiny @ http://www.alglib.net/ 
+ - The QT Community @
+   http://qt-project.org/
 
 Thanks,  Rolf & Fran89.
- - 
