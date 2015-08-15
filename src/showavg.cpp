@@ -1,9 +1,10 @@
 #include "showavg.h"
 #include "ui_showavg.h"
 
-ShowAvg::ShowAvg(QWidget *parent) :
+ShowAvg::ShowAvg(bool cs, QWidget *parent):
     QWidget(parent),
-    ui(new Ui::ShowAvg)
+    ui(new Ui::ShowAvg),
+    cseason(cs)
 {
     ui->setupUi(this);
     model = new QStandardItemModel(0,4,this);
@@ -29,13 +30,21 @@ void ShowAvg::setAvg(QList<Avg> LAvg){
         if(LAvg.at(i).data.size() != 0){
             QList<QStandardItem*> temp;
             temp.append(new QStandardItem(QDateTime().fromTime_t(LAvg.at(i).dated).toString("yyyy/MM/dd")));
-            if(LAvg.at(i).slow){
-                temp.append(new QStandardItem("Slow Growth Season"));
+            if(cseason){
+                if(LAvg.at(i).slow){
+                    temp.append(new QStandardItem("Slow Growth Season"));
+                } else {
+                    temp.append(new QStandardItem("Fast Growth Season"));
+                }
             } else {
-                temp.append(new QStandardItem("Fast Growth Season"));
+                if(LAvg.at(i).slow){
+                    temp.append(new QStandardItem("Summer Growth Season"));
+                } else {
+                    temp.append(new QStandardItem("Winter Growth Season"));
+                }
             }
-            temp.append(new QStandardItem(QString::number(LAvg.at(i).mean)));
-            temp.append(new QStandardItem(QString::number(LAvg.at(i).sd)));
+            temp.append(new QStandardItem(QString::number(LAvg.at(i).mean,'f', 7)));
+            temp.append(new QStandardItem(QString::number(LAvg.at(i).sd,'e', 3)));
             temp.append(new QStandardItem(QString::number(LAvg.at(i).data.size())));
             model->appendRow(temp);
             temp.clear();

@@ -407,6 +407,7 @@ void GraphViewer::on_ssmk_clicked(){
     for(int i = 0; i < (split.size()-1); i++){
         Avg temp;
         temp.setdate(split.at(i).Begin,split.at(i).End);
+        temp.slow = split.at(i).Slow;
         for(int l = 0; l < Result.GrowthRate.size(); l++){
             if( Data.DateTimes.at(l) >= split.at(i).Begin && Data.DateTimes.at(l) <= split.at(i).End){
                 temp.data.append(Result.GrowthRate.at(l));
@@ -426,7 +427,7 @@ void GraphViewer::on_ssmk_clicked(){
     }
 
     // Show Averages
-    sa = new ShowAvg;
+    sa = new ShowAvg(false);
     sa->setAttribute(Qt::WA_DeleteOnClose);
     sa->setAvg(LAvg);
     sa->show();
@@ -672,7 +673,7 @@ void GraphViewer::onMouseMoveGraph(QMouseEvent* evt) {
 
         QDateTime temp;
         temp = QDateTime::fromTime_t(xg);
-        ui->growthl->setText(QString::number(yv));
+        ui->growthl->setText(QString::number(yv,'f', 7));
         ui->datel->setText(temp.toString("dd/MMM/yyyy"));
     }
 }

@@ -13,12 +13,13 @@ class ShowAvg : public QWidget
     Q_OBJECT
 
 public:
-    explicit ShowAvg(QWidget *parent = 0);
+    explicit ShowAvg(bool cs = true, QWidget *parent = 0);
     ~ShowAvg();
     void setAvg(QList<Avg> LAvg);
 
 private:
     Ui::ShowAvg *ui;
+    bool cseason;
     QStandardItemModel *model;
 };
 

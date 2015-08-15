@@ -84,7 +84,7 @@ void PlotSelect::setGraph(){
         SGb = new mycheck(i);
         ui->tableWidget->insertRow(i);
         QLabel *temp, *date;
-        temp =new QLabel(QString::number(Result.GrowthRate.at(i)));
+        temp =new QLabel(QString::number(Result.GrowthRate.at(i),'f', 7));
         temp->setAlignment(Qt::AlignHCenter);
         date =new QLabel(Data.DateTimes.at(i).toString("yyyy/MM/dd"));
         date->setAlignment(Qt::AlignHCenter);
@@ -192,13 +192,13 @@ void PlotSelect::seasonality_test(){
     ui->textBrowser->append("   Student t test for two samples (unequal variances)");
     ui->textBrowser->append("   __________________________________________________\n");
     ui->textBrowser->append("   Number of Observations (Fast Growth)\t= "+QString::number(countFG));
-    ui->textBrowser->append("   Fast Growth Mean (m/yr)\t\t= "+QString::number(meanFG));
-    ui->textBrowser->append("   Fast Growth Standard Deviation\t\t= "+QString::number(sqrt(varFG)));
+    ui->textBrowser->append("   Fast Growth Mean (m/yr)\t\t= "+QString::number(meanFG,'f', 7));
+    ui->textBrowser->append("   Fast Growth Standard Deviation\t\t= "+QString::number(sqrt(varFG),'e', 3));
     ui->textBrowser->append("   Number of Observations (Slow Growth)\t= "+QString::number(countSG));
-    ui->textBrowser->append("   Slow Growth Mean (m/yr)\t\t= "+QString::number(meanSG));
-    ui->textBrowser->append("   Slow Growth Standard Deviation\t\t= "+QString::number(sqrt(varSG)));
+    ui->textBrowser->append("   Slow Growth Mean (m/yr)\t\t= "+QString::number(meanSG,'f', 7));
+    ui->textBrowser->append("   Slow Growth Standard Deviation\t\t= "+QString::number(sqrt(varSG),'e', 3));
     ui->textBrowser->append("   Degrees of freedom\t\t\t= "+QString::number(v));
-    ui->textBrowser->append("   Pooled Standard Deviation\t\t= "+QString::number(sp));
+    ui->textBrowser->append("   Pooled Standard Deviation\t\t= "+QString::number(sp,'e',3));
     ui->textBrowser->append("   T Statistic\t\t\t\t= "+QString::number(t_stat));
     ui->textBrowser->append("   Z (95%,"+QString::number(v)+") Statistic\t\t\t= "+QString::number(z95));
     ui->textBrowser->append("   Z (99%,"+QString::number(v)+") Statistic\t\t\t= "+QString::number(z99)+"\n");
@@ -468,15 +468,15 @@ void PlotSelect::on_Sbias_button_clicked() {
                                     "  "+QString::number(between)+" days");
             ui->textBrowser->append("   __________________________________________________\n");
             ui->textBrowser->append("Growth rate in m/yr for the Fast Growth\t= "+
-                                    QString::number(Favg));
+                                    QString::number(Favg,'f', 7));
             ui->textBrowser->append("Growth in m over the Fast Growth Season\t= "+
-                                    QString::number(fastgt));
+                                    QString::number(fastgt,'f', 7));
             ui->textBrowser->append("Growth rate in m/yr for the Slow Growth\t= "+
-                                    QString::number(Savg));
+                                    QString::number(Savg,'f', 7));
             ui->textBrowser->append("Growth in m over the Slow Growth Season:\t= "+
-                                    QString::number(slowgt));
+                                    QString::number(slowgt,'f', 7));
             ui->textBrowser->append("Total growth over the year: \t\t= "+
-                                    QString::number(total));
+                                    QString::number(total,'f', 7));
             ui->textBrowser->append("Percent Growth over Fast Growth Season\t= "+
                                     QString::number(percentF)+"%");
             ui->textBrowser->append("Percent Growth over Slow Growth Season\t= "+
@@ -490,12 +490,16 @@ void PlotSelect::on_Sbias_button_clicked() {
             ui->textBrowser->append("   SG:  "+start.toString("MMM/dd")+"  -  "+end.toString("MMM/dd")+
                                     "  "+QString::number(between)+" days");
             ui->textBrowser->append("   __________________________________________________\n");
+            ui->textBrowser->append("Growth rate in m/yr for the Fast Growth\t= "+
+                                    QString::number(Favg,'f', 7));
             ui->textBrowser->append("Growth in m over the Fast Growth Season\t= "+
-                                    QString::number(fastgt));
+                                    QString::number(fastgt,'f', 7));
+            ui->textBrowser->append("Growth rate in m/yr for the Slow Growth\t= "+
+                                    QString::number(Savg,'f', 7));
             ui->textBrowser->append("Dissolved in m over the Slow Growth Season:\t= "+
-                                    QString::number(slowgt));
+                                    QString::number(slowgt,'f', 7));
             ui->textBrowser->append("Total growth over the year: \t\t= "+
-                                    QString::number(total));
+                                    QString::number(total,'f', 7));
             ui->textBrowser->append("Percent Growth over Fast Growth Season\t= "+
                                     QString::number(percentF+percentS)+"%");
             ui->textBrowser->append("Percent Dissoved over Slow Growth Season\t= "+
