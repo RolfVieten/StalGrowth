@@ -187,7 +187,7 @@ void PlotSelect::seasonality_test(){
     double z95 = alglib::invstudenttdistribution(v, 0.95);
     double z99 = alglib::invstudenttdistribution(v, 0.99);
 
-
+    #ifdef __linux__
     ui->textBrowser->append("   __________________________________________________\n");
     ui->textBrowser->append("   Student t test for two samples (unequal variances)");
     ui->textBrowser->append("   __________________________________________________\n");
@@ -203,6 +203,24 @@ void PlotSelect::seasonality_test(){
     ui->textBrowser->append("   Z (95%,"+QString::number(v)+") Statistic\t\t\t= "+QString::number(z95));
     ui->textBrowser->append("   Z (99%,"+QString::number(v)+") Statistic\t\t\t= "+QString::number(z99)+"\n");
     ui->textBrowser->append("   Probability means are the same (p-value)\t= "+QString::number(p)+"\n");
+    #elif _WIN32
+    ui->textBrowser->append("   __________________________________________________\n");
+    ui->textBrowser->append("   Student t test for two samples (unequal variances)");
+    ui->textBrowser->append("   __________________________________________________\n");
+    ui->textBrowser->append("   Number of Observations (Fast Growth)\t= "+QString::number(countFG));
+    ui->textBrowser->append("   Fast Growth Mean (m/yr)\t\t= "+QString::number(meanFG,'f', 7));
+    ui->textBrowser->append("   Fast Growth Standard Deviation\t= "+QString::number(sqrt(varFG),'e', 3));
+    ui->textBrowser->append("   Number of Observations (Slow Growth)\t= "+QString::number(countSG));
+    ui->textBrowser->append("   Slow Growth Mean (m/yr)\t\t= "+QString::number(meanSG,'f', 7));
+    ui->textBrowser->append("   Slow Growth Standard Deviation\t="+QString::number(sqrt(varSG),'e', 3));
+    ui->textBrowser->append("   Degrees of freedom\t\t= "+QString::number(v));
+    ui->textBrowser->append("   Pooled Standard Deviation\t\t= "+QString::number(sp,'e',3));
+    ui->textBrowser->append("   T Statistic\t\t\t= "+QString::number(t_stat));
+    ui->textBrowser->append("   Z (95%,"+QString::number(v)+") Statistic\t\t= "+QString::number(z95));
+    ui->textBrowser->append("   Z (99%,"+QString::number(v)+") Statistic\t\t= "+QString::number(z99)+"\n");
+    ui->textBrowser->append("   Probability means are the same (p-value)\t= "+QString::number(p)+"\n");
+    #else
+    #endif
 
     Favg = meanFG;
     Savg = meanSG;
