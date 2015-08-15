@@ -486,19 +486,19 @@ void PlotSelect::on_Sbias_button_clicked() {
             ui->textBrowser->append("   SG:  "+start.toString("MMM/dd")+"  -  "+end.toString("MMM/dd")+
                                     "  "+QString::number(between)+" days");
             ui->textBrowser->append("   __________________________________________________\n");
-            ui->textBrowser->append("Growth rate in m/yr for the Fast Growth\t= "+
+            ui->textBrowser->append("   Growth rate in m/yr for the Fast Growth\t= "+
                                     QString::number(Favg,'f', 7));
-            ui->textBrowser->append("Growth in m over the Fast Growth Season\t= "+
+            ui->textBrowser->append("   Growth in m over the Fast Growth Season\t= "+
                                     QString::number(fastgt,'f', 7));
-            ui->textBrowser->append("Growth rate in m/yr for the Slow Growth\t= "+
+            ui->textBrowser->append("   Growth rate in m/yr for the Slow Growth\t= "+
                                     QString::number(Savg,'f', 7));
-            ui->textBrowser->append("Growth in m over the Slow Growth Season:\t= "+
+            ui->textBrowser->append("   Growth in m over the Slow Growth Season:\t= "+
                                     QString::number(slowgt,'f', 7));
-            ui->textBrowser->append("Total growth over the year: \t\t= "+
+            ui->textBrowser->append("   Total growth over the year: \t\t= "+
                                     QString::number(total,'f', 7));
-            ui->textBrowser->append("Percent Growth over Fast Growth Season\t= "+
+            ui->textBrowser->append("   Percent Growth over Fast Growth Season\t= "+
                                     QString::number(percentF)+"%");
-            ui->textBrowser->append("Percent Growth over Slow Growth Season\t= "+
+            ui->textBrowser->append("   Percent Growth over Slow Growth Season\t= "+
                                     QString::number(percentS)+"%");
         } else {
             ui->textBrowser->append("   __________________________________________________\n");
@@ -509,19 +509,19 @@ void PlotSelect::on_Sbias_button_clicked() {
             ui->textBrowser->append("   SG:  "+start.toString("MMM/dd")+"  -  "+end.toString("MMM/dd")+
                                     "  "+QString::number(between)+" days");
             ui->textBrowser->append("   __________________________________________________\n");
-            ui->textBrowser->append("Growth rate in m/yr for the Fast Growth\t= "+
+            ui->textBrowser->append("   Growth rate in m/yr for the Fast Growth\t= "+
                                     QString::number(Favg,'f', 7));
-            ui->textBrowser->append("Growth in m over the Fast Growth Season\t= "+
+            ui->textBrowser->append("   Growth in m over the Fast Growth Season\t= "+
                                     QString::number(fastgt,'f', 7));
-            ui->textBrowser->append("Growth rate in m/yr for the Slow Growth\t= "+
+            ui->textBrowser->append("   Growth rate in m/yr for the Slow Growth\t= "+
                                     QString::number(Savg,'f', 7));
-            ui->textBrowser->append("Dissolved in m over the Slow Growth Season:\t= "+
+            ui->textBrowser->append("   Dissolved in m over the Slow Growth Season:\t= "+
                                     QString::number(slowgt,'f', 7));
-            ui->textBrowser->append("Total growth over the year: \t\t= "+
+            ui->textBrowser->append("   Total growth over the year: \t\t= "+
                                     QString::number(total,'f', 7));
-            ui->textBrowser->append("Percent Growth over Fast Growth Season\t= "+
+            ui->textBrowser->append("   Percent Growth over Fast Growth Season\t= "+
                                     QString::number(percentF+percentS)+"%");
-            ui->textBrowser->append("Percent Dissoved over Slow Growth Season\t= "+
+            ui->textBrowser->append("   Percent Dissoved over Slow Growth Season\t= "+
                                     QString::number(-1*percentS)+"%");
         }
         #elif _WIN32
