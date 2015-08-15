@@ -467,8 +467,12 @@ void PlotSelect::on_Sbias_button_clicked() {
             ui->textBrowser->append("   SG:  "+start.toString("MMM/dd")+"  -  "+end.toString("MMM/dd")+
                                     "  "+QString::number(between)+" days");
             ui->textBrowser->append("   __________________________________________________\n");
+            ui->textBrowser->append("Growth rate in m/yr for the Fast Growth\t= "+
+                                    QString::number(Favg));
             ui->textBrowser->append("Growth in m over the Fast Growth Season\t= "+
                                     QString::number(fastgt));
+            ui->textBrowser->append("Growth rate in m/yr for the Slow Growth\t= "+
+                                    QString::number(Savg));
             ui->textBrowser->append("Growth in m over the Slow Growth Season:\t= "+
                                     QString::number(slowgt));
             ui->textBrowser->append("Total growth over the year: \t\t= "+
