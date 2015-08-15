@@ -192,10 +192,10 @@ void PlotSelect::seasonality_test(){
     ui->textBrowser->append("   Student t test for two samples (unequal variances)");
     ui->textBrowser->append("   __________________________________________________\n");
     ui->textBrowser->append("   Number of Observations (Fast Growth)\t= "+QString::number(countFG));
-    ui->textBrowser->append("   Fast Growth Mean\t\t\t= "+QString::number(meanFG));
+    ui->textBrowser->append("   Fast Growth Mean (m/yr)\t\t= "+QString::number(meanFG));
     ui->textBrowser->append("   Fast Growth Standard Deviation\t\t= "+QString::number(sqrt(varFG)));
     ui->textBrowser->append("   Number of Observations (Slow Growth)\t= "+QString::number(countSG));
-    ui->textBrowser->append("   Slow Growth Mean\t\t\t= "+QString::number(meanSG));
+    ui->textBrowser->append("   Slow Growth Mean (m/yr)\t\t= "+QString::number(meanSG));
     ui->textBrowser->append("   Slow Growth Standard Deviation\t\t= "+QString::number(sqrt(varSG)));
     ui->textBrowser->append("   Degrees of freedom\t\t\t= "+QString::number(v));
     ui->textBrowser->append("   Pooled Standard Deviation\t\t= "+QString::number(sp));
