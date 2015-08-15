@@ -475,6 +475,7 @@ void PlotSelect::on_Sbias_button_clicked() {
     ui->textBrowser->append(QString::number(between));
     ui->textBrowser->append(QString::number(remaining));
     */
+        #ifdef __linux__
         if (slowgt >= 0)
         {
             ui->textBrowser->append("   __________________________________________________\n");
@@ -523,6 +524,58 @@ void PlotSelect::on_Sbias_button_clicked() {
             ui->textBrowser->append("Percent Dissoved over Slow Growth Season\t= "+
                                     QString::number(-1*percentS)+"%");
         }
+        #elif _WIN32
+        if (slowgt >= 0)
+        {
+            ui->textBrowser->append("   __________________________________________________\n");
+            ui->textBrowser->append("   Bias for current T-test Selection                   ");
+            ui->textBrowser->append("   Seasons                                             ");
+            ui->textBrowser->append("   FG:  "+end.toString("MMM/dd")+"  -  "+start.toString("MMM/dd")+
+                                    "  "+QString::number(remaining)+" days");
+            ui->textBrowser->append("   SG:  "+start.toString("MMM/dd")+"  -  "+end.toString("MMM/dd")+
+                                    "  "+QString::number(between)+" days");
+            ui->textBrowser->append("   __________________________________________________\n");
+            ui->textBrowser->append("   Growth rate in m/yr for the Fast Growth\t= "+
+                                    QString::number(Favg,'f', 7));
+            ui->textBrowser->append("   Growth in m over the Fast Growth Season\t= "+
+                                    QString::number(fastgt,'f', 7));
+            ui->textBrowser->append("   Growth rate in m/yr for the Slow Growth\t= "+
+                                    QString::number(Savg,'f', 7));
+            ui->textBrowser->append("   Growth in m over the Slow Growth Season:\t= "+
+                                    QString::number(slowgt,'f', 7));
+            ui->textBrowser->append("   Total growth over the year: \t\t= "+
+                                    QString::number(total,'f', 7));
+            ui->textBrowser->append("   Percent Growth over Fast Growth Season\t= "+
+                                    QString::number(percentF)+"%");
+            ui->textBrowser->append("   Percent Growth over Slow Growth Season\t= "+
+                                    QString::number(percentS)+"%");
+        } else {
+            ui->textBrowser->append("   __________________________________________________\n");
+            ui->textBrowser->append("   Bias for current T-test Selection                   ");
+            ui->textBrowser->append("   Seasons                                             ");
+            ui->textBrowser->append("   FG:  "+end.toString("MMM/dd")+"  -  "+start.toString("MMM/dd")+
+                                    "  "+QString::number(remaining)+" days");
+            ui->textBrowser->append("   SG:  "+start.toString("MMM/dd")+"  -  "+end.toString("MMM/dd")+
+                                    "  "+QString::number(between)+" days");
+            ui->textBrowser->append("   __________________________________________________\n");
+            ui->textBrowser->append("   Growth rate in m/yr for the Fast Growth\t= "+
+                                    QString::number(Favg,'f', 7));
+            ui->textBrowser->append("   Growth in m over the Fast Growth Season\t= "+
+                                    QString::number(fastgt,'f', 7));
+            ui->textBrowser->append("   Growth rate in m/yr for the Slow Growth\t= "+
+                                    QString::number(Savg,'f', 7));
+            ui->textBrowser->append("   Dissolved in m over the Slow Growth Season:\t= "+
+                                    QString::number(slowgt,'f', 7));
+            ui->textBrowser->append("   Total growth over the year: \t\t= "+
+                                    QString::number(total,'f', 7));
+            ui->textBrowser->append("   Percent Growth over Fast Growth Season\t= "+
+                                    QString::number(percentF+percentS)+"%");
+            ui->textBrowser->append("   Percent Dissoved over Slow Growth Season\t= "+
+                                    QString::number(-1*percentS)+"%");
+        }
+        #else
+        #endif
+
     } else {
 
         ui->textBrowser->append("Please run Auto Season first");
