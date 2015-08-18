@@ -521,8 +521,7 @@ void PlotSelect::on_Sbias_button_clicked() {
                                     QString::number(total,'f', 7));
             ui->textBrowser->append("   Percent Growth over Fast Growth Season\t= "+
                                     QString::number(percentF+percentS)+"%");
-            ui->textBrowser->append("   Percent Dissoved over Slow Growth Season\t= "+
-                                    QString::number(-1*percentS)+"%");
+            ui->textBrowser->append("   Possible dissolution during Slow Growth Season");
         }
         #elif _WIN32
         if (slowgt >= 0)
@@ -570,8 +569,7 @@ void PlotSelect::on_Sbias_button_clicked() {
                                     QString::number(total,'f', 7));
             ui->textBrowser->append("   Percent Growth over Fast Growth Season\t= "+
                                     QString::number(percentF+percentS)+"%");
-            ui->textBrowser->append("   Percent Dissoved over Slow Growth Season\t= "+
-                                    QString::number(-1*percentS)+"%");
+            ui->textBrowser->append("   Possible dissolution during Slow Growth Season");
         }
         #else
         #endif
