@@ -45,9 +45,11 @@ void GraphViewer::setGraph(){
     wideAxisRect->setupFullAxesBox(true);
     wideAxisRect->addAxis(QCPAxis::atLeft)->setTickLabelColor(Qt::red); // add an extra axis on the left and color its numbers
     wideAxisRect->addAxis(QCPAxis::atLeft)->setTickLabelColor(Qt::green); // add an extra axis on the left and color its numbers
+    wideAxisRect->addAxis(QCPAxis::atLeft)->setTickLabelColor(Qt::blue); // add an extra axis on the left and color its numbers
     wideAxisRect->axis(QCPAxis::atLeft,0)->setLabel("Temperature (C)");
     wideAxisRect->axis(QCPAxis::atLeft,1)->setLabel("CO2 (atm)");
     wideAxisRect->axis(QCPAxis::atLeft,2)->setLabel("cCa (mol/m3)");
+    wideAxisRect->axis(QCPAxis::atLeft,2)->setLabel("Drip Interval (s)");
     wideAxisRect->axis(QCPAxis::atBottom)->setTickLabelType(QCPAxis::ltDateTime);
     wideAxisRect->axis(QCPAxis::atBottom)->setDateTimeFormat("MMMM\nyyyy");
     wideAxisRect->axis(QCPAxis::atBottom)->setLabel("Date");
@@ -104,6 +106,16 @@ void GraphViewer::setGraph(){
     mainGraph3->setErrorType(QCPGraph::etValue);
     mainGraph3->setErrorPen(QPen(Qt::green));
     mainGraph3->rescaleAxes();
+
+    // Drip Interval
+    QCPGraph *mainGraph4 = ui->Graph->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft, 3));
+    mainGraph4->setPen(QPen(Qt::blue));
+    mainGraph4->setLineStyle(QCPGraph::lsLine);
+    mainGraph4->setDataValueError(Time.toVector(),Data.DripInt.toVector(),Data.DripErr.toVector(),Data.DripErr.toVector());
+    mainGraph4->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
+    mainGraph4->setErrorType(QCPGraph::etValue);
+    mainGraph4->setErrorPen(QPen(Qt::blue));
+    mainGraph4->rescaleAxes();
 
     // Output Graph
     //Growth
