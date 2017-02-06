@@ -11,6 +11,7 @@ StalBIAS::StalBIAS(QWidget *parent) :
     newmodel = new QStandardItemModel(0,0);
     ui->mainToolBar->hide();
     ui->textBrowser->hide();
+    this->setWindowTitle("StalGrowth");
     DProc = false;
 }
 
