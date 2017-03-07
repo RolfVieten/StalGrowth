@@ -8,8 +8,10 @@ GraphViewer::GraphViewer(QWidget *parent) :
     ui->setupUi(this);
     ui->Graph->clearGraphs();
     this->setWindowTitle("Results Graph");
+    ui->Graph->addLayer("error",ui->Graph->layer("error"),QCustomPlot::limBelow);
     ui->Graph->addLayer("boxes",ui->Graph->layer("grid"),QCustomPlot::limBelow);
     cs = new CustomSeason(this);
+    error = true;
     tconnect = false;
 }
 
@@ -37,11 +39,11 @@ void GraphViewer::setGraph(){
         disconnect(ui->Graph,SIGNAL(mouseMove(QMouseEvent*)),this,SLOT(onMouseMoveGraph(QMouseEvent*)));
         ui->Graph->clearGraphs();
         tracer->deleteLater();
-        //if(ui->Graph->itemCount() > 0)
         ui->Graph->clearItems();
         delete wideAxisRect;
         delete wideAxisRect1;
         ui->Graph->clearGraphs();
+        ui->Graph->clearPlottables();
         tconnect = false;
     }
     ui->Graph->clearGraphs();
@@ -94,6 +96,8 @@ void GraphViewer::setGraph(){
     mainGraph1->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
     errorBars1->setErrorType(QCPErrorBars::etValueError);
     errorBars1->setPen(QPen(Qt::black));
+    errorBars1->setLayer("error");
+    errorBars1->setDataPlottable(mainGraph1);
     mainGraph1->rescaleAxes();
     tmprange = wideAxisRect->axis(QCPAxis::atLeft,0)->range();
     wideAxisRect->axis(QCPAxis::atLeft,0)->setRangeLower(tmprange.lower-0.4);
@@ -109,6 +113,8 @@ void GraphViewer::setGraph(){
     mainGraph2->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
     errorBars2->setErrorType(QCPErrorBars::etValueError);
     errorBars2->setPen(QPen(Qt::red));
+    errorBars2->setLayer("error");
+    errorBars2->setDataPlottable(mainGraph2);
     mainGraph2->rescaleAxes();
 
     // cCa
@@ -121,6 +127,8 @@ void GraphViewer::setGraph(){
     mainGraph3->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
     errorBars3->setErrorType(QCPErrorBars::etValueError);
     errorBars3->setPen(QPen(Qt::green));
+    errorBars3->setLayer("error");
+    errorBars3->setDataPlottable(mainGraph3);
     mainGraph3->rescaleAxes();
 
     // Drip Interval
@@ -133,6 +141,8 @@ void GraphViewer::setGraph(){
     mainGraph4->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
     errorBars4->setErrorType(QCPErrorBars::etValueError);
     errorBars4->setPen(QPen(Qt::blue));
+    errorBars4->setLayer("error");
+    errorBars4->setDataPlottable(mainGraph4);
     mainGraph4->rescaleAxes();
 
     // Output Graph
@@ -146,6 +156,8 @@ void GraphViewer::setGraph(){
     mainGraph12->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
     errorBars12->setErrorType(QCPErrorBars::etValueError);
     errorBars12->setPen(QPen(Qt::black));
+    errorBars12->setLayer("error");
+    errorBars12->setDataPlottable(mainGraph12);
     mainGraph12->rescaleAxes();
 
     // pCO2
@@ -158,6 +170,8 @@ void GraphViewer::setGraph(){
     mainGraph22->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
     errorBars22->setErrorType(QCPErrorBars::etValueError);
     errorBars22->setPen(QPen(Qt::red));
+    errorBars22->setDataPlottable(mainGraph22);
+    errorBars22->setLayer("error");
     mainGraph22->rescaleAxes();
     tmprange = wideAxisRect1->axis(QCPAxis::atLeft, 1)->range();
 
@@ -171,7 +185,9 @@ void GraphViewer::setGraph(){
     mainGraph32->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
     errorBars32->setErrorType(QCPErrorBars::etValueError);
     errorBars32->setPen(QPen(Qt::green));
-    mainGraph32->rescaleAxes();;
+    errorBars32->setLayer("error");
+    errorBars32->setDataPlottable(mainGraph32);
+    mainGraph32->rescaleAxes();
     tmprange1 = wideAxisRect1->axis(QCPAxis::atLeft, 1)->range();
 
     // Normalize cCa Range
@@ -723,7 +739,7 @@ void GraphViewer::on_cseason_clicked(){
     connect(cs,SIGNAL(accepted()),this,SLOT(oncsaccept()));
 }
 
-
+// Save as PNG
 void GraphViewer::on_savepng_clicked()
 {
     QFile outfile;
@@ -753,4 +769,18 @@ void GraphViewer::on_savepng_clicked()
         ui->Graph->savePng(outfile.fileName(),0,0,1.3,100,300);
     }
     qDebug() << outfile.fileName();
+}
+
+void GraphViewer::on_ErrorBar_clicked()
+{
+    if(error){
+        ui->Graph->layer("error")->setVisible(false);
+        error = false;
+    }
+    else if(!error){
+        ui->Graph->layer("error")->setVisible(true);
+        error = true;
+    }
+    ui->Graph->layer("error")->replot();
+    ui->Graph->replot();
 }

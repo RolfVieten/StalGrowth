@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'graphviewer.ui'
 **
-** Created by: Qt User Interface Compiler version 5.2.1
+** Created by: Qt User Interface Compiler version 5.5.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -37,17 +37,19 @@ public:
     QLabel *DL;
     QLabel *datel;
     QSpacerItem *horizontalSpacer;
+    QPushButton *savepng;
     QFrame *line_3;
     QPushButton *cseason;
     QPushButton *ssmk;
     QPushButton *yrmk;
+    QPushButton *ErrorBar;
     QPushButton *pushButton;
 
     void setupUi(QWidget *GraphViewer)
     {
         if (GraphViewer->objectName().isEmpty())
             GraphViewer->setObjectName(QStringLiteral("GraphViewer"));
-        GraphViewer->resize(717, 420);
+        GraphViewer->resize(1078, 435);
         verticalLayout = new QVBoxLayout(GraphViewer);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         Graph = new QCustomPlot(GraphViewer);
@@ -93,6 +95,11 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
+        savepng = new QPushButton(GraphViewer);
+        savepng->setObjectName(QStringLiteral("savepng"));
+
+        horizontalLayout->addWidget(savepng);
+
         line_3 = new QFrame(GraphViewer);
         line_3->setObjectName(QStringLiteral("line_3"));
         line_3->setFrameShape(QFrame::VLine);
@@ -115,6 +122,11 @@ public:
 
         horizontalLayout->addWidget(yrmk);
 
+        ErrorBar = new QPushButton(GraphViewer);
+        ErrorBar->setObjectName(QStringLiteral("ErrorBar"));
+
+        horizontalLayout->addWidget(ErrorBar);
+
         pushButton = new QPushButton(GraphViewer);
         pushButton->setObjectName(QStringLiteral("pushButton"));
 
@@ -136,9 +148,11 @@ public:
         growthl->setText(QString());
         DL->setText(QApplication::translate("GraphViewer", "Date: ", 0));
         datel->setText(QString());
+        savepng->setText(QApplication::translate("GraphViewer", "Save PNG", 0));
         cseason->setText(QApplication::translate("GraphViewer", "Custom Season", 0));
         ssmk->setText(QApplication::translate("GraphViewer", "Add Seasons", 0));
         yrmk->setText(QApplication::translate("GraphViewer", "Add year marks", 0));
+        ErrorBar->setText(QApplication::translate("GraphViewer", "Toggle ErrorBars", 0));
         pushButton->setText(QApplication::translate("GraphViewer", "Clear/Plot", 0));
     } // retranslateUi
 

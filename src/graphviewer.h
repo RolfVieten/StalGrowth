@@ -39,6 +39,8 @@ private slots:
 
     void on_savepng_clicked();
 
+    void on_ErrorBar_clicked();
+
 private:
     Ui::GraphViewer *ui;
     CustomSeason *cs;
@@ -53,7 +55,7 @@ private:
     QCPGraph *mainGraph42; // Average square plot
     QCPItemTracer *tracer;
     bool tconnect;
-
+    bool error;
 };
 
 #endif // GRAPHVIEWER_H
