@@ -39,6 +39,7 @@ public:
     QSpacerItem *horizontalSpacer;
     QPushButton *savepng;
     QFrame *line_3;
+    QPushButton *PNGSave;
     QPushButton *cseason;
     QPushButton *ssmk;
     QPushButton *yrmk;
@@ -106,6 +107,11 @@ public:
 
         horizontalLayout->addWidget(line_3);
 
+        PNGSave = new QPushButton(GraphViewer);
+        PNGSave->setObjectName(QStringLiteral("PNGSave"));
+
+        horizontalLayout->addWidget(PNGSave);
+
         cseason = new QPushButton(GraphViewer);
         cseason->setObjectName(QStringLiteral("cseason"));
 
@@ -143,6 +149,7 @@ public:
         DL->setText(QApplication::translate("GraphViewer", "Date: ", 0));
         datel->setText(QString());
         savepng->setText(QApplication::translate("GraphViewer", "Save PNG", 0));
+        PNGSave->setText(QApplication::translate("GraphViewer", "Save PNG", 0));
         cseason->setText(QApplication::translate("GraphViewer", "Custom Season", 0));
         ssmk->setText(QApplication::translate("GraphViewer", "Add Seasons", 0));
         yrmk->setText(QApplication::translate("GraphViewer", "Add year marks", 0));
