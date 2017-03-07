@@ -605,7 +605,8 @@ void PlotSelect::on_savepng_clicked()
         int ret = msg.exec();
         switch(ret){
             case QMessageBox::Save:
-                ui->Graph->savePng(outfile.fileName(),0,0,1.3,100,300);
+                ui->Graph->setAntialiasedElement(QCP::aeAll);
+                ui->Graph->savePng(outfile.fileName(),0,0,2,100,300);
                 break;
             case QMessageBox::Cancel:
                 return;
@@ -614,8 +615,9 @@ void PlotSelect::on_savepng_clicked()
                 // should never be reached
                 break;
         }
-    } else {;
-        ui->Graph->savePng(outfile.fileName(),0,0,1.3,100,300);
+    } else {
+        ui->Graph->setAntialiasedElement(QCP::aeAll);
+        ui->Graph->savePng(outfile.fileName(),0,0,2,100,300);
     }
     qDebug() << outfile.fileName();
 }
