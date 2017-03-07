@@ -265,6 +265,7 @@ void PlotSelect::season_accepted(){
     // Clear old variables
     LAvg.clear();
     mainGraph42->data()->clear();
+    ui->Graph->clearItems();
 
     // Get the range
     QCPRange xrange;

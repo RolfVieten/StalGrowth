@@ -37,8 +37,10 @@ void GraphViewer::setGraph(){
         disconnect(ui->Graph,SIGNAL(mouseMove(QMouseEvent*)),this,SLOT(onMouseMoveGraph(QMouseEvent*)));
         ui->Graph->clearGraphs();
         tracer->deleteLater();
-        wideAxisRect->deleteLater();
-        wideAxisRect1->deleteLater();
+        //if(ui->Graph->itemCount() > 0)
+        ui->Graph->clearItems();
+        delete wideAxisRect;
+        delete wideAxisRect1;
         ui->Graph->clearGraphs();
         tconnect = false;
     }
@@ -680,8 +682,8 @@ void GraphViewer::oncsaccept(){
 
     // Show Averages
     sa = new ShowAvg;
-    sa->setAvg(LAvg);
     sa->setAttribute(Qt::WA_DeleteOnClose);
+    sa->setAvg(LAvg);
     sa->show();
 
     // END Average
