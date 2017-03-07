@@ -9,8 +9,10 @@ PlotSelect::PlotSelect(QWidget *parent) :
     this->setWindowTitle("Statistics & Biasing");
     cs = new CustomSeason(this);
     ui->Graph->addLayer("boxes",ui->Graph->layer("grid"),QCustomPlot::limBelow);
+    ui->Graph->addLayer("error",ui->Graph->layer("boxes"),QCustomPlot::limAbove);
     Savg = Favg = 0;
     csran = false;
+    error = true;
 }
 
 PlotSelect::~PlotSelect()
@@ -62,6 +64,8 @@ void PlotSelect::setGraph(){
     errorBars->addData(Result.GrowthErr.toVector(),Result.GrowthErr.toVector());
     errorBars->setErrorType(QCPErrorBars::etValueError);
     errorBars->setPen(QPen(Qt::black));
+    errorBars->setLayer("error");
+    errorBars->setDataPlottable(graph);
     ui->Graph->rescaleAxes();
     ui->Graph->replot();
 
@@ -614,4 +618,18 @@ void PlotSelect::on_savepng_clicked()
         ui->Graph->savePng(outfile.fileName(),0,0,1.3,100,300);
     }
     qDebug() << outfile.fileName();
+}
+
+void PlotSelect::on_pushButton_2_clicked()
+{
+    if(error){
+        ui->Graph->layer("error")->setVisible(false);
+        error = false;
+    }
+    else if(!error){
+        ui->Graph->layer("error")->setVisible(true);
+        error = true;
+    }
+    ui->Graph->layer("error")->replot();
+    ui->Graph->replot();
 }

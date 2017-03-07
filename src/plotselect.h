@@ -41,6 +41,8 @@ private slots:
 
     void on_savepng_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::PlotSelect *ui;
     DataItem Data;
@@ -52,6 +54,7 @@ private:
     QList<QCheckBox*> FG;
     CustomSeason *cs;
     bool csran;
+    bool error;
     QList<Avg> LAvg;
     double Favg, Savg;
     QCPGraph *graph;

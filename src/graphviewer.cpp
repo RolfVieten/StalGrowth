@@ -8,8 +8,8 @@ GraphViewer::GraphViewer(QWidget *parent) :
     ui->setupUi(this);
     ui->Graph->clearGraphs();
     this->setWindowTitle("Results Graph");
-    ui->Graph->addLayer("error",ui->Graph->layer("error"),QCustomPlot::limBelow);
     ui->Graph->addLayer("boxes",ui->Graph->layer("grid"),QCustomPlot::limBelow);
+    ui->Graph->addLayer("error",ui->Graph->layer("boxes"),QCustomPlot::limAbove);
     cs = new CustomSeason(this);
     error = true;
     tconnect = false;
