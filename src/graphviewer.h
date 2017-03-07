@@ -2,8 +2,8 @@
 #define GRAPHVIEWER_H
 #include "dataitem.h"
 #include <QWidget>
-#include <QMessageBox>
 #include <QFileDialog>
+#include <QMessageBox>
 #include "qcustomplot.h"
 #include "showavg.h"
 #include "customseason.h"
@@ -37,7 +37,7 @@ private slots:
 
     void oncsaccept();
 
-    void on_PNGSave_clicked();
+    void on_savepng_clicked();
 
 private:
     Ui::GraphViewer *ui;

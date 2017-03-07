@@ -6,9 +6,9 @@
 #include "showavg.h"
 #include "alglib/statistics.h"
 #include <QStandardItemModel>
+#include <QCheckBox>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QCheckBox>
 #include <QLabel>
 #include <QMainWindow>
 #include <cmath>
