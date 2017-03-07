@@ -82,6 +82,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="PNGSave">
+       <property name="text">
+        <string>Save PNG</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="cseason">
        <property name="text">
         <string>Custom Season</string>
