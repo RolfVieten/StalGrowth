@@ -263,7 +263,7 @@ void GraphViewer::on_ssmk_clicked(){
 
     // Clear old Variables
     LAvg.clear();
-    //mainGraph42->clearData();
+    mainGraph42->data()->clear();
 
     // Get the range
     QCPRange xrange;
@@ -478,7 +478,7 @@ void GraphViewer::oncsaccept(){
 
     // Clear old variables
     LAvg.clear();
-    //mainGraph42->clearData();
+    mainGraph42->data()->clear();
 
     // Debug info, it's discreet
     ui->datel->setText(end.toString("MMM/dd"));

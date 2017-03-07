@@ -113,14 +113,14 @@ void PlotSelect::fgclicked(bool clicked, int row){
     if(clicked){
         if(SG.at(row)->isChecked()){
             SG.at(row)->setChecked(false);
-            //SGoverlay->removeData(Time.at(row));
+            SGoverlay->data()->remove(Time.at(row));
             ui->Graph->replot();
         }
         FGoverlay->addData(Time.at(row),Result.GrowthRate.at(row));
         ui->Graph->replot();
     }
     if(!clicked){
-        //FGoverlay->removeData(Time.at(row));
+        FGoverlay->data()->remove(Time.at(row));
         ui->Graph->replot();
     }
 }
@@ -129,14 +129,14 @@ void PlotSelect::sgclicked(bool clicked, int row){
     if(clicked){
         if(FG.at(row)->isChecked()){
             FG.at(row)->setChecked(false);
-            //FGoverlay->removeData(Time.at(row));
+            FGoverlay->data()->remove(Time.at(row));
             ui->Graph->replot();
         }
         SGoverlay->addData(Time.at(row),Result.GrowthRate.at(row));
         ui->Graph->replot();
     }
     if(!clicked){
-        //SGoverlay->removeData(Time.at(row));
+        SGoverlay->data()->remove(Time.at(row));
         ui->Graph->replot();
     }
 }
@@ -264,7 +264,7 @@ void PlotSelect::season_accepted(){
 
     // Clear old variables
     LAvg.clear();
-    //mainGraph42->clearData();
+    mainGraph42->data()->clear();
 
     // Get the range
     QCPRange xrange;
