@@ -36,6 +36,7 @@ public:
     QVBoxLayout *verticalLayout_2;
     QCustomPlot *Graph;
     QHBoxLayout *horizontalLayout_2;
+    QPushButton *savepng;
     QSpacerItem *horizontalSpacer;
     QPushButton *customSeason;
     QPushButton *pushButton;
@@ -49,7 +50,7 @@ public:
     {
         if (PlotSelect->objectName().isEmpty())
             PlotSelect->setObjectName(QStringLiteral("PlotSelect"));
-        PlotSelect->resize(816, 483);
+        PlotSelect->resize(937, 510);
         centralwidget = new QWidget(PlotSelect);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         horizontalLayout = new QHBoxLayout(centralwidget);
@@ -70,6 +71,11 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalLayout_2->setSizeConstraint(QLayout::SetMinimumSize);
+        savepng = new QPushButton(centralwidget);
+        savepng->setObjectName(QStringLiteral("savepng"));
+
+        horizontalLayout_2->addWidget(savepng);
+
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer);
@@ -122,7 +128,7 @@ public:
         PlotSelect->setCentralWidget(centralwidget);
         menubar = new QMenuBar(PlotSelect);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 816, 25));
+        menubar->setGeometry(QRect(0, 0, 937, 25));
         PlotSelect->setMenuBar(menubar);
         statusbar = new QStatusBar(PlotSelect);
         statusbar->setObjectName(QStringLiteral("statusbar"));
@@ -136,6 +142,7 @@ public:
     void retranslateUi(QMainWindow *PlotSelect)
     {
         PlotSelect->setWindowTitle(QApplication::translate("PlotSelect", "MainWindow", 0));
+        savepng->setText(QApplication::translate("PlotSelect", "Save PNG", 0));
         customSeason->setText(QApplication::translate("PlotSelect", "Auto Season", 0));
         pushButton->setText(QApplication::translate("PlotSelect", "Student's T-Test", 0));
         Sbias_button->setText(QApplication::translate("PlotSelect", "Seasonal Bias", 0));

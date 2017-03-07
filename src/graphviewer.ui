@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>717</width>
-    <height>420</height>
+    <width>866</width>
+    <height>445</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,6 +73,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="savepng">
+       <property name="text">
+        <string>Save PNG</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="Line" name="line_3">

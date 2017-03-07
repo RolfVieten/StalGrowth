@@ -723,3 +723,34 @@ void GraphViewer::on_cseason_clicked(){
     connect(cs,SIGNAL(accepted()),this,SLOT(oncsaccept()));
 }
 
+
+void GraphViewer::on_savepng_clicked()
+{
+    QFile outfile;
+    QMessageBox msg;
+    msg.setText("File exists!");
+    msg.setInformativeText("Do you want to overwrite the file?");
+    msg.setStandardButtons(QMessageBox::Save|QMessageBox::Cancel);
+    msg.setDefaultButton(QMessageBox::Save);
+    QFileDialog dia(this,"Write out file",QDir::homePath(),"PNG Img (*.png)");
+    dia.setFileMode(QFileDialog::AnyFile);
+    if(dia.exec())
+        outfile.setFileName(dia.selectedFiles().first());
+    if(outfile.exists()){
+        int ret = msg.exec();
+        switch(ret){
+            case QMessageBox::Save:
+                ui->Graph->savePng(outfile.fileName(),0,0,1.3,100,300);
+                break;
+            case QMessageBox::Cancel:
+                return;
+                break;
+            default:
+                // should never be reached
+                break;
+        }
+    } else {;
+        ui->Graph->savePng(outfile.fileName(),0,0,1.3,100,300);
+    }
+    qDebug() << outfile.fileName();
+}

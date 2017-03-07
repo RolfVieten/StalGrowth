@@ -37,6 +37,7 @@ public:
     QLabel *DL;
     QLabel *datel;
     QSpacerItem *horizontalSpacer;
+    QPushButton *savepng;
     QFrame *line_3;
     QPushButton *cseason;
     QPushButton *ssmk;
@@ -47,7 +48,7 @@ public:
     {
         if (GraphViewer->objectName().isEmpty())
             GraphViewer->setObjectName(QStringLiteral("GraphViewer"));
-        GraphViewer->resize(717, 420);
+        GraphViewer->resize(866, 445);
         verticalLayout = new QVBoxLayout(GraphViewer);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         Graph = new QCustomPlot(GraphViewer);
@@ -93,6 +94,11 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
+        savepng = new QPushButton(GraphViewer);
+        savepng->setObjectName(QStringLiteral("savepng"));
+
+        horizontalLayout->addWidget(savepng);
+
         line_3 = new QFrame(GraphViewer);
         line_3->setObjectName(QStringLiteral("line_3"));
         line_3->setFrameShape(QFrame::VLine);
@@ -136,6 +142,7 @@ public:
         growthl->setText(QString());
         DL->setText(QApplication::translate("GraphViewer", "Date: ", 0));
         datel->setText(QString());
+        savepng->setText(QApplication::translate("GraphViewer", "Save PNG", 0));
         cseason->setText(QApplication::translate("GraphViewer", "Custom Season", 0));
         ssmk->setText(QApplication::translate("GraphViewer", "Add Seasons", 0));
         yrmk->setText(QApplication::translate("GraphViewer", "Add year marks", 0));

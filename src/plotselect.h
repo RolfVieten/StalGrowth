@@ -7,6 +7,8 @@
 #include "alglib/statistics.h"
 #include <QStandardItemModel>
 #include <QCheckBox>
+#include <QMessageBox>
+#include <QFileDialog>
 #include <QLabel>
 #include <QMainWindow>
 #include <cmath>
@@ -36,6 +38,8 @@ private slots:
     void season_accepted();
 
     void on_Sbias_button_clicked();
+
+    void on_savepng_clicked();
 
 private:
     Ui::PlotSelect *ui;
