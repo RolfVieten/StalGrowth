@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'stalbias.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.2.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'stalbias.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.2.1. It"
+#error "This file was generated using the moc from 5.5.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,29 +20,30 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_StalBIAS_t {
     QByteArrayData data[8];
-    char stringdata[183];
+    char stringdata0[182];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    offsetof(qt_meta_stringdata_StalBIAS_t, stringdata) + ofs \
-        - idx * sizeof(QByteArrayData) \
+    qptrdiff(offsetof(qt_meta_stringdata_StalBIAS_t, stringdata0) + ofs \
+        - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_StalBIAS_t qt_meta_stringdata_StalBIAS = {
     {
-QT_MOC_LITERAL(0, 0, 8),
-QT_MOC_LITERAL(1, 9, 27),
-QT_MOC_LITERAL(2, 37, 0),
-QT_MOC_LITERAL(3, 38, 31),
-QT_MOC_LITERAL(4, 70, 40),
-QT_MOC_LITERAL(5, 111, 29),
-QT_MOC_LITERAL(6, 141, 19),
-QT_MOC_LITERAL(7, 161, 20)
+QT_MOC_LITERAL(0, 0, 8), // "StalBIAS"
+QT_MOC_LITERAL(1, 9, 27), // "on_actionLoad_CSV_triggered"
+QT_MOC_LITERAL(2, 37, 0), // ""
+QT_MOC_LITERAL(3, 38, 31), // "on_actionGraph_Viewer_triggered"
+QT_MOC_LITERAL(4, 70, 40), // "on_actionCalculate_Growth_Rat..."
+QT_MOC_LITERAL(5, 111, 29), // "on_actionDebug_Mode_triggered"
+QT_MOC_LITERAL(6, 141, 19), // "on_CalcGrap_clicked"
+QT_MOC_LITERAL(7, 161, 20) // "on_statistic_clicked"
+
     },
     "StalBIAS\0on_actionLoad_CSV_triggered\0"
     "\0on_actionGraph_Viewer_triggered\0"
     "on_actionCalculate_Growth_Rate_triggered\0"
     "on_actionDebug_Mode_triggered\0"
-    "on_CalcGrap_clicked\0on_statistic_clicked\0"
+    "on_CalcGrap_clicked\0on_statistic_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -60,12 +61,12 @@ static const uint qt_meta_data_StalBIAS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   44,    2, 0x08,
-       3,    0,   45,    2, 0x08,
-       4,    0,   46,    2, 0x08,
-       5,    0,   47,    2, 0x08,
-       6,    0,   48,    2, 0x08,
-       7,    0,   49,    2, 0x08,
+       1,    0,   44,    2, 0x08 /* Private */,
+       3,    0,   45,    2, 0x08 /* Private */,
+       4,    0,   46,    2, 0x08 /* Private */,
+       5,    0,   47,    2, 0x08 /* Private */,
+       6,    0,   48,    2, 0x08 /* Private */,
+       7,    0,   49,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -82,6 +83,7 @@ void StalBIAS::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         StalBIAS *_t = static_cast<StalBIAS *>(_o);
+        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->on_actionLoad_CSV_triggered(); break;
         case 1: _t->on_actionGraph_Viewer_triggered(); break;
@@ -97,7 +99,7 @@ void StalBIAS::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
 
 const QMetaObject StalBIAS::staticMetaObject = {
     { &QMainWindow::staticMetaObject, qt_meta_stringdata_StalBIAS.data,
-      qt_meta_data_StalBIAS,  qt_static_metacall, 0, 0}
+      qt_meta_data_StalBIAS,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
@@ -108,8 +110,8 @@ const QMetaObject *StalBIAS::metaObject() const
 
 void *StalBIAS::qt_metacast(const char *_clname)
 {
-    if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_StalBIAS.stringdata))
+    if (!_clname) return Q_NULLPTR;
+    if (!strcmp(_clname, qt_meta_stringdata_StalBIAS.stringdata0))
         return static_cast<void*>(const_cast< StalBIAS*>(this));
     return QMainWindow::qt_metacast(_clname);
 }

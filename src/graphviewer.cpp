@@ -32,13 +32,21 @@ void GraphViewer::setresult(const DataItem data, const Results result){
 
 // Set up the Graph
 void GraphViewer::setGraph(){
+
     if(tconnect){
         disconnect(ui->Graph,SIGNAL(mouseMove(QMouseEvent*)),this,SLOT(onMouseMoveGraph(QMouseEvent*)));
-        delete tracer;
+        ui->Graph->clearGraphs();
+        tracer->deleteLater();
+        wideAxisRect->deleteLater();
+        wideAxisRect1->deleteLater();
+        ui->Graph->clearGraphs();
         tconnect = false;
     }
     ui->Graph->clearGraphs();
     ui->Graph->plotLayout()->clear();
+
+    QSharedPointer<QCPAxisTickerDateTime> timeTicker(new QCPAxisTickerDateTime);
+    timeTicker->setDateTimeFormat("MMMM\nyyyy");
 
     // Input
     wideAxisRect = new QCPAxisRect(ui->Graph);
@@ -50,8 +58,7 @@ void GraphViewer::setGraph(){
     wideAxisRect->axis(QCPAxis::atLeft,1)->setLabel("CO2 (atm)");
     wideAxisRect->axis(QCPAxis::atLeft,2)->setLabel("cCa (mol/m3)");
     wideAxisRect->axis(QCPAxis::atLeft,2)->setLabel("Drip Interval (s)");
-    wideAxisRect->axis(QCPAxis::atBottom)->setTickLabelType(QCPAxis::ltDateTime);
-    wideAxisRect->axis(QCPAxis::atBottom)->setDateTimeFormat("MMMM\nyyyy");
+    wideAxisRect->axis(QCPAxis::atBottom)->setTicker(timeTicker);
     wideAxisRect->axis(QCPAxis::atBottom)->setLabel("Date");
 
     // Output
@@ -60,8 +67,9 @@ void GraphViewer::setGraph(){
     wideAxisRect1->addAxis(QCPAxis::atLeft); // add an extra axis on the left and color its numbers
     wideAxisRect1->axis(QCPAxis::atLeft,0)->setLabel("Growth Rate (m/yr)");
     wideAxisRect1->axis(QCPAxis::atLeft,1)->setLabel("Ca (Red Apparent; Green Real)(mol/m3)");
-    wideAxisRect1->axis(QCPAxis::atBottom)->setTickLabelType(QCPAxis::ltDateTime);
-    wideAxisRect1->axis(QCPAxis::atBottom)->setDateTimeFormat("MMMM\nyyyy");
+    wideAxisRect1->axis(QCPAxis::atBottom)->setTicker(timeTicker);
+    wideAxisRect1->axis(QCPAxis::atBottom)->setLabel("Date");
+
 
     // Sync Margins
     QCPMarginGroup *marginGroup = new QCPMarginGroup(ui->Graph);
@@ -76,12 +84,14 @@ void GraphViewer::setGraph(){
     // Input Graph
     //Temp
     QCPGraph *mainGraph1 = ui->Graph->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft));
+    QCPErrorBars *errorBars1 = new QCPErrorBars(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft));
     mainGraph1->setPen(QPen(Qt::black));
     mainGraph1->setLineStyle(QCPGraph::lsLine);
-    mainGraph1->setDataValueError(Time.toVector(),Data.Temp.toVector(),Data.TempErr.toVector(),Data.TempErr.toVector());
+    mainGraph1->setData(Time.toVector(),Data.Temp.toVector());
+    errorBars1->setData(Data.TempErr.toVector(),Data.TempErr.toVector());
     mainGraph1->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
-    mainGraph1->setErrorType(QCPGraph::etValue);
-    mainGraph1->setErrorPen(QPen(Qt::black));
+    errorBars1->setErrorType(QCPErrorBars::etValueError);
+    errorBars1->setPen(QPen(Qt::black));
     mainGraph1->rescaleAxes();
     tmprange = wideAxisRect->axis(QCPAxis::atLeft,0)->range();
     wideAxisRect->axis(QCPAxis::atLeft,0)->setRangeLower(tmprange.lower-0.4);
@@ -89,66 +99,79 @@ void GraphViewer::setGraph(){
 
     // pCO2
     QCPGraph *mainGraph2 = ui->Graph->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft, 1));
+    QCPErrorBars *errorBars2 = new QCPErrorBars(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft, 1));
     mainGraph2->setPen(QPen(Qt::red));
     mainGraph2->setLineStyle(QCPGraph::lsLine);
-    mainGraph2->setDataValueError(Time.toVector(),Data.pCO2.toVector(),Data.pCO2Err.toVector(),Data.pCO2Err.toVector());
+    mainGraph2->setData(Time.toVector(),Data.pCO2.toVector());
+    errorBars2->setData(Data.pCO2Err.toVector(),Data.pCO2Err.toVector());
     mainGraph2->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
-    mainGraph2->setErrorType(QCPGraph::etValue);
-    mainGraph2->setErrorPen(QPen(Qt::red));
+    errorBars2->setErrorType(QCPErrorBars::etValueError);
+    errorBars2->setPen(QPen(Qt::red));
     mainGraph2->rescaleAxes();
 
     // cCa
     QCPGraph *mainGraph3 = ui->Graph->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft, 2));
+    QCPErrorBars *errorBars3 = new QCPErrorBars(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft, 2));
     mainGraph3->setPen(QPen(Qt::green));
     mainGraph3->setLineStyle(QCPGraph::lsLine);
-    mainGraph3->setDataValueError(Time.toVector(),Data.cCa.toVector(),Data.cCaErr.toVector(),Data.cCaErr.toVector());
+    mainGraph3->setData(Time.toVector(),Data.cCa.toVector());
+    errorBars3->setData(Data.cCaErr.toVector(),Data.cCaErr.toVector());
     mainGraph3->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
-    mainGraph3->setErrorType(QCPGraph::etValue);
-    mainGraph3->setErrorPen(QPen(Qt::green));
+    errorBars3->setErrorType(QCPErrorBars::etValueError);
+    errorBars3->setPen(QPen(Qt::green));
     mainGraph3->rescaleAxes();
 
     // Drip Interval
     QCPGraph *mainGraph4 = ui->Graph->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft, 3));
+    QCPErrorBars *errorBars4 = new QCPErrorBars(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft, 3));
     mainGraph4->setPen(QPen(Qt::blue));
     mainGraph4->setLineStyle(QCPGraph::lsLine);
-    mainGraph4->setDataValueError(Time.toVector(),Data.DripInt.toVector(),Data.DripErr.toVector(),Data.DripErr.toVector());
+    mainGraph4->setData(Time.toVector(),Data.DripInt.toVector());
+    errorBars4->setData(Data.DripErr.toVector(),Data.DripErr.toVector());
     mainGraph4->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
-    mainGraph4->setErrorType(QCPGraph::etValue);
-    mainGraph4->setErrorPen(QPen(Qt::blue));
+    errorBars4->setErrorType(QCPErrorBars::etValueError);
+    errorBars4->setPen(QPen(Qt::blue));
     mainGraph4->rescaleAxes();
 
     // Output Graph
     //Growth
     QCPGraph *mainGraph12 = ui->Graph->addGraph(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft));
+    QCPErrorBars *errorBars12 = new QCPErrorBars(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft));
     mainGraph12->setPen(QPen(Qt::black));
     mainGraph12->setLineStyle(QCPGraph::lsLine);
-    mainGraph12->setDataValueError(Time.toVector(),Result.GrowthRate.toVector(),Result.GrowthErr.toVector(),Result.GrowthErr.toVector());
+    mainGraph12->setData(Time.toVector(),Result.GrowthRate.toVector());
+    errorBars12->setData(Result.GrowthErr.toVector(),Result.GrowthErr.toVector());
     mainGraph12->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
-    mainGraph12->setErrorType(QCPGraph::etValue);
-    mainGraph12->setErrorPen(QPen(Qt::black));
+    errorBars12->setErrorType(QCPErrorBars::etValueError);
+    errorBars12->setPen(QPen(Qt::black));
     mainGraph12->rescaleAxes();
 
     // pCO2
     QCPGraph *mainGraph22 = ui->Graph->addGraph(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft, 1));
+    QCPErrorBars *errorBars22 = new QCPErrorBars(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft, 1));
     mainGraph22->setPen(QPen(Qt::red));
     mainGraph22->setLineStyle(QCPGraph::lsLine);
-    mainGraph22->setDataValueError(Time.toVector(),Result.AppcCa.toVector(),Result.AppcCaErr.toVector(),Result.AppcCaErr.toVector());
+    mainGraph22->setData(Time.toVector(),Result.AppcCa.toVector());
+    errorBars22->setData(Result.AppcCaErr.toVector(),Result.AppcCaErr.toVector());
     mainGraph22->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
-    mainGraph22->setErrorType(QCPGraph::etValue);
-    mainGraph22->setErrorPen(QPen(Qt::red));
+    errorBars22->setErrorType(QCPErrorBars::etValueError);
+    errorBars22->setPen(QPen(Qt::red));
     mainGraph22->rescaleAxes();
     tmprange = wideAxisRect1->axis(QCPAxis::atLeft, 1)->range();
 
     // cCa
     QCPGraph *mainGraph32 = ui->Graph->addGraph(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft, 1));
+    QCPErrorBars *errorBars32 = new QCPErrorBars(wideAxisRect1->axis(QCPAxis::atBottom), wideAxisRect1->axis(QCPAxis::atLeft,1));
     mainGraph32->setPen(QPen(Qt::green));
     mainGraph32->setLineStyle(QCPGraph::lsLine);
-    mainGraph32->setDataValueError(Time.toVector(),Data.cCa.toVector(),Data.cCaErr.toVector(),Data.cCaErr.toVector());
+    mainGraph32->setData(Time.toVector(),Data.cCa.toVector());
+    errorBars32->setData(Data.cCaErr.toVector(),Data.cCaErr.toVector());
     mainGraph32->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
-    mainGraph32->setErrorType(QCPGraph::etValue);
-    mainGraph32->setErrorPen(QPen(Qt::green));
+    errorBars32->setErrorType(QCPErrorBars::etValueError);
+    errorBars32->setPen(QPen(Qt::green));
     mainGraph32->rescaleAxes();;
     tmprange1 = wideAxisRect1->axis(QCPAxis::atLeft, 1)->range();
+
     // Normalize cCa Range
     if(tmprange.upper >= tmprange1.upper)
         wideAxisRect1->axis(QCPAxis::atLeft, 1)->setRangeUpper(tmprange.upper+0.1);
@@ -164,7 +187,7 @@ void GraphViewer::setGraph(){
 
     // Create a tracer
     tracer = new QCPItemTracer(ui->Graph);
-    ui->Graph->addItem(tracer);
+    //ui->Graph->addItem(tracer);
     tracer->setClipToAxisRect(true);
     tracer->setClipAxisRect(wideAxisRect1);
     tracer->setGraph(wideAxisRect1->graphs().at(0));
@@ -230,9 +253,6 @@ void GraphViewer::on_yrmk_clicked() {
             newline1->end->setCoords(temp.toTime_t(),QCPRange::maxRange);
             newline1->setPen(QPen(QColor(Qt::blue)));
 
-            // Add
-            ui->Graph->addItem(newline);
-            ui->Graph->addItem(newline1);
         }
     }
     ui->Graph->replot();
@@ -243,7 +263,7 @@ void GraphViewer::on_ssmk_clicked(){
 
     // Clear old Variables
     LAvg.clear();
-    mainGraph42->clearData();
+    //mainGraph42->clearData();
 
     // Get the range
     QCPRange xrange;
@@ -458,7 +478,7 @@ void GraphViewer::oncsaccept(){
 
     // Clear old variables
     LAvg.clear();
-    mainGraph42->clearData();
+    //mainGraph42->clearData();
 
     // Debug info, it's discreet
     ui->datel->setText(end.toString("MMM/dd"));
@@ -671,7 +691,8 @@ void GraphViewer::oncsaccept(){
 
 // Tracer shows time and growth Rate, Mouse Tracking Function
 void GraphViewer::onMouseMoveGraph(QMouseEvent* evt) {
-    if(!wideAxisRect1->graphs().at(0)->data()->empty()){
+    QCPRange myRange = wideAxisRect->axis(QCPAxis::atBottom)->range();
+    if(!wideAxisRect1->graphs().at(0)->data()->isEmpty()){
         double yv;
         int xg;
 
@@ -685,8 +706,10 @@ void GraphViewer::onMouseMoveGraph(QMouseEvent* evt) {
 
         QDateTime temp;
         temp = QDateTime::fromTime_t(xg);
-        ui->growthl->setText(QString::number(yv,'f', 7));
-        ui->datel->setText(temp.toString("dd/MMM/yyyy"));
+        if (xg >= myRange.lower && xg <= myRange.upper){
+            ui->growthl->setText(QString::number(yv,'f', 7));
+            ui->datel->setText(temp.toString("dd/MMM/yyyy"));
+        }
     }
 }
 

@@ -32,6 +32,7 @@ void PlotSelect::setresult(const DataItem data, const Results result){
 
 void PlotSelect::setGraph(){
     graph = ui->Graph->addGraph();
+    QCPErrorBars *errorBars = new QCPErrorBars(ui->Graph->xAxis,ui->Graph->yAxis);
     FGoverlay = ui->Graph->addGraph();
     SGoverlay = ui->Graph->addGraph();
     mainGraph42 = ui->Graph->addGraph();
@@ -49,16 +50,18 @@ void PlotSelect::setGraph(){
     mainGraph42->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssSquare, 6));
 
     // configure bottom axis to show date and time instead of number:
-    ui->Graph->xAxis->setTickLabelType(QCPAxis::ltDateTime);
-    ui->Graph->xAxis->setDateTimeFormat("MMMM\nyyyy");
+    QSharedPointer<QCPAxisTickerDateTime> timeTicker(new QCPAxisTickerDateTime);
+    timeTicker->setDateTimeFormat("MMMM\nyyyy");
     mainX = ui->Graph->xAxis;
+    ui->Graph->xAxis->setTicker(timeTicker);
     ui->Graph->xAxis->setLabel("Date");
     ui->Graph->yAxis->setLabel("Growth Rate (m/yr)");
 
     // add data
-    graph->setDataValueError(Time.toVector(),Result.GrowthRate.toVector(),Result.GrowthErr.toVector(),Result.GrowthErr.toVector());
-    graph->setErrorType(QCPGraph::etValue);
-    graph->setErrorPen(QPen(Qt::black));
+    graph->setData(Time.toVector(),Result.GrowthRate.toVector());
+    errorBars->addData(Result.GrowthErr.toVector(),Result.GrowthErr.toVector());
+    errorBars->setErrorType(QCPErrorBars::etValueError);
+    errorBars->setPen(QPen(Qt::black));
     ui->Graph->rescaleAxes();
     ui->Graph->replot();
 
@@ -110,14 +113,14 @@ void PlotSelect::fgclicked(bool clicked, int row){
     if(clicked){
         if(SG.at(row)->isChecked()){
             SG.at(row)->setChecked(false);
-            SGoverlay->removeData(Time.at(row));
+            //SGoverlay->removeData(Time.at(row));
             ui->Graph->replot();
         }
         FGoverlay->addData(Time.at(row),Result.GrowthRate.at(row));
         ui->Graph->replot();
     }
     if(!clicked){
-        FGoverlay->removeData(Time.at(row));
+        //FGoverlay->removeData(Time.at(row));
         ui->Graph->replot();
     }
 }
@@ -126,14 +129,14 @@ void PlotSelect::sgclicked(bool clicked, int row){
     if(clicked){
         if(FG.at(row)->isChecked()){
             FG.at(row)->setChecked(false);
-            FGoverlay->removeData(Time.at(row));
+            //FGoverlay->removeData(Time.at(row));
             ui->Graph->replot();
         }
         SGoverlay->addData(Time.at(row),Result.GrowthRate.at(row));
         ui->Graph->replot();
     }
     if(!clicked){
-        SGoverlay->removeData(Time.at(row));
+        //SGoverlay->removeData(Time.at(row));
         ui->Graph->replot();
     }
 }
@@ -261,7 +264,7 @@ void PlotSelect::season_accepted(){
 
     // Clear old variables
     LAvg.clear();
-    mainGraph42->clearData();
+    //mainGraph42->clearData();
 
     // Get the range
     QCPRange xrange;
