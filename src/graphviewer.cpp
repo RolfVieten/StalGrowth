@@ -68,7 +68,7 @@ void GraphViewer::setGraph(){
     wideAxisRect1->setupFullAxesBox(true);
     wideAxisRect1->addAxis(QCPAxis::atLeft); // add an extra axis on the left and color its numbers
     wideAxisRect1->axis(QCPAxis::atLeft,0)->setLabel("Growth Rate (m/yr)");
-    wideAxisRect1->axis(QCPAxis::atLeft,1)->setLabel("Ca (Red Apparent; Green Real)(mol/m3)");
+    wideAxisRect1->axis(QCPAxis::atLeft,1)->setLabel("Ca (Red Apparent;\n Green Real)(mol/m3)");
     wideAxisRect1->axis(QCPAxis::atBottom)->setTicker(timeTicker);
     wideAxisRect1->axis(QCPAxis::atBottom)->setLabel("Date");
 
