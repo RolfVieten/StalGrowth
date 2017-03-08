@@ -61,7 +61,7 @@ void GraphViewer::setGraph(){
     wideAxisRect->axis(QCPAxis::atLeft,0)->setLabel("Temperature (C)");
     wideAxisRect->axis(QCPAxis::atLeft,1)->setLabel("CO2 (atm)");
     wideAxisRect->axis(QCPAxis::atLeft,2)->setLabel("cCa (mol/m3)");
-    wideAxisRect->axis(QCPAxis::atLeft,2)->setLabel("Drip Interval (s)");
+    wideAxisRect->axis(QCPAxis::atLeft,3)->setLabel("Drip Interval (s)");
     wideAxisRect->axis(QCPAxis::atBottom)->setTicker(timeTicker);
     wideAxisRect->axis(QCPAxis::atBottom)->setLabel("Date");
 
