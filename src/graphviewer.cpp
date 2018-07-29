@@ -61,7 +61,7 @@ void GraphViewer::setGraph(){
     wideAxisRect->axis(QCPAxis::atLeft,0)->setLabel("Temperature (C)");
     wideAxisRect->axis(QCPAxis::atLeft,1)->setLabel("CO2 (atm)");
     wideAxisRect->axis(QCPAxis::atLeft,2)->setLabel("cCa (mol/m3)");
-    wideAxisRect->axis(QCPAxis::atLeft,2)->setLabel("Drip Interval (s)");
+    wideAxisRect->axis(QCPAxis::atLeft,3)->setLabel("Drip Interval (s)");
     wideAxisRect->axis(QCPAxis::atBottom)->setTicker(timeTicker);
     wideAxisRect->axis(QCPAxis::atBottom)->setLabel("Date");
 
@@ -785,4 +785,73 @@ void GraphViewer::on_ErrorBar_clicked()
     }
     ui->Graph->layer("error")->replot();
     ui->Graph->replot();
+}
+
+void GraphViewer::on_pushButton_2_clicked()
+{
+    QFile savef;
+    QString fileName = QFileDialog::getSaveFileName(this,"Save as:",QDir::currentPath(),"*.csv");
+    savef.setFileName(fileName);
+    if (!savef.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+    QTextStream out(&savef);
+    out << "Date (YYYY/MM/DD"
+        << ", "
+        << "Time (HH:MM:SS)"
+        << ", "
+        << "Drip Interval (sec)"
+        << ", "
+        << "Drip Interval Error +/- (sec)"
+        << ", "
+        << "Film Thickness (m)"
+        << ", "
+        << "Film Thickness Error +/- (m)"
+        << ", "
+        << "Temperature (C)"
+        << ", "
+        << "Temperature Error +/- (C)"
+        << ", "
+        << "cCa (mol/m^3)"
+        << ", "
+        << "cCa Error +/- (mol/m^3)"
+        << ", "
+        << "Apparent cCa (mol/m^3)"
+        << ", "
+        << "Apparent cCa Error +/- (mol/m^3)"
+        << ", "
+        << "Growth Rate (m/yr)"
+        << ", "
+        << "Growth Rate Error +/- (m/yr)"
+        << "\n";
+    for (int j=0; j < Data.lenght(); j++) {
+        out << Data.DateTimes.at(j).toString("yyyy/MM/dd")
+            << ", "
+            << Data.DateTimes.at(j).toString("HH:mm:ss")
+            << ", "
+            << Data.DripInt.at(j)
+            << ", "
+            << Data.DripErr.at(j)
+            << ", "
+            << Data.FilmThick.at(j)
+            << ", "
+            << Data.FilmErr.at(j)
+            << ", "
+            << Data.Temp.at(j)
+            << ", "
+            << Data.TempErr.at(j)
+            << ", "
+            << Data.cCa.at(j)
+            << ", "
+            << Data.cCaErr.at(j)
+            << ", "
+            << Result.AppcCa.at(j)
+            << ", "
+            << Result.AppcCaErr.at(j)
+            << ", "
+            << Result.GrowthRate.at(j)
+            << ", "
+            << Result.GrowthErr.at(j)
+            << "\n";
+    }
+    savef.close();
 }

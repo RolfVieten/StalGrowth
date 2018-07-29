@@ -75,6 +75,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="text">
+        <string>Save CSV</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="savepng">
        <property name="text">
         <string>Save PNG</string>

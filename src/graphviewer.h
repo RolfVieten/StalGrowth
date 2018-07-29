@@ -41,6 +41,8 @@ private slots:
 
     void on_ErrorBar_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::GraphViewer *ui;
     CustomSeason *cs;

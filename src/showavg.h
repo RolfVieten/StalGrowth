@@ -3,6 +3,9 @@
 #include "dataitem.h"
 #include <QWidget>
 #include <QStandardItemModel>
+#include <QFileDialog>
+#include <QTextStream>
+
 
 namespace Ui {
 class ShowAvg;
@@ -17,10 +20,14 @@ public:
     ~ShowAvg();
     void setAvg(QList<Avg> LAvg);
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::ShowAvg *ui;
     bool cseason;
     QStandardItemModel *model;
+    QList<Avg> myAvg;
 };
 
 #endif // SHOWAVG_H
