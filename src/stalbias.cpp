@@ -291,6 +291,10 @@ Results StalBIAS::CalcRes(DataItem data){
             GrowthRate = 1174*(data.cCa.at(i) - appcCa) * (data.FilmThick.at(i)/data.DripInt.at(i))
                     *(1.0 - exp(exponent));
 
+            if (GrowthRate <= 0 ){
+                GrowthRate = 0;
+            }
+
             // Error Calculations.
             appcCaErr = ((0.2526*(data.pCO2Err.at(i)/data.pCO2.at(i))+(data.TempErr.at(i)/data.Temp.at(i))))*appcCa;
             erralpha = ((data.TempErr.at(i)/data.Temp.at(i))*3.0)*alpha;
