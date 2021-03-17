@@ -12,6 +12,7 @@
 #include "dataitem.h"
 #include "graphviewer.h"
 #include "plotselect.h"
+#include "about.h"
 
 namespace Ui {
 class StalBIAS;
@@ -38,6 +39,8 @@ private slots:
 
     void on_statistic_clicked();
 
+    void on_actionAbout_triggered();
+
 private:
     Ui::StalBIAS *ui;
     QList<QStringList> csv;
@@ -55,6 +58,7 @@ private:
     // Grapth Viewer
     GraphViewer *GV;
     PlotSelect *PS;
+    About *AB;
 
 
     // Debug Bool

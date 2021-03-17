@@ -352,3 +352,9 @@ void StalBIAS::on_statistic_clicked()
     PS->show();
     PS->setGraph();
 }
+
+void StalBIAS::on_actionAbout_triggered()
+{
+    AB = new About;
+    AB->show();
+}

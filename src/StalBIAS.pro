@@ -13,6 +13,7 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    about.cpp \
         stalbias.cpp \
         qcustomplot.cpp \
     graphviewer.cpp \
@@ -35,6 +36,7 @@ SOURCES += main.cpp\
     showavg.cpp
 
 HEADERS  += stalbias.h \
+    about.h \
             qcustomplot.h \
     graphviewer.h \
     dataitem.h \
@@ -57,6 +59,7 @@ HEADERS  += stalbias.h \
     showavg.h
 
 FORMS    += stalbias.ui \
+    about.ui \
     graphviewer.ui \
     customseason.ui \
     plotselect.ui \
