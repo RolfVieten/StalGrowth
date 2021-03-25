@@ -1,6 +1,6 @@
-# StalBIAS
+# StalGrowth
 
-StalBIAS is a Open Source and Cross Platform program designed to calculate theoretical growth rates. It is based on physical parameters which influence carbonate precipitation rates (Cave air pCO2, Ca2+-ion-concentration, temperature, drip-rate and water-film thickness). This enables StalBIAS to untangle the complex interaction to identify and quantify seasonal growth rate changes. We use a formula by Baker et al., 1998 found in the paper ["Testing theoretically predicted stalagmite growth rate with Recent annually laminated samples: Implications for past stalagmite deposition"](http://www.sciencedirect.com/science/article/pii/S0016703797003438) to deduce the empirical growth of a stalagmite given certain conditions from cave monitoring observations.
+StalGriwth is a Open Source and Cross Platform program designed to calculate theoretical growth rates. It is based on physical parameters which influence carbonate precipitation rates (Cave air pCO2, Ca2+-ion-concentration, temperature, drip-rate and water-film thickness). This enables StalBIAS to untangle the complex interaction to identify and quantify seasonal growth rate changes. We use a formula by Baker et al., 1998 found in the paper ["Testing theoretically predicted stalagmite growth rate with Recent annually laminated samples: Implications for past stalagmite deposition"](http://www.sciencedirect.com/science/article/pii/S0016703797003438) to deduce the empirical growth of a stalagmite given certain conditions from cave monitoring observations.
 
 ## Features 
 
@@ -18,7 +18,7 @@ StalBIAS is a Open Source and Cross Platform program designed to calculate theor
 ## How to use:
 
  1. Download using the download zip button on the right.
- 2. Open the StalBIAS.exe in the Windows Binary Folder.
+ 2. Open the StalGrowth.exe in the Windows Binary Folder.
  3. Load your CSV via the load file button.
  4. If it loaded correctly (see Input File section for more information) Press the Statistics or Graph Button on the bottom.
 
