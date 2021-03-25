@@ -71,5 +71,6 @@ If anyone is interested in this proyect or would like to help, contact us!
  - The AlgLib Commutiny @ http://www.alglib.net/ 
  - The QT Community @
    http://qt-project.org/
+ - Emanuel Eichhammer for QCustomPlot @ https://www.qcustomplot.com
 
 Thanks,  Rolf & Fran89.
