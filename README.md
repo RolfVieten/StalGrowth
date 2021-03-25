@@ -53,13 +53,6 @@ Averaging, Variance, Standard Deviation use the standard formulas.
 
 Sample Files are included in the src folder
 
-### To Do list:
-
- - Export as CSV
- - Export graphs as jpg, png, svg, tiff.
- - Add additional controls to customize seasons better.
- - Support for daily observations.
- - Bug fixes.
 
 
 ----------
